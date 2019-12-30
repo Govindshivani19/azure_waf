@@ -60,4 +60,3 @@ class IamServices:
             print(str(e))
         finally:
             return issues
-

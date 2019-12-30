@@ -1,10 +1,13 @@
 from checks.storage_service import StorageServices
 from checks.iam_service import IamServices
-from db_helper import insert_checks, insert_audit_records
+from checks.log_and_monitor_service import LogAndMonitorServices
+#from db_helper import insert_checks, insert_audit_records
 
 def __start_audit__():
     print("start audit");
-    storage_service = StorageServices('abc');
+    #iam_service = IamServices('abc');
+    log_and_monitor_service = LogAndMonitorServices('abc')
+    print(log_and_monitor_service.is_exported_activity_log_publically_accessible())
     #issues = storage_service.restrict_default_network_access()
     #insert_audit_records('12345', issues, 'CEN_AZ_8')
 

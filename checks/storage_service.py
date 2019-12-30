@@ -188,3 +188,26 @@ class StorageServices:
                     filters = "resourceGroupName eq '{}' ".format(resource_group)
         except Exception as e:
             print(str(e));
+
+    # log_and_monitor_service.py - is_exported_activity_log_publically_accessible - Pending
+    # log_and_monitor_service.py - is_activity_log_storage_encrypted - Completed
+    def get_storage_container_access_status(self,storageId,subscriptionId,resourceGroupName):
+        try:
+            os.environ['AZURE_CLIENT_ID'] = "90b95777-e9bb-4220-bcd1-cf0acfe2396d"
+            os.environ['AZURE_CLIENT_SECRET'] = "oRFP0UZYo?:HzGuk-S=U2Ebn53l/2[Ln"
+            os.environ['AZURE_TENANT_ID'] = "3e53c24a-181d-4e1a-8a6b-93327212e0e6"
+
+            credentials = ServicePrincipalCredentials(
+                client_id=os.environ['AZURE_CLIENT_ID'],
+                secret=os.environ['AZURE_CLIENT_SECRET'],
+                tenant=os.environ['AZURE_TENANT_ID']
+            )
+            storage_client = StorageManagementClient(credentials, subscriptionId)
+            #print(storage_client.storage_accounts.get_properties(resourceGroupName,storageId))
+            storage_properties = storage_client.storage_accounts.get_properties(resourceGroupName,storageId)
+            print("###################")
+            print(storage_properties.encryption.key_source)
+            print("###################")
+            return "test"
+        except Exception as e:
+            return "no data found"
