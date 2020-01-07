@@ -6,6 +6,7 @@ import os
 import azure
 import azure.mgmt.monitor.models
 import azure.mgmt.subscription.operations
+from azure.mgmt.monitor import *
 
 
 class StorageServices:
@@ -186,6 +187,13 @@ class StorageServices:
                     temp = item.id.split("resourceGroups")
                     resource_group = temp[1].split("/")[1]
                     filters = "resourceGroupName eq '{}' ".format(resource_group)
+                    monitor_client = MonitorManagementClient(credentials,subscription_id)
+                    try:
+                        activity_logs = monitor_client.activity_logs.list(filter=filters);
+                        print(activity_logs.next())
+                    except Exception as e:
+                        print(str(e))
+                        continue
         except Exception as e:
             print(str(e));
 
@@ -203,11 +211,8 @@ class StorageServices:
                 tenant=os.environ['AZURE_TENANT_ID']
             )
             storage_client = StorageManagementClient(credentials, subscriptionId)
-            #print(storage_client.storage_accounts.get_properties(resourceGroupName,storageId))
             storage_properties = storage_client.storage_accounts.get_properties(resourceGroupName,storageId)
-            print("###################")
-            print(storage_properties.encryption.key_source)
-            print("###################")
-            return "test"
+            return storage_properties.encryption.key_source
         except Exception as e:
-            return "no data found"
+            print(str(e))
+            return "error"

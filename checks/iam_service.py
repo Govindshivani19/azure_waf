@@ -2,13 +2,14 @@ from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.authorization import AuthorizationManagementClient
 from azure.mgmt.resource import SubscriptionClient, ResourceManagementClient
 import os
-
+from azure.graphrbac import GraphRbacManagementClient
+from azure.graphrbac.models.user_paged import *
 
 class IamServices:
     def __init__(self, client):
         self.client = client
 
-    def get_roles(self):
+    def get_custom_roles(self):
         issues = []
         try:
             subscription_id = ""
@@ -59,4 +60,29 @@ class IamServices:
         except Exception as e:
             print(str(e))
         finally:
+            print(issues)
             return issues
+
+    def test(self):
+        try:
+            subscription_id = ""
+            credentials = ServicePrincipalCredentials(
+                client_id=os.environ['AZURE_CLIENT_ID'],
+                secret=os.environ['AZURE_CLIENT_SECRET'],
+                tenant=os.environ['AZURE_TENANT_ID'],
+            )
+            credentials1 = ServicePrincipalCredentials(
+                client_id=os.environ['AZURE_CLIENT_ID'],
+                secret=os.environ['AZURE_CLIENT_SECRET'],
+            )
+            subscription_client = SubscriptionClient(credentials)
+            subscription_list = subscription_client.subscriptions.list()
+
+            for i in subscription_list:
+                subscription_id = i.subscription_id
+                print(subscription_id)
+                res = GraphRbacManagementClient(credentials1, os.environ['AZURE_TENANT_ID']).users.list()
+                print(type(res))
+
+        except Exception as e:
+            print(str(e))

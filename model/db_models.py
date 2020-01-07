@@ -88,6 +88,7 @@ class AzAccount(Base):
 
     id = Column(INTEGER(11), primary_key=True)
     application_id = Column(String(100), nullable=False)
+    application_name = Column(String(250), nullable=False)
     domain_id = Column(String(100), nullable=False)
     tenant_id = Column(String(100), nullable=False)
     az_customer_hash = Column(ForeignKey('customer.customer_hash'), nullable=False, index=True)
@@ -127,8 +128,8 @@ class AzExecutionDetails(Base):
     __tablename__ = 'az_execution_details'
 
     id = Column(INTEGER(11), primary_key=True)
-    az_account_hash = Column(ForeignKey('az_account.az_account_hash'), nullable=False)
-    az_subscription_hash = Column(ForeignKey('az_account_subscriptions.az_subscription_hash'), nullable=False)
+    az_account_hash_exe = Column(ForeignKey('az_account.az_account_hash'), nullable=False)
+    az_subscription_hash_exe = Column(ForeignKey('az_account_subscriptions.az_subscription_hash'), nullable=False)
     az_execution_hash = Column(String(100), nullable=False, unique=True)
     status = Column(TINYINT(2), nullable=False)
     failed_checks = Column(INTEGER(11), nullable=False, server_default=text("'0'"))
@@ -140,7 +141,7 @@ class AzExecutionDetails(Base):
     az_account_subscriptions = relationship(AzAccountSubscriptions)
 
 
-class AzAudit(Base):
+class AzAuditReport(Base):
     __tablename__ = 'az_audit_report'
 
     id = Column(INTEGER(11), primary_key=True)
@@ -152,3 +153,23 @@ class AzAudit(Base):
     az_problem = Column(String(2000))
     status = Column(String(45), nullable=False)
     created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+
+
+class AzAuditGroupChecksMap(Base):
+    __tablename__ = 'az_waf_audit_group_checks_map'
+
+    id = Column(INTEGER(11), primary_key=True)
+    az_check_id = Column(ForeignKey('az_checks.id'), nullable=False, index=True)
+    az_group_id = Column(ForeignKey('az_waf_audit_groups.id'), nullable=False, index=True)
+
+    check = relationship('AZChecks')
+    group = relationship('AzAuditGroup')
+
+
+class AzAuditGroup(Base):
+    __tablename__ = 'az_waf_audit_groups'
+
+    id = Column(INTEGER(11), primary_key=True)
+    group_name = Column(String(200), nullable=False)
+    group_description = Column(String(500))
+    pillar = Column(String(50), nullable=False)

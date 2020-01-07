@@ -1,7 +1,7 @@
 import datetime
 import decimal
 from db_connect import Session
-from model.db_models import AzAccount, AZChecks, AzAudit, AzExecutionDetails
+from model.db_models import AzAccount, AZChecks, AzAuditReport, AzExecutionDetails
 from sqlalchemy import delete, update
 
 
@@ -25,7 +25,7 @@ def insert_audit_records(execution_hash, issues, check_id):
     try:
         if issues :
             for issue in issues:
-                audit_record = AzAudit()
+                audit_record = AzAuditReport()
                 audit_record.az_check_id = check_id
                 audit_record.az_execution_hash = execution_hash
                 audit_record.az_region = issue["region"]
