@@ -127,8 +127,8 @@ class AzExecutionDetails(Base):
     __tablename__ = 'az_execution_details'
 
     id = Column(INTEGER(11), primary_key=True)
-    az_account_hash = Column(ForeignKey('az_account.az_account_hash'), nullable=False)
-    az_subscription_hash = Column(ForeignKey('az_account_subscriptions.az_subscription_hash'))
+    az_account_hash_exe = Column(ForeignKey('az_account.az_account_hash'), nullable=False)
+    az_subscription_hash_exe = Column(ForeignKey('az_account_subscriptions.az_subscription_hash'))
     az_execution_hash = Column(String(100), nullable=False, unique=True)
     status = Column(TINYINT(2), nullable=False)
     failed_checks = Column(INTEGER(11), nullable=False, server_default=text("'0'"))

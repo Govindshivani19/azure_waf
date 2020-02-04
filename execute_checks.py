@@ -262,7 +262,7 @@ def CEN_AZ_63(execution_hash, db_service):
 
 def CEN_AZ_64(execution_hash, db_service):
     try:
-        insert_audit_records(execution_hash, db_service.check_security_phone_number(),'CEN_AZ_64')
+        insert_audit_records(execution_hash, db_service.enable_psql_log_connections(),'CEN_AZ_64')
     except Exception as e:
         print(str(e))
 

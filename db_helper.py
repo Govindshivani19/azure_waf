@@ -90,7 +90,7 @@ def create_execution(account_hash):
         execution_detail.status = 0
         execution_detail.completed_checks = 0
         execution_detail.failed_checks = 0
-        execution_detail.az_account_hash = account_hash
+        execution_detail.az_account_hash_exe = account_hash
         session.add(execution_detail)
         session.commit()
     except Exception as e:

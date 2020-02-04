@@ -39,7 +39,7 @@ def __start_audit__():
             execute_iam_checks(execution_hash, iam_service)
             execute_security_centre_checks(execution_hash, security_service)
             execute_database_checks(execution_hash, db_service)
-            update_execution(execution_hash)
+            update_execution(execution_hash,2)
     except Exception as e:
         print(str(e))
 
