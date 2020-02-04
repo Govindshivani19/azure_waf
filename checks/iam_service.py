@@ -1,63 +1,103 @@
-from azure.common.credentials import ServicePrincipalCredentials
-from azure.mgmt.authorization import AuthorizationManagementClient
-from azure.mgmt.resource import SubscriptionClient, ResourceManagementClient
-import os
+from checks.common_services import CommonServices
+from helper_function import get_auth_token, rest_api_call, get_adal_token
+from contants import storage_accounts_list_url, role_definitions_list_url
+import requests
 
 
 class IamServices:
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, credentials):
+        self.credentials = credentials
 
-    def get_roles(self):
+    def get_custom_roles(self):
         issues = []
         try:
-            subscription_id = ""
-            credentials = ServicePrincipalCredentials(
-                client_id=os.environ['AZURE_CLIENT_ID'],
-                secret=os.environ['AZURE_CLIENT_SECRET'],
-                tenant=os.environ['AZURE_TENANT_ID']
-            )
-            subscription_client = SubscriptionClient(credentials)
-            subscription_list = subscription_client.subscriptions.list()
-
-            for i in subscription_list:
-                subscription_id = i.subscription_id
-                resource_client = ResourceManagementClient(credentials, subscription_id)
-                for resource in resource_client.resource_groups.list():
-                    role_definition_client = AuthorizationManagementClient(credentials, subscription_id)
-                    scope = "/subscriptions/{}/resourceGroups/{}".format(subscription_id, resource.name)
-                    roles = role_definition_client.role_definitions.list(scope=scope, filter="type eq 'CustomRole'")
-                    roles_list = roles.advance_page()
-                    scope_reg_exp = '/subscriptions/{}'.format(subscription_id)
-                    for role in roles_list:
+            token = get_auth_token(self.credentials)
+            cs = CommonServices()
+            subscription_list = cs.get_subscriptions_list(token)
+            for subscription in subscription_list:
+                scope_reg_exp = '/subscriptions/{}'.format(subscription['subscriptionId'])
+                resource_groups = CommonServices().get_resource_groups(token, subscription['subscriptionId'])
+                for resource_group in resource_groups:
+                    scope = "/subscriptions/{}/resourceGroups/{}".format(subscription['subscriptionId'], resource_group["name"])
+                    filter = "type eq 'CustomRole'"
+                    url = role_definitions_list_url.format(scope) + "?$filter={$"+filter+"}"
+                    response = rest_api_call(token, url, api_version='2015-07-01')
+                    role_definitions_list = response['value']
+                    for role_definition in role_definitions_list:
                         temp = dict()
                         temp["region"] = ""
-
-                        selected_roles = role_definition_client.role_definitions.list(scope=scope, filter="roleName eq '{}'".format(role.role_name))
-                        sel_roles_list = selected_roles.advance_page()
                         scope_flag = 0
                         permission_flag = 0
-                        for opt in sel_roles_list:
-                            for scope in opt.assignable_scopes:
-                                if scope == '/' or scope == scope_reg_exp:
-                                    scope_flag = 1
-                            for per in opt.permissions:
-                                for action in per.actions:
-                                    if action == "*":
-                                        permission_flag = 1
+                        role_scope = role_definition['properties']['assignableScopes']
+                        permissions = role_definition['properties']['permissions']
+                        for scope in role_scope:
+                            if scope == '/' or scope == scope_reg_exp:
+                                scope_flag = 1
+                        for permission in permissions:
+                            for action in permission['actions']:
+                                if action == "*":
+                                    permission_flag = 1
+
                         if scope_flag == 1 and permission_flag == 1:
                             temp["status"] = "Fail"
-                            temp["resource_name"] = role.name
-                            temp["resource_id"] = role.id
-                            temp["problem"] = "{} is a custom owner role". format(role.role_name)
+                            temp["resource_name"] = role_definition['properties']['roleName']
+                            temp["resource_id"] = role_definition['id']
+                            temp["problem"] = "{} is a custom owner role". format(role_definition['properties']['roleName'])
                         else:
                             temp["status"] = "Pass"
-                            temp["resource_name"] = role.name
-                            temp["resource_id"] = role.id
-                            temp["problem"] = "{} is not a custom owner role".format(role.role_name)
+                            temp["resource_name"] = role_definition['properties']['roleName']
+                            temp["resource_id"] = role_definition['id']
+                            temp["problem"] = "{} is not a custom owner role".format(role_definition['properties']['roleName'])
                         issues.append(temp)
         except Exception as e:
             print(str(e))
         finally:
             return issues
 
+    def guest_users(self):
+        issues = []
+        try:
+            token = get_adal_token(self.credentials)
+            headers = {'Authorization': 'Bearer ' + token['access_token'], 'Content-Type': 'application/json'}
+            url = "https://graph.microsoft.com/v1.0/users?$filter=userType eq 'Guest'"
+            response = requests.get(url, headers=headers)
+            response = response.json()
+            users_list = response['value']
+            temp = dict()
+            if len(users_list) > 0:
+                temp['region'] = ""
+                temp["status"] = "Fail"
+                temp["resource"] = ""
+                temp["resource_id"] = ""
+                temp["problem"] = "Guest users available in Azure account."
+            else:
+                temp['region'] = ""
+                temp["status"] = "Pass"
+                temp["resource"] = ""
+                temp["resource_id"] = ""
+                temp["problem"] = "Guest users not available in Azure account."
+            issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def enable_mfa_non_privileged_users(self):
+        issues = []
+        try:
+            token = get_adal_token()
+            mgt_api_token = get_auth_token(self.credentials)
+            headers = {'Authorization': 'Bearer ' + token['access_token'], 'Content-Type': 'application/json'}
+            url = "https://graph.microsoft.com/v1.0/users"
+            response = requests.get(url, headers=headers)
+            response = response.json()
+            users_list = response['value']
+            for user in users_list:
+                filter = "assignedTo('{{}}')".format(user['id'])
+                assignment_url = "https://management.azure.com/providers/Microsoft.Authorization/roleAssignments?$filter={"+filter+"}"
+                response = rest_api_call(mgt_api_token, assignment_url)
+                print(response)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
