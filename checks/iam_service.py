@@ -67,13 +67,13 @@ class IamServices:
             if len(users_list) > 0:
                 temp['region'] = ""
                 temp["status"] = "Fail"
-                temp["resource"] = ""
+                temp["resource_name"] = ""
                 temp["resource_id"] = ""
                 temp["problem"] = "Guest users available in Azure account."
             else:
                 temp['region'] = ""
                 temp["status"] = "Pass"
-                temp["resource"] = ""
+                temp["resource_name"] = ""
                 temp["resource_id"] = ""
                 temp["problem"] = "Guest users not available in Azure account."
             issues.append(temp)

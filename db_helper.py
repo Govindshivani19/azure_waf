@@ -25,17 +25,20 @@ def insert_audit_records(execution_hash, issues, check_id):
     session = Session(expire_on_commit=False)
     try:
         if issues :
+            print("issue")
+            print(check_id)
             for issue in issues:
                 audit_record = AzAudit()
-                audit_record.az_check_id = check_id
+                audit_record.check_id = check_id
                 audit_record.az_execution_hash = execution_hash
-                audit_record.az_region = issue["region"]
-                audit_record.az_resource_id = issue["resource_id"]
-                audit_record.az_resource_name = issue["resource_name"]
-                audit_record.az_problem = issue["problem"]
+                audit_record.region = issue["region"]
+                audit_record.resource_id = issue["resource_id"]
+                audit_record.resource_name = issue["resource_name"]
+                audit_record.problem = issue["problem"]
                 audit_record.status = issue["status"]
                 session.add(audit_record)
                 session.commit()
+            print("inserted to db")
     except Exception as e:
         print(str(e))
     finally:

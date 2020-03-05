@@ -23,6 +23,7 @@ class StorageService:
                     for resource_group in resource_groups:
                         container_url = container_list_url.format(subscription['subscriptionId'], resource_group['name'], account['name'])
                         response = rest_api_call(token, container_url)
+                        print(response)
                         if 'value' in response:
                             for container in response.get('value'):
                                 temp = dict()

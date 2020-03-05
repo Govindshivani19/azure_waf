@@ -257,7 +257,7 @@ class DatabaseService:
                 url = sql_server_list_url.format(subscription['subscriptionId'])
                 response = rest_api_call(token, url, '2015-05-01-preview')
                 server_list = response['value']
-                for s   erver in server_list:
+                for server in server_list:
                     temp = dict()
                     temp["region"] = server["location"]
                     audit_url = base_url + server['id'] + "/auditingSettings/default"

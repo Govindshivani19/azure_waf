@@ -323,6 +323,34 @@ def CEN_AZ_73(execution_hash, db_service):
         print(str(e))
 
 
+def CEN_AZ_77(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.unused_virtual_machines(), 'CEN_AZ_77')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_78(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.unused_volumes(), 'CEN_AZ_78')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_79(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.vm_with_no_managed_disks(), 'CEN_AZ_79')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_80(execution_hash, az_service):
+    try:
+        insert_audit_records(execution_hash, az_service.redis_secure_connection(), 'CEN_AZ_80')
+    except Exception as e:
+        print(str(e))
+
+
 def execute_storage_checks(execution_hash, storage_service):
     CEN_AZ_2(execution_hash, storage_service)
     CEN_AZ_4(execution_hash, storage_service)
@@ -382,3 +410,16 @@ def execute_database_checks(execution_hash, db_service):
     CEN_AZ_71(execution_hash, db_service)
     CEN_AZ_72(execution_hash, db_service)
     CEN_AZ_73(execution_hash, db_service)
+
+
+def execute_vm_checks(execution_hash, vm_service):
+    CEN_AZ_77(execution_hash, vm_service)
+    CEN_AZ_79(execution_hash, vm_service)
+
+
+def execute_disk_checks(execution_hash, vm_service):
+    CEN_AZ_78(execution_hash, vm_service)
+
+
+def execute_az_services_checks(execution_hash, az_service):
+    CEN_AZ_80(execution_hash, az_service)

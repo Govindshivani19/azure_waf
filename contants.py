@@ -15,7 +15,8 @@ pricing_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft
 postgres_server_list_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.DBforPostgreSQL/servers"
 sql_server_list_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Sql/servers"
 mysql_server_list_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.DBforMySQL/servers"
-
-check_mapping = {
-    'CEN_AZ_2': 'CEN_AZ_2','CEN_AZ_3': 'CEN_AZ_3()'
-}
+vm_list_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Compute/virtualMachines"
+disk_list_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Compute/disks"
+reserved_ip_list_url = "https://management.core.windows.net/{}/services/networking/reservedips"
+redis_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Cache/Redis/"
+vault_base_url = "https://{}.vault.azure.net/"
