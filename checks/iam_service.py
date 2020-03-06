@@ -5,22 +5,23 @@ import requests
 
 
 class IamServices:
-    def __init__(self, credentials):
+    def __init__(self, credentials, subscription_list):
         self.credentials = credentials
+        self.subscription_list = subscription_list
 
     def get_custom_roles(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.credentials
             for subscription in subscription_list:
                 scope_reg_exp = '/subscriptions/{}'.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 resource_groups = CommonServices().get_resource_groups(token, subscription['subscriptionId'])
                 for resource_group in resource_groups:
                     scope = "/subscriptions/{}/resourceGroups/{}".format(subscription['subscriptionId'], resource_group["name"])
                     filter = "type eq 'CustomRole'"
                     url = role_definitions_list_url.format(scope) + "?$filter={$"+filter+"}"
+                    token = get_auth_token(self.credentials)
                     response = rest_api_call(token, url, api_version='2015-07-01')
                     role_definitions_list = response['value']
                     for role_definition in role_definitions_list:

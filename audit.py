@@ -6,7 +6,7 @@ from checks.database_service import DatabaseService
 from checks.other_services import AzureServices
 from checks.vm_service import VmService
 from db_helper import fetch_accounts, create_execution, update_execution
-from helper_function import get_application_key
+from helper_function import get_application_key, get_auth_token, rest_api_call
 from execute_checks import (
     execute_log_monitor_checks, execute_storage_checks, execute_iam_checks,
     execute_security_centre_checks, execute_database_checks, execute_vm_checks, execute_disk_checks, execute_az_services_checks
@@ -37,14 +37,18 @@ def __start_audit__():
             credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
             credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]'''
 
+            token = get_auth_token(credentials)
+            cs = CommonServices()
+            subscription_list = cs.get_subscriptions_list(token)
+
             execution_hash = os.environ["execution_hash"]
-            storage_service = StorageService(credentials)
-            iam_service = IamServices(credentials)
-            monitor_service = MonitorLogService(credentials)
-            security_service = SecurityService(credentials)
-            db_service = DatabaseService(credentials)
-            vm_service = VmService(credentials)
-            az_service = AzureServices(credentials)
+            storage_service = StorageService(credentials, subscription_list)
+            iam_service = IamServices(credentials, subscription_list)
+            monitor_service = MonitorLogService(credentials, subscription_list)
+            security_service = SecurityService(credentials, subscription_list)
+            db_service = DatabaseService(credentials, subscription_list)
+            vm_service = VmService(credentials, subscription_list)
+            az_service = AzureServices(credentials, subscription_list)
 
             execute_log_monitor_checks(execution_hash, monitor_service)
             execute_iam_checks(execution_hash, iam_service)

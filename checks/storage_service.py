@@ -5,23 +5,25 @@ import datetime
 
 
 class StorageService:
-    def __init__(self, credentials):
+    def __init__(self, credentials, subscription_list):
         self.credentials = credentials
+        self.subscription_list = subscription_list
 
     def check_access_to_anonymous_users(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = storage_accounts_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url)
                 storage_accounts = response['value']
                 for account in storage_accounts:
+                    token = get_auth_token(self.credentials)
                     resource_groups = CommonServices().get_resource_groups(token, subscription['subscriptionId'])
                     for resource_group in resource_groups:
                         container_url = container_list_url.format(subscription['subscriptionId'], resource_group['name'], account['name'])
+                        token = get_auth_token(self.credentials)
                         response = rest_api_call(token, container_url)
                         print(response)
                         if 'value' in response:
@@ -47,11 +49,10 @@ class StorageService:
     def enable_secure_transfer(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = storage_accounts_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url)
                 storage_accounts = response['value']
                 for account in storage_accounts:
@@ -77,11 +78,10 @@ class StorageService:
     def check_trusted_services_access(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = storage_accounts_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url)
                 storage_accounts = response['value']
                 for account in storage_accounts:
@@ -107,11 +107,10 @@ class StorageService:
     def restrict_default_network_access(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = storage_accounts_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url)
                 storage_accounts = response['value']
                 for account in storage_accounts:
@@ -140,13 +139,12 @@ class StorageService:
             next_link_flag = 0
             next_link = ""
             log_list = list()
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             end_date = datetime.datetime.now()
             start_date = (datetime.datetime.now() - datetime.timedelta(days=90))
             for subscription in subscription_list:
                 url = storage_accounts_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url)
                 storage_accounts = response['value']
                 for account in storage_accounts:
@@ -157,6 +155,7 @@ class StorageService:
                     resource_group = temp[1].split("/")[1]
                     filters = "eventTimestamp ge '{}' and eventTimestamp le '{}'  and status eq 'Succeeded' and resourceGroupName eq '{}' ".format(start_date, end_date, resource_group)
                     logs_url = monitor_activity_log_url.format(subscription['subscriptionId']) + "?$filter="+filters+""
+                    token = get_auth_token(self.credentials)
                     log_response = rest_api_call(token, logs_url, '2015-04-01')
                     for log in log_response['value']:
                         log_list.append(log)
@@ -171,6 +170,7 @@ class StorageService:
                         filters = "eventTimestamp ge '{}' and eventTimestamp le '{}'  and status eq 'Succeeded' and resourceGroupName eq '{}' &$skipToken={} ".format(
                             start_date, end_date, resource_group, next_link)
                         logs_url = monitor_activity_log_url.format(subscription['subscriptionId']) + "?$filter=" + filters + ""
+                        token = get_auth_token(self.credentials)
                         log_response = rest_api_call(token, logs_url, '2015-04-01')
                         for log in log_response['value']:
                             log_list.append(log)
@@ -201,18 +201,17 @@ class StorageService:
     def enable_storage_queue_logging(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = storage_accounts_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url)
                 storage_accounts = response['value']
                 for account in storage_accounts:
                     temp_resp = dict()
                     temp_resp['region'] = account['location']
                     queue_log_url = "https://{}.queue.core.windows.net".format(account["name"])
-                    print(queue_log_url)
+                    token = get_auth_token(self.credentials)
                     response = rest_api_call(token, queue_log_url, api_version='2013-08-15')
                     print(response)
         except Exception as e:

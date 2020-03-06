@@ -4,17 +4,17 @@ from helper_function import get_auth_token, rest_api_call
 
 
 class MonitorLogService:
-    def __init__(self, credentials):
+    def __init__(self, credentials, subscription_list):
         self.credentials = credentials
+        self.subscription_list = subscription_list
 
     def get_log_profiles(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = log_profile_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, '2016-03-01')
                 log_profiles = response['value']
                 for profile in log_profiles:
@@ -42,11 +42,10 @@ class MonitorLogService:
     def get_log_retention_period(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = log_profile_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, '2016-03-01')
                 log_profiles = response['value']
                 for profile in log_profiles:
@@ -83,11 +82,10 @@ class MonitorLogService:
     def get_total_region_export_count(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = log_profile_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, '2016-03-01')
                 log_profiles = response['value']
                 for profile in log_profiles:
@@ -118,11 +116,10 @@ class MonitorLogService:
     def get_log_profile_export_activities(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = log_profile_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, '2016-03-01')
                 log_profiles = response['value']
                 for profile in log_profiles:
@@ -153,17 +150,17 @@ class MonitorLogService:
     def is_activity_log_storage_encrypted(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = log_profile_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, '2016-03-01')
                 log_profiles = response['value']
                 for profile in log_profiles:
                     temp = dict()
                     storage_account_id = profile['properties']['storageAccountId']
                     url = base_url+storage_account_id
+                    token = get_auth_token(self.credentials)
                     response = rest_api_call(token, url)
                     key_source = response['properties']['encryption']['keySource']
                     if key_source == 'Microsoft.Storage':
@@ -189,17 +186,17 @@ class MonitorLogService:
     def check_auditevent_enable_for_keyvault(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, vault_url)
                 vault_list = response['value']
                 for vault in vault_list:
                     temp = dict()
                     vault_id = vault['id']
                     url = monitor_diagnostic_url.format(vault_id)
+                    token = get_auth_token(self.credentials)
                     monitor_response = rest_api_call(token, url, '2017-05-01-preview')
                     diag_settings = monitor_response['value']
                     for diag in diag_settings:
@@ -228,11 +225,10 @@ class MonitorLogService:
     def check_public_accessible_log_storage_accounts(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = log_profile_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, '2016-03-01')
                 log_profiles = response['value']
                 for profile in log_profiles:
@@ -240,6 +236,7 @@ class MonitorLogService:
                     temp = dict()
                     temp["region"] = ""
                     storage_url = base_url + storage_account_id + "/blobServices/default/containers"
+                    token = get_auth_token(self.credentials)
                     storage_response = rest_api_call(token, storage_url)
                     container_list = storage_response['value']
                     for container in container_list:

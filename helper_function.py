@@ -53,6 +53,7 @@ def get_auth_token_services(credentials, az_resource):
     finally:
         return token
 
+
 def get_adal_token(credentials):
     token = ""
     try:

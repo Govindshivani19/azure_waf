@@ -4,18 +4,18 @@ from contants import redis_url, key_vault_list_url, vault_base_url
 
 
 class AzureServices:
-    def __init__(self, credentials):
+    def __init__(self, credentials, subscription_list):
         self.credentials = credentials
+        self.subscription_list = subscription_list
 
     def redis_secure_connection(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 redis_list = []
                 url = redis_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2016-04-01')
                 for r in response['value']:
                     redis_list.append(r)
@@ -46,12 +46,11 @@ class AzureServices:
     def get_key_expiry_date(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 vault_list = []
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, vault_url)
                 for r in response['value']:
                     vault_list.append(r)

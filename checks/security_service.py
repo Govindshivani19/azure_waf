@@ -4,19 +4,19 @@ from contants import policy_assignments_url, security_contacts_url, auto_provisi
 
 
 class SecurityService:
-    def __init__(self, credentials):
+    def __init__(self, credentials, subscription_list):
         self.credentials = credentials
+        self.subscription_list = subscription_list
 
     def enable_application_whitelisting_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'adaptiveApplicationControlsMonitoringEffect' in response['properties']['parameters']:
@@ -50,13 +50,12 @@ class SecurityService:
     def enable_alert_subscription_owners(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = security_contacts_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2017-08-01-preview')
                 if not response['value']:
                     temp["status"] = "Fail"
@@ -86,13 +85,12 @@ class SecurityService:
     def enable_auto_provision_montioring_agent(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = auto_provision_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2017-08-01-preview')
                 if not response['value']:
                     temp["status"] = "Fail"
@@ -123,13 +121,12 @@ class SecurityService:
     def enable_disk_encryption_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'diskEncryptionMonitoringEffect' in response['properties']['parameters']:
@@ -162,13 +159,12 @@ class SecurityService:
     def enable_endpoint_protection_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'endpointProtectionMonitoringEffect' in response['properties']['parameters']:
@@ -201,13 +197,12 @@ class SecurityService:
     def enable_alert_serverity_notifications(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = security_contacts_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2017-08-01-preview')
                 if not response['value']:
                     temp["status"] = "Fail"
@@ -237,13 +232,12 @@ class SecurityService:
     def enable_jit_network_access_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'jitNetworkAccessMonitoringEffect' in response['properties']['parameters']:
@@ -276,13 +270,12 @@ class SecurityService:
     def enable_os_vulnerability_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'systemConfigurationsMonitoringEffect' in response['properties']['parameters']:
@@ -315,13 +308,12 @@ class SecurityService:
     def enable_vulnerability_assesment_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'vulnerabilityAssesmentMonitoringEffect' in response['properties']['parameters']:
@@ -354,13 +346,12 @@ class SecurityService:
     def enable_security_group_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'networkSecurityGroupsMonitoringEffect' in response['properties']['parameters']:
@@ -397,13 +388,12 @@ class SecurityService:
     def enable_ngfw_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'nextGenerationFirewallMonitoringEffect' in response['properties']['parameters']:
@@ -440,13 +430,12 @@ class SecurityService:
     def enable_sql_audit_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'sqlAuditingMonitoringEffect' in response['properties']['parameters']:
@@ -483,13 +472,12 @@ class SecurityService:
     def enable_sql_encryption_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'sqlEncryptionMonitoringEffect' in response['properties']['parameters']:
@@ -526,13 +514,12 @@ class SecurityService:
     def enable_storage_encryption_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'storageEncryptionMonitoringEffect' in response['properties']['parameters']:
@@ -569,13 +556,12 @@ class SecurityService:
     def enable_system_updates_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'systemUpdatesMonitoringEffect' in response['properties']['parameters']:
@@ -612,13 +598,12 @@ class SecurityService:
     def enable_web_app_firewall_monitor(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'webApplicationFirewallMonitoringEffect' in response['properties']['parameters']:
@@ -655,13 +640,12 @@ class SecurityService:
     def check_security_email(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = security_contacts_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2017-08-01-preview')
                 if not response['value']:
                     temp["status"] = "Fail"
@@ -691,13 +675,12 @@ class SecurityService:
     def check_security_phone_number(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = security_contacts_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2017-08-01-preview')
                 if not response['value']:
                     temp["status"] = "Fail"
@@ -727,13 +710,12 @@ class SecurityService:
     def enable_standard_pricing(self):
         issues= []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
                 temp["region"] = ""
                 url = pricing_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2017-08-01-preview')
                 pricing_values = response['value']
                 for price in pricing_values:

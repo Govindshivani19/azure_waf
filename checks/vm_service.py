@@ -1,21 +1,20 @@
-from checks.common_services import CommonServices
 from helper_function import get_auth_token, rest_api_call
 from contants import vm_list_url, base_url, disk_list_url
 
 
 class VmService:
-    def __init__(self, credentials):
+    def __init__(self, credentials, subscription_list):
         self.credentials = credentials
+        self.subscription_list = subscription_list
 
     def unused_virtual_machines(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
@@ -23,6 +22,7 @@ class VmService:
                     temp = dict()
                     temp['region'] = instance["location"]
                     instance_view_url = base_url + instance["id"] + "/instanceView"
+                    token = get_auth_token(self.credentials)
                     response = rest_api_call(token, instance_view_url, api_version='2019-07-01')
                     for status in response["statuses"]:
                         if status['code'] == "PowerState/deallocated":
@@ -48,12 +48,11 @@ class VmService:
     def unused_volumes(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 disk_list = []
                 url = disk_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2019-07-01')
                 for disk in response['value']:
                     disk_list.append(disk)
@@ -84,12 +83,11 @@ class VmService:
     def vm_with_no_managed_disks(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
@@ -121,12 +119,11 @@ class VmService:
     def vm_security_groups(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
@@ -134,10 +131,12 @@ class VmService:
                     for network_interface in instance['properties']['networkProfile']['networkInterfaces']:
                         # print(network_interface['id'])
                         network_url = base_url + network_interface['id']
+                        token = get_auth_token(self.credentials)
                         response = rest_api_call(token, network_url, api_version='2019-11-01')
                         for ip in response['properties']['ipConfigurations']:
                             subnet_id = ip['properties']['subnet']['id']
                             subnet_url = base_url + subnet_id
+                            token = get_auth_token(self.credentials)
                             subnet_response = rest_api_call(token, subnet_url, api_version='2019-11-01')
                             print(subnet_response)
 
