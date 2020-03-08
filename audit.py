@@ -5,7 +5,7 @@ from checks.security_service import SecurityService
 from checks.database_service import DatabaseService
 from checks.other_services import AzureServices
 from checks.vm_service import VmService
-from db_helper import fetch_accounts, create_execution, update_execution
+from db_helper import fetch_accounts, update_execution
 from helper_function import get_application_key, get_auth_token, rest_api_call
 from execute_checks import (
     execute_log_monitor_checks, execute_storage_checks, execute_iam_checks,
@@ -27,15 +27,15 @@ def __start_audit__():
             accounts = fetch_accounts()
 
         for account in accounts:
-            client_secret = get_application_key(account['account_hash'])
+            '''client_secret = get_application_key(account['account_hash'])
             credentials['AZURE_TENANT_ID'] = account["tenant_id"]
             credentials['AZURE_CLIENT_ID'] = account["client_id"]
             credentials['AZURE_CLIENT_SECRET'] = client_secret
-            # execution_hash = create_execution(account['account_hash'])
+            # execution_hash = create_execution(account['account_hash'])'''
 
-            '''credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
+            credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
             credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
-            credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]'''
+            credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
 
             token = get_auth_token(credentials)
             cs = CommonServices()
@@ -58,13 +58,10 @@ def __start_audit__():
             execute_disk_checks(execution_hash, vm_service)
             execute_az_services_checks(execution_hash, az_service)
             execute_storage_checks(execution_hash, storage_service)
-            #az_service.get_key_expiry_date()
-            #vm_service.vm_security_groups()
             update_execution(execution_hash, 2)
 
     except Exception as e:
         print(str(e))
 
-    #insert_checks('CEN_AZ_8','Storage Accounts - Restrict Default Network Access', 'Deny access from all trafic to Storage Accounts')
 
 __start_audit__()

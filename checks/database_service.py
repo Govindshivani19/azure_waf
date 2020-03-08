@@ -32,12 +32,14 @@ class DatabaseService:
                                 temp['status'] = "Fail"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Azure PostgreSQL database server {} does not have a sufficient log retention period currently configured.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             else:
                                 temp['status'] = "Pass"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Azure PostgreSQL database server {} have a sufficient log retention period currently configured.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -67,12 +69,14 @@ class DatabaseService:
                                 temp['status'] = "Fail"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Connection throttling parameter is not enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             else:
                                 temp['status'] = "Pass"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Connection throttling parameter is enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -102,12 +106,14 @@ class DatabaseService:
                                 temp['status'] = "Fail"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Log checkpoints parameter is not enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             else:
                                 temp['status'] = "Pass"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Log checkpoints parameter is enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -137,12 +143,14 @@ class DatabaseService:
                                 temp['status'] = "Fail"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Log connections parameter is not enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             else:
                                 temp['status'] = "Pass"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Log connections parameter is enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -172,12 +180,14 @@ class DatabaseService:
                                 temp['status'] = "Fail"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Log Disconnections parameter is not enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             else:
                                 temp['status'] = "Pass"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Log Disconnections parameter is enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -207,12 +217,14 @@ class DatabaseService:
                                 temp['status'] = "Fail"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Log duration parameter is not enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             else:
                                 temp['status'] = "Pass"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']
-                                temp['problem'] = "Log duration parameter is enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -235,12 +247,14 @@ class DatabaseService:
                         temp["status"] = "Pass"
                         temp["resource_name"] = server['name']
                         temp["resource_id"] = server['id']
-                        temp["problem"] = "In-transit encryption with SSL is enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Fail"
                         temp["resource_name"] = server['name']
                         temp["resource_id"] = server['id']
-                        temp["problem"] = "In-transit encryption with SSL is not enabled for Azure PostgreSQL database server {}.".format(server['name'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -259,6 +273,9 @@ class DatabaseService:
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server["location"]
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
+
                     audit_url = base_url + server['id'] + "/auditingSettings/default"
                     token = get_auth_token(self.credentials)
                     audit_response = rest_api_call(token, audit_url, '2017-03-01-preview')
@@ -267,19 +284,15 @@ class DatabaseService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "SQL database auditing policy for sql server {} does not have sufficient log data retention period. " .format(server["name"])
                     elif retension_days < 90:
                         temp["status"] = "Fail"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "SQL database auditing policy for sql server {} does not have sufficient log data retention period." \
-                            .format(server["name"])
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "SQL database auditing policy for sql server {} have sufficient log data retention period." \
-                            .format(server["name"])
+
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -298,6 +311,9 @@ class DatabaseService:
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
+
                     audit_url = base_url + server['id'] + "/auditingSettings/default"
                     token = get_auth_token(self.credentials)
                     audit_response = rest_api_call(token, audit_url, '2017-03-01-preview')
@@ -315,12 +331,10 @@ class DatabaseService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "AuditActionGroup is not enabled for Azure SQL server {}.".format(server["name"])
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "AuditActionGroup is enabled for Azure SQL server {}.".format(server["name"])
 
                     issues.append(temp)
         except Exception as e:
@@ -340,6 +354,8 @@ class DatabaseService:
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
                     audit_url = base_url + server['id'] + "/securityAlertPolicies/default"
                     token = get_auth_token(self.credentials)
                     audit_response = rest_api_call(token, audit_url, '2019-06-01-preview')
@@ -363,12 +379,10 @@ class DatabaseService:
                         temp["status"] = "Pass"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "Advanced Threat Detection alerts for all types of threats enabled for Azure SQL server {}.".format(server['name'])
                     else:
                         temp["status"] = "Fail"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "Advanced Threat Detection alerts for all types of threats  not enabled for Azure SQL server {}.".format(server['name'])
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -387,6 +401,8 @@ class DatabaseService:
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
                     audit_url = base_url + server['id'] + "/auditingSettings/AuditState"
                     token = get_auth_token(self.credentials)
                     audit_response = rest_api_call(token, audit_url, '2017-03-01-preview')
@@ -394,12 +410,10 @@ class DatabaseService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "Database auditing is not enabled for Azure SQL server {}.".format(server["name"])
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "Database auditing is enabled for Azure SQL server {}.".format(server["name"])
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -418,6 +432,8 @@ class DatabaseService:
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
                     audit_url = base_url + server['id'] + "/securityAlertPolicies/default"
                     token = get_auth_token(self.credentials)
                     audit_response = rest_api_call(token, audit_url, '2019-06-01-preview')
@@ -425,13 +441,10 @@ class DatabaseService:
                         temp["status"] = "Pass"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "Also Send email notification to admins and subscription owners for threat detection is enabled for Azure SQL server {}.".format(server["name"])
                     else:
                         temp["status"] = "Fail"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "Also Send email notification to admins and subscription owners for threat detection is not enabled for Azure SQL server {}.".format(
-                            server["name"])
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -450,6 +463,8 @@ class DatabaseService:
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
                     audit_url = base_url + server['id'] + "/securityAlertPolicies/default"
                     token = get_auth_token(self.credentials)
                     audit_response = rest_api_call(token, audit_url, '2019-06-01-preview')
@@ -457,13 +472,10 @@ class DatabaseService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "Send email notifications for threat detection is not enabled for Azure SQL server {}.".format(server["name"])
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = server["name"]
                         temp["resource_id"] = server["id"]
-                        temp["problem"] = "Send email notification for threat detection is enabled for Azure SQL server {}.".format(
-                            server["name"])
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -482,6 +494,8 @@ class DatabaseService:
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
                     db_url = base_url + server['id'] + "/databases"
                     token = get_auth_token(self.credentials)
                     db_response = rest_api_call(token, db_url, '2019-06-01-preview')
@@ -508,18 +522,16 @@ class DatabaseService:
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
                     if server["properties"]["sslEnforcement"] == "Enabled":
                         temp["status"] = "Pass"
                         temp["resource_name"] = server['name']
                         temp["resource_id"] = server['id']
-                        temp["problem"] = "In-transit encryption with SSL is enabled for Azure MySQL server {}.".format(
-                            server['name'])
                     else:
                         temp["status"] = "Fail"
                         temp["resource_name"] = server['name']
                         temp["resource_id"] = server['id']
-                        temp["problem"] = "In-transit encryption with SSL is not enabled for Azure MySQL server {}.".format(
-                            server['name'])
                     issues.append(temp)
         except Exception as e:
             print(str(e))

@@ -34,12 +34,14 @@ class StorageService:
                                     temp["status"] = "Fail"
                                     temp["resource_name"] = container["name"]
                                     temp["resource_id"] = ""
-                                    temp["problem"] = "Container {} in storage account {} has access to anonymous users".format(container["name"], account["name"])
+                                    temp["subscription_id"] = subscription['subscriptionId']
+                                    temp["subscription_name"] = subscription["displayName"]
                                 else:
                                     temp["status"] = "Pass"
                                     temp["resource_name"] = container["name"]
                                     temp["resource_id"] = ""
-                                    temp["problem"] = "Container {} in storage account {} doesn't allow access to anonymous users".format(container["name"], account["name"])
+                                    temp["subscription_id"] = subscription['subscriptionId']
+                                    temp["subscription_name"] = subscription["displayName"]
                                 issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -62,12 +64,14 @@ class StorageService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = account["name"]
                         temp["resource_id"] = ""
-                        temp["problem"] = "Secure data transfer is not enabled for Storage Account {} ".format(account["name"])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = account["name"]
                         temp["resource_id"] = ""
-                        temp["problem"] = "Secure data transfer is enabled for Storage Account {} ".format(account["name"])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
 
         except Exception as e:
@@ -91,12 +95,14 @@ class StorageService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = account["name"]
                         temp["resource_id"] = ""
-                        temp["problem"] = "Trusted Microsoft Services are not allowed to access the Storage Account {} ".format(account["name"])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = account["name"]
                         temp["resource_id"] = ""
-                        temp["problem"] = "Trusted Microsoft Services are allowed to access the Storage Account {}".format(account["name"])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
 
         except Exception as e:
@@ -120,12 +126,14 @@ class StorageService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = account["name"]
                         temp["resource_id"] = ""
-                        temp["problem"] = "Storage Account {} is accessible from default network". format(account["name"])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = account["name"]
                         temp["resource_id"] = ""
-                        temp["problem"] = "Storage Account {} is not accessible from default network".format(account["name"])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
 
         except Exception as e:
@@ -186,12 +194,14 @@ class StorageService:
                                 temp_resp["status"] = "Pass"
                                 temp_resp["resource_name"] = account["name"]
                                 temp_resp["resource_id"] = ""
-                                temp_resp["problem"] = "Access keys regenerated for Storage Account {}".format(account["name"])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             else:
                                 temp_resp["status"] = "Fail"
                                 temp_resp["resource_name"] = account["name"]
                                 temp_resp["resource_id"] = ""
-                                temp_resp["problem"] = "Access keys not regenerated for Storage Account {}".format(account["name"])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                         issues.append(temp_resp)
         except Exception as e:
             print(str(e));

@@ -29,16 +29,14 @@ class VmService:
                             temp["status"] = "Fail"
                             temp["resource_name"] = instance["name"]
                             temp["resource_id"] = instance["properties"]["vmId"]
-                            temp["problem"] = "Virtual Machine {} in subscription {} is in stopped state.".format(
-                                instance["name"], subscription['subscriptionId']
-                            )
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
                         else:
                             temp["status"] = "Pass"
                             temp["resource_name"] = instance["name"]
                             temp["resource_id"] = instance["id"]
-                            temp["problem"] = "Virtual Machine {} in subscription {} is in running state.".format(
-                                instance["name"], subscription['subscriptionId']
-                            )
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
                         issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -64,16 +62,14 @@ class VmService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = disk["name"]
                         temp["resource_id"] = disk["id"]
-                        temp["problem"] = "Disk {} in subscription {} is unattached.".format(
-                            disk["name"], subscription['subscriptionId']
-                        )
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = disk["name"]
                         temp["resource_id"] = disk["id"]
-                        temp["problem"] = "Disk {} in subscription {} is attached.".format(
-                            disk["name"], subscription['subscriptionId']
-                        )
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -99,17 +95,15 @@ class VmService:
                             temp["status"] = "Pass"
                             temp["resource_name"] = instance["name"]
                             temp["resource_id"] = instance["properties"]["vmId"]
-                            temp["problem"] = "Virtual Machine {} under subscription {} use managed disk.".format(
-                                instance["name"], subscription['subscriptionId']
-                            )
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp['region'] = instance["location"]
                         temp["status"] = "Fail"
                         temp["resource_name"] = instance["name"]
                         temp["resource_id"] = instance["properties"]["vmId"]
-                        temp["problem"] = "Virtual Machine {} under subscription {} do not use managed disk.".format(
-                            instance["name"], subscription['subscriptionId']
-                        )
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     if temp:
                         issues.append(temp)
         except Exception as e:

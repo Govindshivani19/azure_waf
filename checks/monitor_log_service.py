@@ -27,12 +27,14 @@ class MonitorLogService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = subscription['displayName']
                         temp["resource_id"] = subscription['subscriptionId']
-                        temp["problem"] = "Log Profile not created for subscription {} ".format(subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = subscription['displayName']
                         temp["resource_id"] = subscription['subscriptionId']
-                        temp["problem"] = "Log Profile created for subscription {} ".format(subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -59,20 +61,20 @@ class MonitorLogService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for subcription {} does not have a sufficient activity log data retention period configured. " \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     elif retention_period < 365:
                         temp["status"] = "Fail" 
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for subscription {} does not have a sufficient activity log data retention period configured. " \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for subscription {} have a sufficient activity log data retention period configured. " \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -99,14 +101,14 @@ class MonitorLogService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for the subscription {} is  not configured to export activities from all supported Azure regions/locations." \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for the subscription {} is configured to export activities from all supported Azure regions/locations." \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -133,14 +135,14 @@ class MonitorLogService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for the subscription {} is  not configured to export Write, Delete and Action events. " \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for the subscription {} is  configured to export Write, Delete and Action events. " \
-                            .format(subscription['displayName'], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -168,15 +170,15 @@ class MonitorLogService:
                         temp["resource_name"] = response["name"]
                         temp["resource_id"] = response["id"]
                         temp["region"] = response["location"]
-                        temp["problem"] = "Microsoft Azure storage  {} container that contains  activity log files is encrypted using a service-managed key instead of a customer-managed key." \
-                            .format(response["name"])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = response["name"]
                         temp["resource_id"] = response["id"]
                         temp["region"] = response["location"]
-                        temp["problem"] = "Microsoft Azure storage  {} container that contains  activity log files is encrypted using a customer-managed key." \
-                            .format(response["name"])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -207,15 +209,15 @@ class MonitorLogService:
                                 temp["resource_name"] = vault["name"]
                                 temp["resource_id"] = vault["id"]
                                 temp["region"] = vault["location"]
-                                temp["problem"] = "AuditEvent logging enabled for Azure Key Vault {} " \
-                                    .format(vault["name"])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             else:
                                 temp["status"] = "Fail"
                                 temp["resource_name"] = vault["name"]
                                 temp["resource_id"] = vault["id"]
                                 temp["region"] = vault["location"]
-                                temp["problem"] = "AuditEvent logging not enabled for Azure Key Vault {} " \
-                                    .format(vault["name"])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -245,12 +247,14 @@ class MonitorLogService:
                                 temp["status"] = "Fail"
                                 temp["resource_name"] = container["name"]
                                 temp["resource_id"] = container["id"]
-                                temp["problem"] = "Storage container {} holding the activity logs is publicly accessible.".format(container["name"])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             else:
                                 temp["status"] = "Pass"
                                 temp["resource_name"] = container["name"]
                                 temp["resource_id"] = container["id"]
-                                temp["problem"] = "Storage container {} holding the activity logs is not publicly accessible.".format(container["name"])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
             print(str(e))

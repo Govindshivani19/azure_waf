@@ -150,5 +150,7 @@ class AzAudit(Base):
     resource_name = Column(String(2000))
     resource_id = Column(String(2000))
     problem = Column(String(2000))
+    subscription_id = Column(String(1000))
+    subscription_name = Column(String(1000))
     status = Column(String(45), nullable=False)
     created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))

@@ -34,7 +34,9 @@ def insert_audit_records(execution_hash, issues, check_id):
                 audit_record.region = issue["region"]
                 audit_record.resource_id = issue["resource_id"]
                 audit_record.resource_name = issue["resource_name"]
-                audit_record.problem = issue["problem"]
+                audit_record.subscription_id = issue["subscription_id"]
+                audit_record.subscription_name = issue["subscription_name"]
+                # audit_record.problem = issue["problem"]
                 audit_record.status = issue["status"]
                 session.add(audit_record)
                 session.commit()
@@ -81,26 +83,6 @@ def fetch_accounts(account_hash=None):
     finally:
         session.close()
         return accounts
-
-
-def create_execution(account_hash):
-    execution_hash = ""
-    session = Session(expire_on_commit=False)
-    try:
-        execution_detail = AzExecutionDetails()
-        execution_detail.az_execution_hash = uuid.uuid4().hex
-        execution_hash = execution_detail.az_execution_hash
-        execution_detail.status = 0
-        execution_detail.completed_checks = 0
-        execution_detail.failed_checks = 0
-        execution_detail.az_account_hash_exe = account_hash
-        session.add(execution_detail)
-        session.commit()
-    except Exception as e:
-        print(str(e))
-    finally:
-        session.close()
-        return execution_hash
 
 
 def update_execution(execution_hash, staus):

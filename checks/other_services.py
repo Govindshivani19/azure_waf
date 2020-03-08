@@ -27,15 +27,15 @@ class AzureServices:
                         temp["status"] = "Fail"
                         temp["resource_name"] = r['name']
                         temp["resource_id"] = r['id']
-                        temp["problem"] = "Secure Connections to Redis Cache {} in subscription {} is not enabled.".format(
-                            r['name'], subscription['subscriptionId'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["region"] = r["location"]
                         temp["status"] = "Pass"
                         temp["resource_name"] = r['name']
                         temp["resource_id"] = r['id']
-                        temp["problem"] = "Secure Connections to Redis Cache {} in subscription {} is enabled.".format(
-                            r['name'], subscription['subscriptionId'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
 
                 issues.append(temp)
         except Exception as e:

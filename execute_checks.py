@@ -304,7 +304,7 @@ def CEN_AZ_70(execution_hash, db_service):
 
 def CEN_AZ_71(execution_hash, db_service):
     try:
-        insert_audit_records(execution_hash, db_service.enable_sql_threat_email_notification_admins(),'CEN_AZ_71')
+        insert_audit_records(execution_hash, db_service.enable_sql_threat_email_notification(),'CEN_AZ_71')
     except Exception as e:
         print(str(e))
 
