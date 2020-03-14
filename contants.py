@@ -6,6 +6,7 @@ container_list_url = "https://management.azure.com/subscriptions/{}/resourceGrou
 role_definitions_list_url = "https://management.azure.com/{}/providers/Microsoft.Authorization/roleDefinitions"
 log_profile_list_url = "https://management.azure.com/subscriptions/{}/providers/microsoft.insights/logprofiles"
 key_vault_list_url = "https://management.azure.com/subscriptions/{}/resources?$filter=resourceType eq 'Microsoft.KeyVault/vaults'"
+vault_policy_url = "https://management.azure.com/{}"
 monitor_diagnostic_url= "https://management.azure.com/{}/providers/microsoft.insights/diagnosticSettings"
 monitor_activity_log_url = "https://management.azure.com/subscriptions/{}/providers/microsoft.insights/eventtypes/management/values"
 policy_assignments_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn"
@@ -20,3 +21,5 @@ disk_list_url = "https://management.azure.com/subscriptions/{}/providers/Microso
 reserved_ip_list_url = "https://management.core.windows.net/{}/services/networking/reservedips"
 redis_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Cache/Redis/"
 vault_base_url = "https://{}.vault.azure.net/"
+certificate_policy_url = "https://{}.vault.azure.net/certificates/{}/policy"
+issuer_url = "https://{}.vault.azure.net/certificates/issuers/{}"
