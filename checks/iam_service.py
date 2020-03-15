@@ -5,22 +5,23 @@ import requests
 
 
 class IamServices:
-    def __init__(self, credentials):
+    def __init__(self, credentials, subscription_list):
         self.credentials = credentials
+        self.subscription_list = subscription_list
 
     def get_custom_roles(self):
         issues = []
         try:
-            token = get_auth_token(self.credentials)
-            cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = self.credentials
             for subscription in subscription_list:
                 scope_reg_exp = '/subscriptions/{}'.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
                 resource_groups = CommonServices().get_resource_groups(token, subscription['subscriptionId'])
                 for resource_group in resource_groups:
                     scope = "/subscriptions/{}/resourceGroups/{}".format(subscription['subscriptionId'], resource_group["name"])
                     filter = "type eq 'CustomRole'"
                     url = role_definitions_list_url.format(scope) + "?$filter={$"+filter+"}"
+                    token = get_auth_token(self.credentials)
                     response = rest_api_call(token, url, api_version='2015-07-01')
                     role_definitions_list = response['value']
                     for role_definition in role_definitions_list:
@@ -42,12 +43,14 @@ class IamServices:
                             temp["status"] = "Fail"
                             temp["resource_name"] = role_definition['properties']['roleName']
                             temp["resource_id"] = role_definition['id']
-                            temp["problem"] = "{} is a custom owner role". format(role_definition['properties']['roleName'])
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
                         else:
                             temp["status"] = "Pass"
                             temp["resource_name"] = role_definition['properties']['roleName']
                             temp["resource_id"] = role_definition['id']
-                            temp["problem"] = "{} is not a custom owner role".format(role_definition['properties']['roleName'])
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
                         issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -67,15 +70,15 @@ class IamServices:
             if len(users_list) > 0:
                 temp['region'] = ""
                 temp["status"] = "Fail"
-                temp["resource"] = ""
+                temp["resource_name"] = ""
                 temp["resource_id"] = ""
-                temp["problem"] = "Guest users available in Azure account."
+
             else:
                 temp['region'] = ""
                 temp["status"] = "Pass"
-                temp["resource"] = ""
+                temp["resource_name"] = ""
                 temp["resource_id"] = ""
-                temp["problem"] = "Guest users not available in Azure account."
+
             issues.append(temp)
         except Exception as e:
             print(str(e))

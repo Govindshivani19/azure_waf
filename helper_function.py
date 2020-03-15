@@ -38,6 +38,22 @@ def get_auth_token(credentials):
         return token
 
 
+def get_auth_token_services(credentials, az_resource):
+    token = ""
+    try:
+        tenant = credentials['AZURE_TENANT_ID']
+        authority_url = 'https://login.microsoftonline.com/' + tenant
+        client_id = credentials['AZURE_CLIENT_ID']
+        client_secret = credentials['AZURE_CLIENT_SECRET']
+        resource = az_resource
+        context = adal.AuthenticationContext(authority_url)
+        token = context.acquire_token_with_client_credentials(resource, client_id, client_secret)
+    except Exception as e:
+        print(str(e))
+    finally:
+        return token
+
+
 def get_adal_token(credentials):
     token = ""
     try:
