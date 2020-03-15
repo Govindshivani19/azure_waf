@@ -351,6 +351,41 @@ def CEN_AZ_80(execution_hash, az_service):
         print(str(e))
 
 
+def CEN_AZ_81(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.vm_security_groups(), 'CEN_AZ_81')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_82(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.encrypt_unattached_disks(), 'CEN_AZ_82')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_83(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.vm_disks_without_encryption(), 'CEN_AZ_83')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_84(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_tagging(), 'CEN_AZ_84')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_85(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_unused_public_ips(), 'CEN_AZ_85')
+    except Exception as e:
+        print(str(e))
+
+
 def execute_storage_checks(execution_hash, storage_service):
     CEN_AZ_2(execution_hash, storage_service)
     CEN_AZ_4(execution_hash, storage_service)
@@ -415,10 +450,15 @@ def execute_database_checks(execution_hash, db_service):
 def execute_vm_checks(execution_hash, vm_service):
     CEN_AZ_77(execution_hash, vm_service)
     CEN_AZ_79(execution_hash, vm_service)
+    CEN_AZ_81(execution_hash, vm_service)
+    CEN_AZ_83(execution_hash, vm_service)
+    CEN_AZ_84(execution_hash, vm_service)
+    CEN_AZ_85(execution_hash, vm_service)
 
 
 def execute_disk_checks(execution_hash, vm_service):
     CEN_AZ_78(execution_hash, vm_service)
+    CEN_AZ_82(execution_hash, vm_service)
 
 
 def execute_az_services_checks(execution_hash, az_service):

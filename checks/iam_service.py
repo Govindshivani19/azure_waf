@@ -79,7 +79,8 @@ class IamServices:
                 temp["resource_name"] = ""
                 temp["resource_id"] = ""
 
-            issues.append(temp)
+            if temp:
+                issues.append(temp)
         except Exception as e:
             print(str(e))
         finally:
