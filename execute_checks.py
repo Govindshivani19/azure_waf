@@ -351,6 +351,252 @@ def CEN_AZ_80(execution_hash, az_service):
         print(str(e))
 
 
+def CEN_AZ_81(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.vm_security_groups(), 'CEN_AZ_81')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_82(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.encrypt_unattached_disks(), 'CEN_AZ_82')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_83(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.vm_disks_without_encryption(), 'CEN_AZ_83')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_84(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_tagging(), 'CEN_AZ_84')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_85(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_unused_public_ips(), 'CEN_AZ_85')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_86(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_vm_backup_enabled(), 'CEN_AZ_86')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_87(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_vm_disaster_recovery(), 'CEN_AZ_87')
+    except Exception as e:
+
+        print(str(e))
+
+
+def CEN_AZ_88(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_time_zone(), 'CEN_AZ_88')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_89(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_audit_policy(), 'CEN_AZ_89')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_90(execution_hash, az_service):
+    try:
+        insert_audit_records(execution_hash, az_service.get_certificate_expiry(), 'CEN_AZ_90')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_91(execution_hash, az_service):
+    try:
+        insert_audit_records(execution_hash, az_service.get_RSA_key_size(), 'CEN_AZ_91')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_92(execution_hash, az_service):
+    try:
+        insert_audit_records(execution_hash, az_service.get_recoverable_objects(), 'CEN_AZ_92')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_93(execution_hash, az_service):
+    try:
+        insert_audit_records(execution_hash, az_service.check_event_hub_enable_for_keyvault(), 'CEN_AZ_93')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_94(execution_hash, az_service):
+    try:
+        insert_audit_records(execution_hash, az_service.get_validity_period(), 'CEN_AZ_94')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_95(execution_hash, az_service):
+    try:
+        insert_audit_records(execution_hash, az_service.get_certificate_key_types(), 'CEN_AZ_95')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_96(execution_hash, az_service):
+    try:
+        insert_audit_records(execution_hash, az_service.get_lifetime_action_triggers(), 'CEN_AZ_96')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_97(execution_hash, az_service):
+    try:
+        insert_audit_records(execution_hash, az_service.get_issuer(), 'CEN_AZ_97')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_98(execution_hash, az_service):
+    try:
+        insert_audit_records(execution_hash, az_service.get_curve_name(), 'CEN_AZ_98')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_100(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_service_status(), 'CEN_AZ_100')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_101(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_remote_connection(), 'CEN_AZ_101')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_102(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_installed_powershell(), 'CEN_AZ_102')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_103(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_audit_security_policy(), 'CEN_AZ_103')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_104(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_audit_policy(), 'CEN_AZ_104')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_105(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_whitelisted_application(), 'CEN_AZ_105')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_106(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_audit_object_access_policy(), 'CEN_AZ_106')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_107(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_audit_security_system_objects(), 'CEN_AZ_107')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_108(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_dsc_configuration(), 'CEN_AZ_108')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_109(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_security_setting_audit(), 'CEN_AZ_109')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_110(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_components(), 'CEN_AZ_110')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_111(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_logoff_audit(), 'CEN_AZ_111')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_112(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_audit_recovery_security(), 'CEN_AZ_112')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_113(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_exclude_admin_members(), 'CEN_AZ_113')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_114(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_password_history(), 'CEN_AZ_114')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_115(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_password_complexity(), 'CEN_AZ_115')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_116(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.check_windows_vm_powershell_execution_policy(), 'CEN_AZ_116')
+    except Exception as e:
+        print(str(e))
+
+
 def execute_storage_checks(execution_hash, storage_service):
     CEN_AZ_2(execution_hash, storage_service)
     CEN_AZ_4(execution_hash, storage_service)
@@ -415,11 +661,46 @@ def execute_database_checks(execution_hash, db_service):
 def execute_vm_checks(execution_hash, vm_service):
     CEN_AZ_77(execution_hash, vm_service)
     CEN_AZ_79(execution_hash, vm_service)
+    CEN_AZ_81(execution_hash, vm_service)
+    CEN_AZ_83(execution_hash, vm_service)
+    CEN_AZ_84(execution_hash, vm_service)
+    CEN_AZ_85(execution_hash, vm_service)
+    CEN_AZ_86(execution_hash, vm_service)
+    CEN_AZ_87(execution_hash, vm_service)
+    CEN_AZ_88(execution_hash, vm_service)
+    CEN_AZ_89(execution_hash, vm_service)
+    CEN_AZ_100(execution_hash, vm_service)
+    CEN_AZ_101(execution_hash, vm_service)
+    CEN_AZ_102(execution_hash, vm_service)
+    CEN_AZ_103(execution_hash, vm_service)
+    CEN_AZ_104(execution_hash, vm_service)
+    CEN_AZ_105(execution_hash, vm_service)
+    CEN_AZ_106(execution_hash, vm_service)
+    CEN_AZ_107(execution_hash, vm_service)
+    CEN_AZ_108(execution_hash, vm_service)
+    CEN_AZ_109(execution_hash, vm_service)
+    CEN_AZ_110(execution_hash, vm_service)
+    CEN_AZ_111(execution_hash, vm_service)
+    CEN_AZ_112(execution_hash, vm_service)
+    CEN_AZ_113(execution_hash, vm_service)
+    CEN_AZ_114(execution_hash, vm_service)
+    CEN_AZ_115(execution_hash, vm_service)
+    CEN_AZ_116(execution_hash, vm_service)
 
 
 def execute_disk_checks(execution_hash, vm_service):
     CEN_AZ_78(execution_hash, vm_service)
+    CEN_AZ_82(execution_hash, vm_service)
 
 
 def execute_az_services_checks(execution_hash, az_service):
     CEN_AZ_80(execution_hash, az_service)
+    CEN_AZ_90(execution_hash, az_service)
+    CEN_AZ_91(execution_hash, az_service)
+    CEN_AZ_92(execution_hash, az_service)
+    CEN_AZ_93(execution_hash, az_service)
+    CEN_AZ_94(execution_hash, az_service)
+    CEN_AZ_95(execution_hash, az_service)
+    CEN_AZ_96(execution_hash, az_service)
+    CEN_AZ_97(execution_hash, az_service)
+    CEN_AZ_98(execution_hash, az_service)

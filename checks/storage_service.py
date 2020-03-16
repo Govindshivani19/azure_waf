@@ -1,7 +1,7 @@
 from checks.common_services import CommonServices
-from helper_function import get_auth_token, rest_api_call
+from helper_function import get_auth_token, rest_api_call, get_adal_token
 from contants import storage_accounts_list_url, container_list_url, monitor_activity_log_url
-import datetime
+import datetime, requests
 
 
 class StorageService:
@@ -220,10 +220,15 @@ class StorageService:
                 for account in storage_accounts:
                     temp_resp = dict()
                     temp_resp['region'] = account['location']
-                    queue_log_url = "https://{}.queue.core.windows.net".format(account["name"])
-                    token = get_auth_token(self.credentials)
-                    response = rest_api_call(token, queue_log_url, api_version='2013-08-15')
-                    print(response)
+                    queue_log_url = "https://{}.queue.core.windows.net/".format(account["name"])
+                    token = get_adal_token(self.credentials)
+
+                    headers = {'Authorization': 'Bearer ' + token['access_token'], 'Content-Type': 'application/json'
+                               , "x-ms-version": '2017-11-09'}
+                    params = {'api-version': "2019-06-01"}
+                    response = requests.get(queue_log_url, headers=headers)
+                    #response = rest_api_call(token, queue_log_url, api_version='2012-02-12')
+                    print(response.text)
         except Exception as e:
             print(str(e))
         finally:

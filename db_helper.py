@@ -29,15 +29,10 @@ def insert_audit_records(execution_hash, issues, check_id):
             print(check_id)
             for issue in issues:
                 audit_record = AzAudit()
-                audit_record.check_id = check_id
-                audit_record.az_execution_hash = execution_hash
-                audit_record.region = issue["region"]
-                audit_record.resource_id = issue["resource_id"]
-                audit_record.resource_name = issue["resource_name"]
-                audit_record.subscription_id = issue["subscription_id"]
-                audit_record.subscription_name = issue["subscription_name"]
-                # audit_record.problem = issue["problem"]
-                audit_record.status = issue["status"]
+                audit_record.__dict__["check_id"] = check_id
+                audit_record.__dict__["az_execution_hash"] = execution_hash
+                for key, value in issue.items():
+                    audit_record.__dict__[key] = value
                 session.add(audit_record)
                 session.commit()
             print("inserted to db")

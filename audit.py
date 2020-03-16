@@ -33,13 +33,9 @@ def __start_audit__():
             credentials['AZURE_CLIENT_SECRET'] = client_secret
             # execution_hash = create_execution(account['account_hash'])'''
 
-            credentials['AZURE_TENANT_ID'] = "652feb91-6d92-4f6c-ad98-d2daec6bdae7"
-            credentials['AZURE_CLIENT_ID'] = "6ebfdbb8-dcc6-43f9-a9f7-abbda7f4358c"
-            credentials['AZURE_CLIENT_SECRET'] = "dB/RjQ0Aahml6aV5/acIN1iIzhK@RQp."
-
-            # credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
-            # credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
-            # credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
+            credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
+            credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
+            credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
 
             token = get_auth_token(credentials)
             cs = CommonServices()
@@ -53,16 +49,16 @@ def __start_audit__():
             db_service = DatabaseService(credentials, subscription_list)
             vm_service = VmService(credentials, subscription_list)
             az_service = AzureServices(credentials, subscription_list)
-            print(AzureServices(credentials, subscription_list).check_event_hub_enable_for_keyvault())
-            # execute_log_monitor_checks(execution_hash, monitor_service)
-            # execute_iam_checks(execution_hash, iam_service)
-            # execute_security_centre_checks(execution_hash, security_service)
-            # execute_database_checks(execution_hash, db_service)
-            # execute_vm_checks(execution_hash, vm_service)
-            # execute_disk_checks(execution_hash, vm_service)
-            # execute_az_services_checks(execution_hash, az_service)
-            # execute_storage_checks(execution_hash, storage_service)
-            # update_execution(execution_hash, 2)
+
+            execute_log_monitor_checks(execution_hash, monitor_service)
+            execute_iam_checks(execution_hash, iam_service)
+            execute_security_centre_checks(execution_hash, security_service)
+            execute_database_checks(execution_hash, db_service)
+            execute_vm_checks(execution_hash, vm_service)
+            execute_disk_checks(execution_hash, vm_service)
+            execute_az_services_checks(execution_hash, az_service)
+            execute_storage_checks(execution_hash, storage_service)
+            update_execution(execution_hash, 2)
 
     except Exception as e:
         print(str(e))

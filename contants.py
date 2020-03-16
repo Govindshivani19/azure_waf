@@ -21,5 +21,8 @@ disk_list_url = "https://management.azure.com/subscriptions/{}/providers/Microso
 reserved_ip_list_url = "https://management.core.windows.net/{}/services/networking/reservedips"
 redis_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Cache/Redis/"
 vault_base_url = "https://{}.vault.azure.net/"
+public_ips_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Network/publicIPAddresses"
+list_vaults_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.RecoveryServices/vaults"
 certificate_policy_url = "https://{}.vault.azure.net/certificates/{}/policy"
 issuer_url = "https://{}.vault.azure.net/certificates/issuers/{}"
+

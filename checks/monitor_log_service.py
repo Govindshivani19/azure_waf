@@ -1,5 +1,4 @@
 from contants import log_profile_list_url, base_url, key_vault_list_url, monitor_diagnostic_url
-from checks.common_services import CommonServices
 from helper_function import get_auth_token, rest_api_call
 
 
@@ -232,6 +231,7 @@ class MonitorLogService:
                 url = log_profile_list_url.format(subscription['subscriptionId'])
                 token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, '2016-03-01')
+                print(response)
                 log_profiles = response['value']
                 for profile in log_profiles:
                     storage_account_id = profile['properties']['storageAccountId']
