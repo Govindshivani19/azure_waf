@@ -45,29 +45,6 @@ class AzureServices:
         finally:
             return issues
 
-    # def get_key_expiry_date(self):
-    #     issues = []
-    #     try:
-    #         subscription_list = self.subscription_list
-    #         for subscription in subscription_list:
-    #             vault_list = []
-    #             vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-    #             token = get_auth_token(self.credentials)
-    #             response = rest_api_call(token, vault_url)
-    #             for r in response['value']:
-    #                 vault_list.append(r)
-    #
-    #             for vault in vault_list:
-    #                 vault_name = vault["name"]
-    #                 get_keys = vault_base_url.format(vault_name) + "keys"
-    #                 vault_token = get_auth_token_services(self.credentials, az_resource="https://vault.azure.net")
-    #                 response = rest_api_call(vault_token, get_keys, api_version='7.0')
-    #                 print(response)
-    #     except Exception as e:
-    #         print(str(e))
-    #     finally:
-    #         return
-
     def get_certificate_expiry(self):
         issues = []
         try:
@@ -105,7 +82,7 @@ class AzureServices:
                             temp["subscription_name"] = subscription["displayName"]
                             temp['value_one'] = (date_of_expiry - now).days
                         else:
-                            temp["status"] = "PASS"
+                            temp["status"] = "Pass"
                             temp["resource_name"] = each_certificate['id'].split("/")[-1]
                             temp["resource_id"] = each_certificate['id']
                             temp["subscription_id"] = subscription['subscriptionId']
@@ -156,7 +133,7 @@ class AzureServices:
                             temp["subscription_name"] = subscription["displayName"]
                             temp['value_one'] = (date_of_expiry - now).days
                         else:
-                            temp["status"] = "PASS"
+                            temp["status"] = "Pass"
                             temp["resource_name"] = each_certificate['id'].split("/")[-1]
                             temp["resource_id"] = each_certificate['id']
                             temp["subscription_id"] = subscription['subscriptionId']
@@ -205,7 +182,7 @@ class AzureServices:
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                     else:
-                        temp["status"] = "PASS"
+                        temp["status"] = "Pass"
                         temp["resource_name"] = vault_response['name']
                         temp["resource_id"] = vault_response['id']
                         temp["subscription_id"] = subscription['subscriptionId']
@@ -311,7 +288,7 @@ class AzureServices:
                             temp["subscription_name"] = subscription["displayName"]
 
                         else:
-                            temp["status"] = "PASS"
+                            temp["status"] = "Pass"
                             temp["resource_name"] = each_certificate['id'].split("/")[-1]
                             temp["resource_id"] = each_certificate['id']
                             temp["subscription_id"] = subscription['subscriptionId']
@@ -371,7 +348,7 @@ class AzureServices:
                             temp["subscription_name"] = subscription["displayName"]
 
                         else:
-                            temp["status"] = "PASS"
+                            temp["status"] = "Pass"
                             temp["resource_name"] = each_certificate['id'].split("/")[-1]
                             temp["resource_id"] = each_certificate['id']
                             temp["subscription_id"] = subscription['subscriptionId']
@@ -432,7 +409,7 @@ class AzureServices:
                                 temp["subscription_name"] = subscription["displayName"]
 
                             else:
-                                temp["status"] = "PASS"
+                                temp["status"] = "Pass"
                                 temp["resource_name"] = each_certificate['id'].split("/")[-1]
                                 temp["resource_id"] = each_certificate['id']
                                 temp["subscription_id"] = subscription['subscriptionId']
@@ -504,7 +481,7 @@ class AzureServices:
                             temp["subscription_id"] = subscription['subscriptionId']
                             temp["subscription_name"] = subscription["displayName"]
                         else:
-                            temp["status"] = "PASS"
+                            temp["status"] = "Pass"
                             temp["resource_name"] = each_certificate['id'].split("/")[-1]
                             temp["resource_id"] = each_certificate['id']
                             temp["subscription_id"] = subscription['subscriptionId']
@@ -566,7 +543,7 @@ class AzureServices:
                                 temp["subscription_name"] = subscription["displayName"]
 
                             else:
-                                temp["status"] = "PASS"
+                                temp["status"] = "Pass"
                                 temp["resource_name"] = each_certificate['id'].split("/")[-1]
                                 temp["resource_id"] = each_certificate['id']
                                 temp["subscription_id"] = subscription['subscriptionId']
@@ -627,7 +604,7 @@ class AzureServices:
                             temp['value_one'] = key_size
 
                         else:
-                            temp["status"] = "PASS"
+                            temp["status"] = "Pass"
                             temp["resource_name"] = each_certificate['id'].split("/")[-1]
                             temp["resource_id"] = each_certificate['id']
                             temp["subscription_id"] = subscription['subscriptionId']
@@ -640,63 +617,4 @@ class AzureServices:
         finally:
             return issues
 
-    def get_certificate_key_types(self):
-        issues = []
-        try:
-            subscription_list = self.subscription_list
-            for subscription in subscription_list:
-                vault_list = []
-                vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, vault_url)
-                for r in response['value']:
-                    vault_list.append(r)
-
-                for vault in vault_list:
-                    vault_name = vault["name"]
-                    # print("vault", vault)
-
-                    get_certificates = vault_base_url.format(vault_name) + "certificates"
-                    vault_token = get_auth_token_services(self.credentials, az_resource="https://vault.azure.net")
-                    try:
-                        certificate_response = rest_api_call(vault_token, get_certificates, api_version='7.0')['value']
-                        # print('certificate', response)
-                    except Exception as e:
-                        continue
-                    for each_certificate in certificate_response:
-
-                        certificate_policy = certificate_policy_url.format(vault_name,
-                                                                           each_certificate['id'].split("/")[-1])
-
-                        try:
-                            certificate_key_response = \
-                                rest_api_call(vault_token, certificate_policy, api_version='7.0')['key_props'][
-                                    'kty']
-
-                        except Exception as e:
-                            print(e)
-                            continue
-
-                        temp = dict()
-                        temp["region"] = ""
-                        if certificate_key_response not in ['RSA', 'RSA-HSM', 'ECC', 'ECC-HSM']:
-                            temp["status"] = "Fail"
-                            temp["resource_name"] = each_certificate['id'].split("/")[-1]
-                            temp["resource_id"] = each_certificate['id']
-                            temp["subscription_id"] = subscription['subscriptionId']
-                            temp["subscription_name"] = subscription["displayName"]
-
-                        else:
-                            temp["status"] = "PASS"
-                            temp["resource_name"] = each_certificate['id'].split("/")[-1]
-                            temp["resource_id"] = each_certificate['id']
-                            temp["subscription_id"] = subscription['subscriptionId']
-                            temp["subscription_name"] = subscription["displayName"]
-
-                        issues.append(temp)
-
-        except Exception as e:
-            print(str(e))
-        finally:
-            return issues
 
