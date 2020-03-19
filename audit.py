@@ -20,28 +20,30 @@ def __start_audit__():
     try:
         credentials = dict()
         accounts = []
-        # az_account_hash = os.environ["az_account_hash"]
-        # if len(az_account_hash) > 1:
-        #     accounts = fetch_accounts(az_account_hash)
-        # else:
-        #     accounts = fetch_accounts()
-        if True:
-        #for account in accounts:
-            '''client_secret = get_application_key(account['account_hash'])
+        az_account_hash = os.environ["az_account_hash"]
+        if len(az_account_hash) > 1:
+            accounts = fetch_accounts(az_account_hash)
+        else:
+            accounts = fetch_accounts()
+
+        #if True:
+        for account in accounts:
+            client_secret = get_application_key(account['account_hash'])
             credentials['AZURE_TENANT_ID'] = account["tenant_id"]
             credentials['AZURE_CLIENT_ID'] = account["client_id"]
             credentials['AZURE_CLIENT_SECRET'] = client_secret
-            # execution_hash = create_execution(account['account_hash'])'''
 
-            credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
+            '''credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
             credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
-            credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
+            credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]'''
 
             token = get_auth_token(credentials)
             cs = CommonServices()
             subscription_list = cs.get_subscriptions_list(token)
 
             execution_hash = os.environ["execution_hash"]
+
+            print(execution_hash)
             storage_service = StorageService(credentials, subscription_list)
             iam_service = IamServices(credentials, subscription_list)
             monitor_service = MonitorLogService(credentials, subscription_list)

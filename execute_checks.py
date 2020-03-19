@@ -22,9 +22,16 @@ def CEN_AZ_5(execution_hash, storage_service):
         print(str(e))
 
 
+def CEN_AZ_7(execution_hash, storage_service):
+    try:
+        insert_audit_records(execution_hash, storage_service.regenerate_storage_keys(),'CEN_AZ_7')
+    except Exception as e:
+        print(str(e))
+
+
 def CEN_AZ_8(execution_hash, storage_service):
     try:
-        insert_audit_records(execution_hash, storage_service.restrict_default_network_access(),'CEN_AZ_7')
+        insert_audit_records(execution_hash, storage_service.restrict_default_network_access(),'CEN_AZ_8')
     except Exception as e:
         print(str(e))
 
@@ -353,7 +360,7 @@ def CEN_AZ_80(execution_hash, az_service):
 
 def CEN_AZ_81(execution_hash, vm_service):
     try:
-        insert_audit_records(execution_hash, vm_service.vm_security_groups(), 'CEN_AZ_81')
+        insert_audit_records(execution_hash, vm_service.linux_vm_security_groups(), 'CEN_AZ_81')
     except Exception as e:
         print(str(e))
 
@@ -597,11 +604,19 @@ def CEN_AZ_116(execution_hash, vm_service):
         print(str(e))
 
 
+def CEN_AZ_117(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.windows_vm_security_groups(), 'CEN_AZ_117')
+    except Exception as e:
+        print(str(e))
+
+
 def execute_storage_checks(execution_hash, storage_service):
-    CEN_AZ_2(execution_hash, storage_service)
     CEN_AZ_4(execution_hash, storage_service)
     CEN_AZ_5(execution_hash, storage_service)
+    CEN_AZ_7(execution_hash, storage_service)
     CEN_AZ_8(execution_hash, storage_service)
+    CEN_AZ_2(execution_hash, storage_service)
 
 
 def execute_log_monitor_checks(execution_hash, monitor_service):
@@ -686,6 +701,7 @@ def execute_vm_checks(execution_hash, vm_service):
     CEN_AZ_114(execution_hash, vm_service)
     CEN_AZ_115(execution_hash, vm_service)
     CEN_AZ_116(execution_hash, vm_service)
+    CEN_AZ_117(execution_hash, vm_service)
 
 
 def execute_disk_checks(execution_hash, vm_service):
