@@ -111,7 +111,7 @@ class VmService:
             print(str(e))
         return issues
 
-    def vm_security_groups(self):
+    def linux_vm_security_groups(self):
         issues = []
         try:
             subscription_list = self.subscription_list
@@ -123,33 +123,36 @@ class VmService:
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
-                    temp = dict()
-                    network_interface_list = instance["properties"]["networkProfile"]["networkInterfaces"]
-                    for network in network_interface_list:
-                        sg_list = []
-                        sg_url = base_url + network["id"] + "/effectiveNetworkSecurityGroups/"
-                        token = get_auth_token(self.credentials)
-                        headers = {'Authorization': 'Bearer ' + token['accessToken'],
-                                   'Content-Type': 'application/json'}
+                    x = re.findall("Linux", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        network_interface_list = instance["properties"]["networkProfile"]["networkInterfaces"]
+                        for network in network_interface_list:
+                            sg_list = []
+                            sg_url = base_url + network["id"] + "/effectiveNetworkSecurityGroups/"
+                            token = get_auth_token(self.credentials)
+                            headers = {'Authorization': 'Bearer ' + token['accessToken'],
+                                       'Content-Type': 'application/json'}
 
-                        params = {'api-version': '2019-11-01'}
-                        sg_response = requests.post(sg_url, headers=headers, params=params)
-                        if sg_response.status_code == 200:
-                            temp["region"] = instance["location"]
-                            temp["status"] = "Pass"
-                            temp["resource_name"] = instance["name"]
-                            temp["resource_id"] = instance["properties"]["vmId"]
-                            temp["subscription_id"] = subscription['subscriptionId']
-                            temp["subscription_name"] = subscription["displayName"]
-                            sg_response = sg_response.json()
-                            for sg in sg_response['value']:
-                                sg_list.append(sg)
-                            for sg in sg_list:
-                                for sg_rule in sg["effectiveSecurityRules"]:
-                                    if sg_rule["destinationPortRange"] == "22-22" and sg_rule["sourcePortRange"] == "0-65535" and sg_rule["direction"] == "Inbound":
-                                        temp["status"] = "Fail"
-                    if temp:
-                        issues.append(temp)
+                            params = {'api-version': '2019-11-01'}
+                            sg_response = requests.post(sg_url, headers=headers, params=params)
+                            if sg_response.status_code == 200:
+                                temp["region"] = instance["location"]
+                                temp["status"] = "Fail"
+                                temp["resource_name"] = instance["name"]
+                                temp["resource_id"] = instance["properties"]["vmId"]
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+                                sg_response = sg_response.json()
+                                for sg in sg_response['value']:
+                                    sg_list.append(sg)
+                                for sg in sg_list:
+                                    for sg_rule in sg["effectiveSecurityRules"]:
+                                        if sg_rule["destinationPortRange"] == "22-22" and sg_rule["sourcePortRange"] == "0-65535" and sg_rule["direction"] == "Inbound":
+                                            if sg_rule["access"] == "Deny":
+                                                temp["status"] = "Pass"
+                        if temp:
+                            issues.append(temp)
 
         except Exception as e:
             print(str(e))
@@ -1087,6 +1090,54 @@ class VmService:
                                     temp["status"] = "Pass"
 
                         issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def windows_vm_security_groups(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
+                response = rest_api_call(token, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        network_interface_list = instance["properties"]["networkProfile"]["networkInterfaces"]
+                        for network in network_interface_list:
+                            sg_list = []
+                            sg_url = base_url + network["id"] + "/effectiveNetworkSecurityGroups/"
+                            token = get_auth_token(self.credentials)
+                            headers = {'Authorization': 'Bearer ' + token['accessToken'],
+                                       'Content-Type': 'application/json'}
+
+                            params = {'api-version': '2019-11-01'}
+                            sg_response = requests.post(sg_url, headers=headers, params=params)
+                            if sg_response.status_code == 200:
+                                temp["region"] = instance["location"]
+                                temp["status"] = "Fail"
+                                temp["resource_name"] = instance["name"]
+                                temp["resource_id"] = instance["properties"]["vmId"]
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+                                sg_response = sg_response.json()
+                                for sg in sg_response['value']:
+                                    sg_list.append(sg)
+                                for sg in sg_list:
+                                    for sg_rule in sg["effectiveSecurityRules"]:
+                                        if sg_rule["destinationPortRange"] == "3389-3389" and sg_rule["sourcePortRange"] == "0-65535" and sg_rule["direction"] == "Inbound":
+                                            if sg_rule["access"] == "Deny":
+                                                temp["status"] = "Pass"
+                        if temp:
+                            issues.append(temp)
+
         except Exception as e:
             print(str(e))
         finally:

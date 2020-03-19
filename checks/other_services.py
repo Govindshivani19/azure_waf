@@ -160,7 +160,6 @@ class AzureServices:
                     vault_list.append(r)
 
                 for vault in vault_list:
-
                     vault_name = vault["name"]
                     # print("vault", vault)
 
@@ -177,14 +176,14 @@ class AzureServices:
                     if 'enableSoftDelete' in vault_response.keys() and vault_response['enableSoftDelete'] is 'false':
 
                         temp["status"] = "Fail"
-                        temp["resource_name"] = vault_response['name']
-                        temp["resource_id"] = vault_response['id']
+                        temp["resource_name"] = vault['name']
+                        temp["resource_id"] = vault['id']
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
-                        temp["resource_name"] = vault_response['name']
-                        temp["resource_id"] = vault_response['id']
+                        temp["resource_name"] = vault['name']
+                        temp["resource_id"] = vault['id']
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
 
@@ -446,7 +445,7 @@ class AzureServices:
                     except Exception as e:
                         continue
                     for each_certificate in certificate_response:
-
+                        provider = ""
                         certificate_policy = certificate_policy_url.format(vault_name,
                                                                            each_certificate['id'].split("/")[-1])
 
@@ -474,7 +473,7 @@ class AzureServices:
                                 continue
                         temp = dict()
                         temp["region"] = ""
-                        if provider in ['Digicert', 'GlobalSign']:
+                        if provider not in ['Digicert', 'GlobalSign']:
                             temp["status"] = "Fail"
                             temp["resource_name"] = each_certificate['id'].split("/")[-1]
                             temp["resource_id"] = each_certificate['id']

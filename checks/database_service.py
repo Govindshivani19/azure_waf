@@ -28,7 +28,7 @@ class DatabaseService:
                     for property in properties_list:
                         if property['name'] == "log_retention_days":
                             retension_days = property['properties']['value']
-                            if retension_days <= 3:
+                            if int(retension_days) <= 3:
                                 temp['status'] = "Fail"
                                 temp['resource_name'] = server['name']
                                 temp['resource_id'] = server['id']

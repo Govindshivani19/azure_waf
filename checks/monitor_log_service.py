@@ -163,22 +163,25 @@ class MonitorLogService:
                     url = base_url+storage_account_id
                     token = get_auth_token(self.credentials)
                     response = rest_api_call(token, url)
-                    key_source = response['properties']['encryption']['keySource']
-                    if key_source == 'Microsoft.Storage':
-                        temp["status"] = "Fail"
-                        temp["resource_name"] = response["name"]
-                        temp["resource_id"] = response["id"]
-                        temp["region"] = response["location"]
-                        temp["subscription_id"] = subscription['subscriptionId']
-                        temp["subscription_name"] = subscription["displayName"]
-                    else:
-                        temp["status"] = "Pass"
-                        temp["resource_name"] = response["name"]
-                        temp["resource_id"] = response["id"]
-                        temp["region"] = response["location"]
-                        temp["subscription_id"] = subscription['subscriptionId']
-                        temp["subscription_name"] = subscription["displayName"]
-                    issues.append(temp)
+                    try:
+                        key_source = response['properties']['encryption']['keySource']
+                        if key_source == 'Microsoft.Storage':
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = response["name"]
+                            temp["resource_id"] = response["id"]
+                            temp["region"] = response["location"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = response["name"]
+                            temp["resource_id"] = response["id"]
+                            temp["region"] = response["location"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                    except:
+                        continue
         except Exception as e:
             print(str(e))
         finally:
@@ -231,31 +234,36 @@ class MonitorLogService:
                 url = log_profile_list_url.format(subscription['subscriptionId'])
                 token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, '2016-03-01')
-                print(response)
+                #print(response)
                 log_profiles = response['value']
                 for profile in log_profiles:
+                    #print(profile)
                     storage_account_id = profile['properties']['storageAccountId']
                     temp = dict()
                     temp["region"] = ""
                     storage_url = base_url + storage_account_id + "/blobServices/default/containers"
                     token = get_auth_token(self.credentials)
-                    storage_response = rest_api_call(token, storage_url)
-                    container_list = storage_response['value']
-                    for container in container_list:
-                        if container['name'] == "insights-operational-logs":
-                            if container['properties']['publicAccess'] == "Container":
-                                temp["status"] = "Fail"
-                                temp["resource_name"] = container["name"]
-                                temp["resource_id"] = container["id"]
-                                temp["subscription_id"] = subscription['subscriptionId']
-                                temp["subscription_name"] = subscription["displayName"]
-                            else:
-                                temp["status"] = "Pass"
-                                temp["resource_name"] = container["name"]
-                                temp["resource_id"] = container["id"]
-                                temp["subscription_id"] = subscription['subscriptionId']
-                                temp["subscription_name"] = subscription["displayName"]
-                            issues.append(temp)
+                    try:
+                        storage_response = rest_api_call(token, storage_url)
+                        #print(storage_response)
+                        container_list = storage_response['value']
+                        for container in container_list:
+                            if container['name'] == "insights-operational-logs":
+                                if container['properties']['publicAccess'] == "Container":
+                                    temp["status"] = "Fail"
+                                    temp["resource_name"] = container["name"]
+                                    temp["resource_id"] = container["id"]
+                                    temp["subscription_id"] = subscription['subscriptionId']
+                                    temp["subscription_name"] = subscription["displayName"]
+                                else:
+                                    temp["status"] = "Pass"
+                                    temp["resource_name"] = container["name"]
+                                    temp["resource_id"] = container["id"]
+                                    temp["subscription_id"] = subscription['subscriptionId']
+                                    temp["subscription_name"] = subscription["displayName"]
+                                issues.append(temp)
+                    except:
+                        continue
         except Exception as e:
             print(str(e))
         finally:
