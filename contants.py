@@ -25,4 +25,7 @@ public_ips_url = "https://management.azure.com/subscriptions/{}/providers/Micros
 list_vaults_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.RecoveryServices/vaults"
 certificate_policy_url = "https://{}.vault.azure.net/certificates/{}/policy"
 issuer_url = "https://{}.vault.azure.net/certificates/issuers/{}"
-
+automation_accounts_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Automation/automationAccounts"
+vm_scale_set_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Compute/virtualMachineScaleSets"
+managed_clusters_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.ContainerService/managedClusters"
+app_list_url= "https://management.azure.com/subscriptions/{}/providers/Microsoft.Web/sites"

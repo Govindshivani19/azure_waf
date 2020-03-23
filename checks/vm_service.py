@@ -1,5 +1,5 @@
 from helper_function import get_auth_token, rest_api_call
-from contants import vm_list_url, base_url, disk_list_url, public_ips_url, resource_group_list_url, list_vaults_url
+from contants import vm_list_url, base_url, disk_list_url, public_ips_url, vm_scale_set_url, list_vaults_url
 import requests, json, re
 
 
@@ -1138,6 +1138,290 @@ class VmService:
                         if temp:
                             issues.append(temp)
 
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def linux_vm_without_password(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
+                response = rest_api_call(token, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Linux", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        token = get_auth_token(self.credentials)
+                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        print(guest_config_response)
+                        error = re.findall("No Assignment *", guest_config_response["Message"])
+                        if error:
+                            temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response:
+                                if x["name"] == "PasswordPolicy_msid232" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def linux_vm_specific_app_installation(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
+                response = rest_api_call(token, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Linux", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        token = get_auth_token(self.credentials)
+                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        print(guest_config_response)
+                        error = re.findall("No Assignment *", guest_config_response["Message"])
+                        if error:
+                            temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response:
+                                if x["name"] == "installed_application_linux" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def automatic_os_patching(self):
+        issues = []
+        try:
+            next_link_flag = 0
+            next_link = ""
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                scale_sets = []
+                url = vm_scale_set_url.format(subscription["subscriptionId"])
+                token = get_auth_token(self.credentials)
+                response = rest_api_call(token, url, api_version='2019-07-01')
+                if 'nextLink' in response:
+                    next_link_flag = 1
+                    next_link = response['nextLink'].split('skipToken=')[1]
+                for i in response["value"]:
+                    scale_sets.append(i)
+                while next_link_flag == 1:
+                    filters = "$skipToken={}".format(next_link)
+                    url = vm_scale_set_url.format(subscription["subscriptionId"]) + "?$filter=" + filters + ""
+                    token = get_auth_token(self.credentials)
+                    response = rest_api_call(token, url, api_version='2019-07-01')
+                    if 'nextLink' in response:
+                        next_link_flag = 1
+                        next_link = response['nextLink'].split('skipToken=')[1]
+                    else:
+                        next_link_flag = 0
+                        next_link = ""
+                    for i in response["value"]:
+                        scale_sets.append(i)
+
+                for i in scale_sets:
+                    temp = dict()
+                    temp["resource_name"] = i["name"]
+                    temp["resource_id"] = ""
+                    temp["region"] = i["location"]
+                    temp["status"] = "Fail"
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
+                    if "automaticOSUpgradePolicy" in i["properties"]["upgradePolicy"]:
+                        if i["properties"]["upgradePolicy"]["automaticOSUpgradePolicy"]["enableAutomaticOSUpgrade"]:
+                            temp["status"] = "Pass"
+                    issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def vm_scale_set_diagnostic_logs(self):
+        issues = []
+        try:
+            next_link_flag = 0
+            next_link = ""
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                scale_sets = []
+                url = vm_scale_set_url.format(subscription["subscriptionId"])
+                token = get_auth_token(self.credentials)
+                response = rest_api_call(token, url, api_version='2019-07-01')
+                if 'nextLink' in response:
+                    next_link_flag = 1
+                    next_link = response['nextLink'].split('skipToken=')[1]
+                for i in response["value"]:
+                    scale_sets.append(i)
+                while next_link_flag == 1:
+                    filters = "$skipToken={}".format(next_link)
+                    url = vm_scale_set_url.format(subscription["subscriptionId"]) + "?$filter=" + filters + ""
+                    token = get_auth_token(self.credentials)
+                    response = rest_api_call(token, url, api_version='2019-07-01')
+                    if 'nextLink' in response:
+                        next_link_flag = 1
+                        next_link = response['nextLink'].split('skipToken=')[1]
+                    else:
+                        next_link_flag = 0
+                        next_link = ""
+                    for i in response["value"]:
+                        scale_sets.append(i)
+
+                for i in scale_sets:
+                    temp = dict()
+                    temp["resource_name"] = i["name"]
+                    temp["resource_id"] = ""
+                    temp["region"] = i["location"]
+                    temp["status"] = "Fail"
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
+                    extensions = i["properties"]["virtualMachineProfile"]["extensionProfile"]["extensions"]
+                    for extension in extensions:
+                        if extension["properties"]["type"] == "IaaSDiagnostics" and extension["properties"]["publisher"] == "Microsoft.Azure.Diagnostics":
+                            temp["status"] = "Pass"
+
+                        if extension["properties"]["type"] == "LinuxDiagnostic":
+                            if extension["properties"]["publisher"] == "Microsoft.OSTCExtensions" or extension["properties"]["publisher"] == "Microsoft.Azure.Diagnostics":
+                                temp["status"] = "Pass"
+
+                    issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def windows_antimalware_software(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
+                response = rest_api_call(token, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for i in instance_list:
+                    x = re.findall("Windows", i["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = i["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = i["name"]
+                        temp["resource_id"] = i["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+                        extension_list = []
+                        extensions_url = base_url + i["id"] + "/extensions"
+                        token = get_auth_token(self.credentials)
+                        ext_response = rest_api_call(token, extensions_url, api_version='2019-07-01')
+                        for ext in ext_response['value']:
+                            extension_list.append(ext)
+                        for ext in extension_list:
+                            if ext["type"] == "IaaSAntimalware" and ext["publisher"] == "Microsoft.Azure.Security":
+                                temp["status"] = "Pass"
+                        issues.append(temp)
+
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def windows_antimalware_autoupdate(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
+                response = rest_api_call(token, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for i in instance_list:
+                    x = re.findall("Windows", i["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = i["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = i["name"]
+                        temp["resource_id"] = i["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+                        extension_list = []
+                        extensions_url = base_url + i["id"] + "/extensions"
+                        token = get_auth_token(self.credentials)
+                        ext_response = rest_api_call(token, extensions_url, api_version='2019-07-01')
+                        for ext in ext_response['value']:
+                            extension_list.append(ext)
+                        for ext in extension_list:
+                            if ext["type"] == "IaaSAntimalware" and ext["publisher"] == "Microsoft.Azure.Security":
+                                if ext["properties"]["autoUpgradeMinorVersion"]:
+                                    temp["status"] = "Pass"
+                        issues.append(temp)
+
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def classic_vms(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
+                response = rest_api_call(token, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for i in instance_list:
+                    temp = dict()
+                    temp["region"] = i["location"]
+                    temp["status"] = "Pass"
+                    temp["resource_name"] = i["name"]
+                    temp["resource_id"] = i["properties"]["vmId"]
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
+
+                    if i["type"] == "Microsoft.ClassicCompute/virtualMachines":
+                        temp["status"] = "Fail"
+
+                    issues.append(temp)
         except Exception as e:
             print(str(e))
         finally:
