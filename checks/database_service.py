@@ -537,3 +537,65 @@ class DatabaseService:
             print(str(e))
         finally:
             return issues
+
+    def postgresql_log_duration_should_be_enabled(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = postgres_server_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
+                response = rest_api_call(token, url, '2017-12-01')
+                postgresql_server_list = response['value']
+                print(postgresql_server_list)
+                for postgresql_server in postgresql_server_list:
+                    temp = dict()
+                    temp["region"] = postgresql_server["location"]
+                    temp["status"] = "Pass"
+                    temp["resource_name"] = postgresql_server['name']
+                    temp["resource_id"] = postgresql_server['id']
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
+                    url = base_url+postgresql_server["id"]+'/configurations'
+                    token = get_auth_token(self.credentials)
+                    response = rest_api_call(token, url, '2017-12-01')
+                    log_duration_prop = (response['value'][51])["properties"]
+                    log_duration_value = log_duration_prop["value"]
+                    if log_duration_value == "off":
+                        temp["status"] = "Fail"
+                    issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def postgresql_log_checkpoint_should_be_enabled(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = postgres_server_list_url.format(subscription['subscriptionId'])
+                token = get_auth_token(self.credentials)
+                response = rest_api_call(token, url, '2017-12-01')
+                postgresql_server_list = response['value']
+                print(postgresql_server_list)
+                for postgresql_server in postgresql_server_list:
+                    temp = dict()
+                    temp["region"] = postgresql_server["location"]
+                    temp["status"] = "Pass"
+                    temp["resource_name"] = postgresql_server['name']
+                    temp["resource_id"] = postgresql_server['id']
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
+                    url = base_url + postgresql_server["id"] + '/configurations'
+                    token = get_auth_token(self.credentials)
+                    response = rest_api_call(token, url, '2017-12-01')
+                    log_duration_prop = (response['value'][48])["properties"]
+                    log_duration_value = log_duration_prop["value"]
+                    if log_duration_value == "off":
+                        temp["status"] = "Fail"
+                    issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
