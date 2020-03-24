@@ -15,6 +15,7 @@ from execute_checks import (
 from checks.common_services import CommonServices
 from checks.kubernetes_service import KubernetesService
 from checks.app_service import AppService
+from checks.network_service import NetworkService
 import os
 
 
@@ -40,9 +41,9 @@ def __start_audit__():
             credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
             credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
 
-            token = get_auth_token(credentials)
+            #token = get_auth_token(credentials)
             cs = CommonServices()
-            subscription_list = cs.get_subscriptions_list(token)
+            subscription_list = cs.get_subscriptions_list(credentials)
 
             execution_hash = os.environ["execution_hash"]
 
@@ -57,6 +58,7 @@ def __start_audit__():
             automation_service = AutomationService(credentials, subscription_list)
             kubernetes_service = KubernetesService(credentials, subscription_list)
             app_service = AppService(credentials, subscription_list)
+            network_service = NetworkService(credentials, subscription_list)
 
             '''execute_log_monitor_checks(execution_hash, monitor_service)
             execute_iam_checks(execution_hash, iam_service)
@@ -68,8 +70,6 @@ def __start_audit__():
             execute_storage_checks(execution_hash, storage_service)
             update_execution(execution_hash, 2)'''
 
-            x = app_service.enable_latest_httpversion_web_app()
-            print(x)
     except Exception as e:
         print(str(e))
 
