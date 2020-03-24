@@ -34,3 +34,7 @@ network_sg_list_url = "https://management.azure.com/subscriptions/{}/providers/M
 network_list_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Network/virtualNetworks"
 network_interface_list_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Network/networkInterfaces"
 container_registry_list_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.ContainerRegistry/registries"
+compliance_result_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Security/complianceResults"
+manage_cluster_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.ContainerService/managedClusters"
+contact_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Security/securityContacts"
+

@@ -6,6 +6,7 @@ from checks.database_service import DatabaseService
 from checks.other_services import AzureServices
 from checks.vm_service import VmService
 from checks.automation_service import AutomationService
+from checks.security_service import SecurityService
 from db_helper import fetch_accounts, update_execution
 from helper_function import get_application_key, get_auth_token, rest_api_call
 from execute_checks import (
@@ -24,11 +25,11 @@ def __start_audit__():
     try:
         credentials = dict()
         accounts = []
-        az_account_hash = os.environ["az_account_hash"]
-        if len(az_account_hash) > 1:
-            accounts = fetch_accounts(az_account_hash)
-        else:
-            accounts = fetch_accounts()
+        # az_account_hash = os.environ["az_account_hash"]
+        # if len(az_account_hash) > 1:
+        #     accounts = fetch_accounts(az_account_hash)
+        # else:
+        #     accounts = fetch_accounts()
 
         if True:
         #for account in accounts:
@@ -42,6 +43,7 @@ def __start_audit__():
             credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
 
             #token = get_auth_token(credentials)
+
             cs = CommonServices()
             subscription_list = cs.get_subscriptions_list(credentials)
 
