@@ -385,6 +385,44 @@ class AppService:
         finally:
             return issues
 
+    def managed_identity_function_app(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = app_list_url.format(subscription["subscriptionId"])
+                token = get_auth_token(self.credentials)
+                response = rest_api_call(token, url, '2019-08-01')
+                for app in response["value"]:
+                    x = re.findall("functionapp*", app["kind"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = app["location"]
+                        temp["status"] = "Fail"
+                        temp['resource_name'] = app['name']
+                        temp['resource_id'] = ""
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        config_url = base_url + app["id"] + "/config/web"
+                        token = get_auth_token(self.credentials)
+                        response = rest_api_call(token, config_url, '2019-08-01')
+                        try:
+                            if "properties" in response:
+                                if "managedServiceIdentityId" in response["properties"]:
+                                    temp["status"] = "Pass"
+                            else:
+                                if "managedServiceIdentityId" in response:
+                                    temp["status"] = "Pass"
+                        except:
+                            temp["status"] = "Fail"
+
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
     def remote_debugging_api_app(self):
         issues = []
         try:
