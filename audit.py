@@ -6,6 +6,7 @@ from checks.database_service import DatabaseService
 from checks.other_services import AzureServices
 from checks.vm_service import VmService
 from checks.automation_service import AutomationService
+from checks.security_service import SecurityService
 from db_helper import fetch_accounts, update_execution
 from helper_function import get_application_key, get_auth_token, rest_api_call
 from execute_checks import (
@@ -23,11 +24,11 @@ def __start_audit__():
     try:
         credentials = dict()
         accounts = []
-        az_account_hash = os.environ["az_account_hash"]
-        if len(az_account_hash) > 1:
-            accounts = fetch_accounts(az_account_hash)
-        else:
-            accounts = fetch_accounts()
+        # az_account_hash = os.environ["az_account_hash"]
+        # if len(az_account_hash) > 1:
+        #     accounts = fetch_accounts(az_account_hash)
+        # else:
+        #     accounts = fetch_accounts()
 
         if True:
         #for account in accounts:
@@ -39,6 +40,7 @@ def __start_audit__():
             credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
             credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
             credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
+
 
             token = get_auth_token(credentials)
             cs = CommonServices()
@@ -68,7 +70,7 @@ def __start_audit__():
             execute_storage_checks(execution_hash, storage_service)
             update_execution(execution_hash, 2)'''
 
-            x = app_service.enable_latest_httpversion_web_app()
+            x =SecurityService(credentials, subscription_list).get_contacts()
             print(x)
     except Exception as e:
         print(str(e))
