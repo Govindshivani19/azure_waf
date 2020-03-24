@@ -31,3 +31,4 @@ managed_clusters_url = "https://management.azure.com/subscriptions/{}/providers/
 app_list_url= "https://management.azure.com/subscriptions/{}/providers/Microsoft.Web/sites"
 compliance_result_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Security/complianceResults"
 manage_cluster_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.ContainerService/managedClusters"
+contact_url = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Security/securityContacts"

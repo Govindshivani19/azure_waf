@@ -37,12 +37,10 @@ def __start_audit__():
             credentials['AZURE_CLIENT_ID'] = account["client_id"]
             credentials['AZURE_CLIENT_SECRET'] = client_secret'''
 
-            # credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
-            # credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
-            # credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
-            credentials['AZURE_TENANT_ID'] = "652feb91-6d92-4f6c-ad98-d2daec6bdae7"
-            credentials['AZURE_CLIENT_ID'] = "6ebfdbb8-dcc6-43f9-a9f7-abbda7f4358c"
-            credentials['AZURE_CLIENT_SECRET'] = "dB/RjQ0Aahml6aV5/acIN1iIzhK@RQp."
+            credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
+            credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
+            credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
+
 
             token = get_auth_token(credentials)
             cs = CommonServices()
@@ -72,7 +70,7 @@ def __start_audit__():
             execute_storage_checks(execution_hash, storage_service)
             update_execution(execution_hash, 2)'''
 
-            x =SecurityService(credentials, subscription_list).no_of_owners()
+            x =SecurityService(credentials, subscription_list).get_contacts()
             print(x)
     except Exception as e:
         print(str(e))
