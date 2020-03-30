@@ -1,5 +1,5 @@
 from constants import log_profile_list_url, base_url, key_vault_list_url, monitor_diagnostic_url
-from checks.common_services import CommonServices
+from checks.common_services import CommonService
 from helper_function import get_auth_token, rest_api_call
 
 
@@ -27,12 +27,14 @@ class MonitorLogService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = subscription['displayName']
                         temp["resource_id"] = subscription['subscriptionId']
-                        temp["problem"] = "Log Profile not created for subscription {} ".format(subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = subscription['displayName']
                         temp["resource_id"] = subscription['subscriptionId']
-                        temp["problem"] = "Log Profile created for subscription {} ".format(subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -59,20 +61,20 @@ class MonitorLogService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for subcription {} does not have a sufficient activity log data retention period configured. " \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     elif retention_period < 365:
                         temp["status"] = "Fail" 
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for subscription {} does not have a sufficient activity log data retention period configured. " \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for subscription {} have a sufficient activity log data retention period configured. " \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -99,14 +101,14 @@ class MonitorLogService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for the subscription {} is  not configured to export activities from all supported Azure regions/locations." \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for the subscription {} is configured to export activities from all supported Azure regions/locations." \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -133,14 +135,14 @@ class MonitorLogService:
                         temp["status"] = "Fail"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for the subscription {} is  not configured to export Write, Delete and Action events. " \
-                            .format(profile["name"], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = profile["name"]
                         temp["resource_id"] = profile["id"]
-                        temp["problem"] = "Log Profile {} for the subscription {} is  configured to export Write, Delete and Action events. " \
-                            .format(subscription['displayName'], subscription['displayName'])
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -162,22 +164,25 @@ class MonitorLogService:
                     url = base_url+storage_account_id
                     token = get_auth_token(self.credentials)
                     response = rest_api_call(token, url)
-                    key_source = response['properties']['encryption']['keySource']
-                    if key_source == 'Microsoft.Storage':
-                        temp["status"] = "Fail"
-                        temp["resource_name"] = response["name"]
-                        temp["resource_id"] = response["id"]
-                        temp["region"] = response["location"]
-                        temp["problem"] = "Microsoft Azure storage  {} container that contains  activity log files is encrypted using a service-managed key instead of a customer-managed key." \
-                            .format(response["name"])
-                    else:
-                        temp["status"] = "Pass"
-                        temp["resource_name"] = response["name"]
-                        temp["resource_id"] = response["id"]
-                        temp["region"] = response["location"]
-                        temp["problem"] = "Microsoft Azure storage  {} container that contains  activity log files is encrypted using a customer-managed key." \
-                            .format(response["name"])
-                    issues.append(temp)
+                    try:
+                        key_source = response['properties']['encryption']['keySource']
+                        if key_source == 'Microsoft.Storage':
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = response["name"]
+                            temp["resource_id"] = response["id"]
+                            temp["region"] = response["location"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = response["name"]
+                            temp["resource_id"] = response["id"]
+                            temp["region"] = response["location"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                    except:
+                        continue
         except Exception as e:
             print(str(e))
         finally:
@@ -207,15 +212,15 @@ class MonitorLogService:
                                 temp["resource_name"] = vault["name"]
                                 temp["resource_id"] = vault["id"]
                                 temp["region"] = vault["location"]
-                                temp["problem"] = "AuditEvent logging enabled for Azure Key Vault {} " \
-                                    .format(vault["name"])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             else:
                                 temp["status"] = "Fail"
                                 temp["resource_name"] = vault["name"]
                                 temp["resource_id"] = vault["id"]
                                 temp["region"] = vault["location"]
-                                temp["problem"] = "AuditEvent logging not enabled for Azure Key Vault {} " \
-                                    .format(vault["name"])
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -230,28 +235,36 @@ class MonitorLogService:
                 url = log_profile_list_url.format(subscription['subscriptionId'])
                 token = get_auth_token(self.credentials)
                 response = rest_api_call(token, url, '2016-03-01')
+                #print(response)
                 log_profiles = response['value']
                 for profile in log_profiles:
+                    #print(profile)
                     storage_account_id = profile['properties']['storageAccountId']
                     temp = dict()
                     temp["region"] = ""
                     storage_url = base_url + storage_account_id + "/blobServices/default/containers"
                     token = get_auth_token(self.credentials)
-                    storage_response = rest_api_call(token, storage_url)
-                    container_list = storage_response['value']
-                    for container in container_list:
-                        if container['name'] == "insights-operational-logs":
-                            if container['properties']['publicAccess'] == "Container":
-                                temp["status"] = "Fail"
-                                temp["resource_name"] = container["name"]
-                                temp["resource_id"] = container["id"]
-                                temp["problem"] = "Storage container {} holding the activity logs is publicly accessible.".format(container["name"])
-                            else:
-                                temp["status"] = "Pass"
-                                temp["resource_name"] = container["name"]
-                                temp["resource_id"] = container["id"]
-                                temp["problem"] = "Storage container {} holding the activity logs is not publicly accessible.".format(container["name"])
-                            issues.append(temp)
+                    try:
+                        storage_response = rest_api_call(token, storage_url)
+                        #print(storage_response)
+                        container_list = storage_response['value']
+                        for container in container_list:
+                            if container['name'] == "insights-operational-logs":
+                                if container['properties']['publicAccess'] == "Container":
+                                    temp["status"] = "Fail"
+                                    temp["resource_name"] = container["name"]
+                                    temp["resource_id"] = container["id"]
+                                    temp["subscription_id"] = subscription['subscriptionId']
+                                    temp["subscription_name"] = subscription["displayName"]
+                                else:
+                                    temp["status"] = "Pass"
+                                    temp["resource_name"] = container["name"]
+                                    temp["resource_id"] = container["id"]
+                                    temp["subscription_id"] = subscription['subscriptionId']
+                                    temp["subscription_name"] = subscription["displayName"]
+                                issues.append(temp)
+                    except:
+                        continue
         except Exception as e:
             print(str(e))
         finally:

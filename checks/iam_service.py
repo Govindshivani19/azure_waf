@@ -43,12 +43,14 @@ class IamServices:
                             temp["status"] = "Fail"
                             temp["resource_name"] = role_definition['properties']['roleName']
                             temp["resource_id"] = role_definition['id']
-                            temp["problem"] = "{} is a custom owner role". format(role_definition['properties']['roleName'])
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
                         else:
                             temp["status"] = "Pass"
                             temp["resource_name"] = role_definition['properties']['roleName']
                             temp["resource_id"] = role_definition['id']
-                            temp["problem"] = "{} is not a custom owner role".format(role_definition['properties']['roleName'])
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
                         issues.append(temp)
         except Exception as e:
             print(str(e))
@@ -70,14 +72,15 @@ class IamServices:
                 temp["status"] = "Fail"
                 temp["resource_name"] = ""
                 temp["resource_id"] = ""
-                temp["problem"] = "Guest users available in Azure account."
+
             else:
                 temp['region'] = ""
                 temp["status"] = "Pass"
                 temp["resource_name"] = ""
                 temp["resource_id"] = ""
-                temp["problem"] = "Guest users not available in Azure account."
-            issues.append(temp)
+
+            if temp:
+                issues.append(temp)
         except Exception as e:
             print(str(e))
         finally:

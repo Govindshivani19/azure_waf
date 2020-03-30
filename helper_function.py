@@ -60,9 +60,6 @@ def get_adal_token(credentials):
 
         payload = "grant_type=client_credentials&client_id={}&client_secret={}&resource=https://graph.microsoft.com/".format(credentials['AZURE_CLIENT_ID'],credentials['AZURE_CLIENT_SECRET'])
 
-        #url = "https://login.microsoftonline.com/3e53c24a-181d-4e1a-8a6b-93327212e0e6/oauth2/token"
-        #payload = "grant_type=client_credentials&client_id=ad558f11-4d0c-4126-b11c-3360156bd181&client_secret=eBD-]CD]U0_vltqrQYvf9Byh693d3TJ9&resource=https://graph.microsoft.com/"
-
         headers = {
             'Content-Type': "application/x-www-form-urlencoded",
             'Accept': "*/*",
