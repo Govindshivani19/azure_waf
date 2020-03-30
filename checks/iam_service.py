@@ -1,6 +1,6 @@
 from checks.common_services import CommonServices
 from helper_function import get_auth_token, rest_api_call, get_adal_token
-from contants import storage_accounts_list_url, role_definitions_list_url
+from constants import storage_accounts_list_url, role_definitions_list_url
 import requests
 
 

@@ -1,6 +1,6 @@
 from checks.common_services import CommonServices
 from helper_function import get_auth_token, rest_api_call
-from contants import policy_assignments_url, security_contacts_url, auto_provision_url, pricing_url
+from constants import policy_assignments_url, security_contacts_url, auto_provision_url, pricing_url
 
 
 class SecurityService:

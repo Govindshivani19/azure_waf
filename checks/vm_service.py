@@ -1,5 +1,5 @@
 from helper_function import get_auth_token, rest_api_call
-from contants import vm_list_url, base_url, disk_list_url
+from constants import vm_list_url, base_url, disk_list_url
 
 
 class VmService:

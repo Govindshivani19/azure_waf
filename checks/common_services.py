@@ -1,5 +1,5 @@
 from helper_function import rest_api_call
-from contants import subscriptions_list_url, resource_group_list_url
+from constants import subscriptions_list_url, resource_group_list_url
 
 
 class CommonServices:

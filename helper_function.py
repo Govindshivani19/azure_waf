@@ -7,15 +7,14 @@ import json
 
 
 def rest_api_call(token, url, api_version=None):
-    response = ""
+    response = {}
     try:
         headers = {'Authorization': 'Bearer ' + token['accessToken'], 'Content-Type': 'application/json'}
         if api_version is None:
             params = {'api-version': '2019-06-01'}
         else:
             params = {'api-version': api_version}
-        response = requests.get(url, headers=headers, params=params)
-        response = response.json()
+        response = requests.get(url, headers=headers, params=params).json()
     except Exception as e:
         print(str(e))
     finally:

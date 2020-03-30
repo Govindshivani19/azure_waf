@@ -1,6 +1,6 @@
 from checks.common_services import CommonServices
 from helper_function import get_auth_token, rest_api_call
-from contants import storage_accounts_list_url, container_list_url, monitor_activity_log_url
+from constants import storage_accounts_list_url, container_list_url, monitor_activity_log_url
 import datetime
 
 

@@ -1,6 +1,6 @@
 from checks.common_services import CommonServices
 from helper_function import get_auth_token, rest_api_call, get_auth_token_services
-from contants import redis_url, key_vault_list_url, vault_base_url
+from constants import redis_url, key_vault_list_url, vault_base_url
 
 
 class AzureServices:
