@@ -1,5 +1,5 @@
 from helper_function import get_auth_token, rest_api_call
-from contants import managed_clusters_url, base_url
+from constants import managed_clusters_url, base_url
 
 
 class KubernetesService:

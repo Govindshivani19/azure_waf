@@ -1,4 +1,4 @@
-from contants import (base_url, service_bus_list_url, network_sg_list_url, app_list_url, network_list_url,
+from constants import (base_url, service_bus_list_url, network_sg_list_url, app_list_url, network_list_url,
                       storage_accounts_list_url, network_interface_list_url, sql_server_list_url,
                       resource_group_list_url, container_registry_list_url)
 from helper_function import get_auth_token, rest_api_call

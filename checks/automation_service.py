@@ -1,5 +1,5 @@
 from helper_function import get_auth_token, rest_api_call, get_adal_token
-from contants import automation_accounts_url, base_url
+from constants import automation_accounts_url, base_url
 
 
 class AutomationService:

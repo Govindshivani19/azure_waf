@@ -1,5 +1,5 @@
 from helper_function import get_auth_token, rest_api_call
-from contants import base_url, app_list_url
+from constants import base_url, app_list_url
 import re
 
 class AppService:
