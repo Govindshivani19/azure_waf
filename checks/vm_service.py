@@ -1,4 +1,4 @@
-from helper_function import get_auth_token, rest_api_call
+from helper_function import rest_api_call
 from constants import vm_list_url, base_url, disk_list_url, public_ips_url, vm_scale_set_url, list_vaults_url
 import requests
 import json
@@ -17,16 +17,14 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
                     temp = dict()
                     temp['region'] = instance["location"]
                     instance_view_url = base_url + instance["id"] + "/instanceView"
-                    token = get_auth_token(self.credentials)
-                    response = rest_api_call(token, instance_view_url, api_version='2019-07-01')
+                    response = rest_api_call(self.credentials, instance_view_url, api_version='2019-07-01')
                     for status in response["statuses"]:
                         if status['code'] == "PowerState/deallocated":
                             temp["status"] = "Fail"
@@ -53,8 +51,7 @@ class VmService:
             for subscription in subscription_list:
                 disk_list = []
                 url = disk_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for disk in response['value']:
                     disk_list.append(disk)
 
@@ -86,8 +83,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -120,8 +116,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -132,7 +127,6 @@ class VmService:
                         for network in network_interface_list:
                             sg_list = []
                             sg_url = base_url + network["id"] + "/effectiveNetworkSecurityGroups/"
-                            token = get_auth_token(self.credentials)
                             headers = {'Authorization': 'Bearer ' + token['accessToken'],
                                        'Content-Type': 'application/json'}
 
@@ -168,8 +162,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -182,8 +175,7 @@ class VmService:
                     if 'managedDisk' in instance["properties"]["storageProfile"]["osDisk"]:
                         disk_id = instance["properties"]["storageProfile"]["osDisk"]["managedDisk"]["id"]
                         disk_url = base_url + disk_id
-                        token = get_auth_token(self.credentials)
-                        disk_response = rest_api_call(token, disk_url, api_version='2019-07-01')
+                        disk_response = rest_api_call(self.credentials, disk_url, api_version='2019-07-01')
                         if "encryptionSettingsCollection" in disk_response["properties"]:
                             if disk_response["properties"]["encryptionSettingsCollection"]["enabled"]:
                                 temp["status"] = "Pass"
@@ -208,8 +200,7 @@ class VmService:
             for subscription in subscription_list:
                 disk_list = []
                 url = disk_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for disk in response['value']:
                     disk_list.append(disk)
 
@@ -248,8 +239,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -291,8 +281,7 @@ class VmService:
             for subscription in subscription_list:
                 ips_list = []
                 url = public_ips_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-11-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-11-01')
                 for ips in response['value']:
                     ips_list.append(ips)
                 for ip in ips_list:
@@ -320,22 +309,19 @@ class VmService:
                 backed_up_vm = []
                 instance_list = []
                 url = list_vaults_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2016-06-01')
+                response = rest_api_call(self.credentials, url, api_version='2016-06-01')
                 for vault in response['value']:
                     vault_list.append(vault)
                 for vault in vault_list:
                     recover_url = base_url + vault["id"] + "/backupProtectedItems"
-                    token = get_auth_token(self.credentials)
-                    recovery_response = rest_api_call(token, recover_url, api_version='2019-05-13')
+                    recovery_response = rest_api_call(self.credentials, recover_url, api_version='2019-05-13')
                     for v in recovery_response["value"]:
                         if v["properties"]["protectedItemType"] == "Microsoft.Compute/virtualMachines":
                             if v["properties"]["protectionState"] != "ProtectionStopped":
                                 backed_up_vm.append(v["properties"]["friendlyName"])
 
                 vm_url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                vm_response = rest_api_call(token, vm_url, api_version='2019-07-01')
+                vm_response = rest_api_call(self.credentials, vm_url, api_version='2019-07-01')
                 for instance in vm_response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -367,8 +353,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -381,8 +366,7 @@ class VmService:
                     temp["subscription_name"] = subscription["displayName"]
                     extension_list = []
                     extensions_url = base_url + instance["id"] + "/extensions"
-                    token = get_auth_token(self.credentials)
-                    ext_response = rest_api_call(token, extensions_url, api_version='2019-07-01')
+                    ext_response = rest_api_call(self.credentials, extensions_url, api_version='2019-07-01')
                     for ext in ext_response['value']:
                         extension_list.append(ext)
                     for ext in extension_list:
@@ -402,8 +386,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -418,8 +401,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -441,8 +423,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -457,8 +438,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -480,8 +460,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -496,8 +475,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -519,8 +497,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -535,8 +512,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -558,8 +534,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -574,8 +549,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -597,8 +571,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -613,8 +586,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -636,8 +608,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -652,8 +623,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -675,8 +645,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -691,8 +660,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -714,8 +682,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -730,8 +697,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -753,8 +719,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -769,8 +734,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -792,8 +756,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -808,8 +771,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -831,8 +793,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -847,8 +808,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -870,8 +830,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -886,8 +845,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -909,8 +867,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -925,8 +882,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -948,8 +904,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -964,8 +919,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -987,8 +941,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -1003,8 +956,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -1026,8 +978,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -1042,8 +993,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -1065,8 +1015,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -1081,8 +1030,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
                             temp["status"] = "Fail" #No assignment
@@ -1104,8 +1052,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -1116,7 +1063,6 @@ class VmService:
                         for network in network_interface_list:
                             sg_list = []
                             sg_url = base_url + network["id"] + "/effectiveNetworkSecurityGroups/"
-                            token = get_auth_token(self.credentials)
                             headers = {'Authorization': 'Bearer ' + token['accessToken'],
                                        'Content-Type': 'application/json'}
 
@@ -1152,8 +1098,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -1168,8 +1113,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         print(guest_config_response)
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
@@ -1192,8 +1136,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for instance in instance_list:
@@ -1208,8 +1151,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
-                        token = get_auth_token(self.credentials)
-                        guest_config_response = rest_api_call(token, guest_config_url, api_version='2018-06-30-preview')
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
                         print(guest_config_response)
                         error = re.findall("No Assignment *", guest_config_response["Message"])
                         if error:
@@ -1234,8 +1176,7 @@ class VmService:
             for subscription in subscription_list:
                 scale_sets = []
                 url = vm_scale_set_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 if 'nextLink' in response:
                     next_link_flag = 1
                     next_link = response['nextLink'].split('skipToken=')[1]
@@ -1244,8 +1185,7 @@ class VmService:
                 while next_link_flag == 1:
                     filters = "$skipToken={}".format(next_link)
                     url = vm_scale_set_url.format(subscription["subscriptionId"]) + "?$filter=" + filters + ""
-                    token = get_auth_token(self.credentials)
-                    response = rest_api_call(token, url, api_version='2019-07-01')
+                    response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                     if 'nextLink' in response:
                         next_link_flag = 1
                         next_link = response['nextLink'].split('skipToken=')[1]
@@ -1281,8 +1221,7 @@ class VmService:
             for subscription in subscription_list:
                 scale_sets = []
                 url = vm_scale_set_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 if 'nextLink' in response:
                     next_link_flag = 1
                     next_link = response['nextLink'].split('skipToken=')[1]
@@ -1291,8 +1230,7 @@ class VmService:
                 while next_link_flag == 1:
                     filters = "$skipToken={}".format(next_link)
                     url = vm_scale_set_url.format(subscription["subscriptionId"]) + "?$filter=" + filters + ""
-                    token = get_auth_token(self.credentials)
-                    response = rest_api_call(token, url, api_version='2019-07-01')
+                    response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                     if 'nextLink' in response:
                         next_link_flag = 1
                         next_link = response['nextLink'].split('skipToken=')[1]
@@ -1332,8 +1270,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for i in instance_list:
@@ -1348,8 +1285,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
                         extension_list = []
                         extensions_url = base_url + i["id"] + "/extensions"
-                        token = get_auth_token(self.credentials)
-                        ext_response = rest_api_call(token, extensions_url, api_version='2019-07-01')
+                        ext_response = rest_api_call(self.credentials, extensions_url, api_version='2019-07-01')
                         for ext in ext_response['value']:
                             extension_list.append(ext)
                         for ext in extension_list:
@@ -1369,8 +1305,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for i in instance_list:
@@ -1385,8 +1320,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
                         extension_list = []
                         extensions_url = base_url + i["id"] + "/extensions"
-                        token = get_auth_token(self.credentials)
-                        ext_response = rest_api_call(token, extensions_url, api_version='2019-07-01')
+                        ext_response = rest_api_call(self.credentials, extensions_url, api_version='2019-07-01')
                         for ext in ext_response['value']:
                             extension_list.append(ext)
                         for ext in extension_list:
@@ -1407,8 +1341,7 @@ class VmService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 for i in instance_list:

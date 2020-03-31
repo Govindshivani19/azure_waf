@@ -1,5 +1,5 @@
 from checks.common_services import CommonServices
-from helper_function import get_auth_token, rest_api_call
+from helper_function import rest_api_call
 from constants import policy_assignments_url, security_contacts_url, auto_provision_url, pricing_url, vm_list_url, compliance_result_url, manage_cluster_url, contact_url
 
 
@@ -15,14 +15,13 @@ class SecurityService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 if len(instance_list) > 0:
                     compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
                     try:
-                        compliance_result_response = rest_api_call(token, compliance_result, api_version='2017-08-01')['value']
+                        compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
                         print(compliance_result_response)
                     except Exception as e:
                         print(e)
@@ -58,14 +57,13 @@ class SecurityService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 if len(instance_list) > 0:
                     compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
                     try:
-                        compliance_result_response = rest_api_call(token, compliance_result, api_version='2017-08-01')['value']
+                        compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
                         print(compliance_result_response)
                     except Exception as e:
                         print(e)
@@ -99,14 +97,13 @@ class SecurityService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 if len(instance_list) > 0:
                     compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
                     try:
-                        compliance_result_response = rest_api_call(token, compliance_result, api_version='2017-08-01')['value']
+                        compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
                         print(compliance_result_response)
                     except Exception as e:
                         print(e)
@@ -140,14 +137,13 @@ class SecurityService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 if len(instance_list) > 0:
                     compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
                     try:
-                        compliance_result_response = rest_api_call(token, compliance_result, api_version='2017-08-01')['value']
+                        compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
                         print(compliance_result_response)
                     except Exception as e:
                         print(e)
@@ -181,14 +177,13 @@ class SecurityService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 if len(instance_list) > 0:
                     compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
                     try:
-                        compliance_result_response = rest_api_call(token, compliance_result, api_version='2017-08-01')['value']
+                        compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
                         print(compliance_result_response)
                     except Exception as e:
                         print(e)
@@ -223,14 +218,13 @@ class SecurityService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 if len(instance_list) > 0:
                     compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
                     try:
-                        compliance_result_response = rest_api_call(token, compliance_result, api_version='2017-08-01')['value']
+                        compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
                         print(compliance_result_response)
                     except Exception as e:
                         print(e)
@@ -263,14 +257,13 @@ class SecurityService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 if len(instance_list) > 0:
                     compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
                     try:
-                        compliance_result_response = rest_api_call(token, compliance_result, api_version='2017-08-01')['value']
+                        compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
                         print(compliance_result_response)
                     except Exception as e:
                         print(e)
@@ -304,15 +297,14 @@ class SecurityService:
             for subscription in subscription_list:
                 instance_list = []
                 url = vm_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2019-07-01')
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
                 for instance in response['value']:
                     instance_list.append(instance)
                 if len(instance_list) > 0:
                     compliance_result = compliance_result_url.format(subscription['subscriptionId'])
                     try:
                         compliance_result_response = \
-                        rest_api_call(token, compliance_result, api_version='2017-08-01')['value']
+                        rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
                         print(compliance_result_response)
                     except Exception as e:
                         print(e)
@@ -345,8 +337,7 @@ class SecurityService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = manage_cluster_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2017-08-31')['value']
+                response = rest_api_call(self.credentials, url, api_version='2017-08-31')['value']
 
                 for each_response in response:
                     if each_response['properties'].get("apiServerAccessProfile"):
@@ -375,8 +366,7 @@ class SecurityService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = contact_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2017-08-01-preview')['value']
+                response = rest_api_call(self.credentials, url, api_version='2017-08-01-preview')['value']
                 for each_response in response:
                     temp = dict()
                     if each_response['properties'].get("email") is  "":
@@ -404,8 +394,7 @@ class SecurityService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = manage_cluster_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2017-08-31')['value']
+                response = rest_api_call(self.credentials, url, api_version='2017-08-31')['value']
                 for each_response in response:
 
 
@@ -439,8 +428,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'adaptiveApplicationControlsMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['adaptiveApplicationControlsMonitoringEffect']['value'] == "Disabled":
@@ -481,8 +469,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'adaptiveApplicationControlsMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['adaptiveApplicationControlsMonitoringEffect']['value'] == "Disabled":
@@ -523,8 +510,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = security_contacts_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2017-08-01-preview')
+                response = rest_api_call(self.credentials, url, api_version='2017-08-01-preview')
                 if not response['value']:
                     temp["status"] = "Fail"
                     temp["resource_name"] = subscription['displayName']
@@ -560,8 +546,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = auto_provision_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2017-08-01-preview')
+                response = rest_api_call(self.credentials, url, api_version='2017-08-01-preview')
                 if not response['value']:
                     temp["status"] = "Fail"
                     temp["resource_name"] = subscription['displayName']
@@ -596,8 +581,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'diskEncryptionMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['diskEncryptionMonitoringEffect']['value'] == "Disabled":
@@ -639,8 +623,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'endpointProtectionMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['endpointProtectionMonitoringEffect']['value'] == "Disabled":
@@ -682,8 +665,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = security_contacts_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2017-08-01-preview')
+                response = rest_api_call(self.credentials, url, api_version='2017-08-01-preview')
                 if not response['value']:
                     temp["status"] = "Fail"
                     temp["resource_name"] = subscription['displayName']
@@ -718,8 +700,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'jitNetworkAccessMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['jitNetworkAccessMonitoringEffect']['value'] == "Disabled":
@@ -760,8 +741,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'systemConfigurationsMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['systemConfigurationsMonitoringEffect']['value'] == "Disabled":
@@ -806,8 +786,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'vulnerabilityAssesmentMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['vulnerabilityAssesmentMonitoringEffect']['value'] == "Disabled":
@@ -852,8 +831,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'networkSecurityGroupsMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['networkSecurityGroupsMonitoringEffect']['value'] == "Disabled":
@@ -894,8 +872,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'nextGenerationFirewallMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['nextGenerationFirewallMonitoringEffect']['value'] == "Disabled":
@@ -936,8 +913,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'sqlAuditingMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['sqlAuditingMonitoringEffect']['value'] == "Disabled":
@@ -978,8 +954,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'sqlEncryptionMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['sqlEncryptionMonitoringEffect']['value'] == "Disabled":
@@ -1020,8 +995,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'storageEncryptionMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['storageEncryptionMonitoringEffect']['value'] == "Disabled":
@@ -1062,8 +1036,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'systemUpdatesMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['systemUpdatesMonitoringEffect']['value'] == "Disabled":
@@ -1104,8 +1077,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = policy_assignments_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2018-05-01')
+                response = rest_api_call(self.credentials, url, api_version='2018-05-01')
                 if response['properties']['parameters']:
                     if 'webApplicationFirewallMonitoringEffect' in response['properties']['parameters']:
                         if response['properties']['parameters']['webApplicationFirewallMonitoringEffect']['value'] == "Disabled":
@@ -1146,8 +1118,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = security_contacts_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2017-08-01-preview')
+                response = rest_api_call(self.credentials, url, api_version='2017-08-01-preview')
                 if not response['value']:
                     temp["status"] = "Fail"
                     temp["resource_name"] = subscription['displayName']
@@ -1183,8 +1154,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = security_contacts_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2017-08-01-preview')
+                response = rest_api_call(self.credentials, url, api_version='2017-08-01-preview')
                 if not response['value']:
                     temp["status"] = "Fail"
                     temp["resource_name"] = subscription['displayName']
@@ -1219,8 +1189,7 @@ class SecurityService:
                 temp = dict()
                 temp["region"] = ""
                 url = pricing_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2017-08-01-preview')
+                response = rest_api_call(self.credentials, url, api_version='2017-08-01-preview')
                 pricing_values = response['value']
                 for price in pricing_values:
                     if price['name'] == "default":

@@ -1,5 +1,5 @@
 from checks.common_services import CommonServices
-from helper_function import get_auth_token, rest_api_call
+from helper_function import rest_api_call
 from constants import *
 
 
@@ -14,16 +14,14 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = postgres_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2017-12-01')
+                response = rest_api_call(self.credentials, url, '2017-12-01')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
                     id = server['id']
                     config_url = base_url + id + "/configurations"
-                    token = get_auth_token(self.credentials)
-                    config_response = rest_api_call(token, config_url, '2017-12-01')
+                    config_response = rest_api_call(self.credentials, config_url, '2017-12-01')
                     properties_list = config_response['value']
                     for property in properties_list:
                         if property['name'] == "log_retention_days":
@@ -52,16 +50,14 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = postgres_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2017-12-01')
+                response = rest_api_call(self.credentials, url, '2017-12-01')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
                     id = server['id']
                     config_url = base_url + id + "/configurations"
-                    token = get_auth_token(self.credentials)
-                    config_response = rest_api_call(token, config_url, '2017-12-01')
+                    config_response = rest_api_call(self.credentials, config_url, '2017-12-01')
                     properties_list = config_response['value']
                     for property in properties_list:
                         if property['name'] == "connection_throttling":
@@ -89,16 +85,14 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = postgres_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2017-12-01')
+                response = rest_api_call(self.credentials, url, '2017-12-01')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
                     id = server['id']
                     config_url = base_url + id + "/configurations"
-                    token = get_auth_token(self.credentials)
-                    config_response = rest_api_call(token, config_url, '2017-12-01')
+                    config_response = rest_api_call(self.credentials, config_url, '2017-12-01')
                     properties_list = config_response['value']
                     for property in properties_list:
                         if property['name'] == "log_checkpoints":
@@ -126,16 +120,14 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = postgres_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2017-12-01')
+                response = rest_api_call(self.credentials, url, '2017-12-01')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
                     id = server['id']
                     config_url = base_url + id + "/configurations"
-                    token = get_auth_token(self.credentials)
-                    config_response = rest_api_call(token, config_url, '2017-12-01')
+                    config_response = rest_api_call(self.credentials, config_url, '2017-12-01')
                     properties_list = config_response['value']
                     for property in properties_list:
                         if property['name'] == "log_connections":
@@ -163,16 +155,14 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = postgres_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2017-12-01')
+                response = rest_api_call(self.credentials, url, '2017-12-01')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
                     id = server['id']
                     config_url = base_url + id + "/configurations"
-                    token = get_auth_token(self.credentials)
-                    config_response = rest_api_call(token, config_url, '2017-12-01')
+                    config_response = rest_api_call(self.credentials, config_url, '2017-12-01')
                     properties_list = config_response['value']
                     for property in properties_list:
                         if property['name'] == "log_disconnections":
@@ -200,16 +190,14 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = postgres_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2017-12-01')
+                response = rest_api_call(self.credentials, url, '2017-12-01')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
                     temp["region"] = server['location']
                     id = server['id']
                     config_url = base_url + id + "/configurations"
-                    token = get_auth_token(self.credentials)
-                    config_response = rest_api_call(token, config_url, '2017-12-01')
+                    config_response = rest_api_call(self.credentials, config_url, '2017-12-01')
                     properties_list = config_response['value']
                     for property in properties_list:
                         if property['name'] == "log_duration":
@@ -237,8 +225,7 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = postgres_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2017-12-01')
+                response = rest_api_call(self.credentials, url, '2017-12-01')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
@@ -267,8 +254,7 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = sql_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2015-05-01-preview')
+                response = rest_api_call(self.credentials, url, '2015-05-01-preview')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
@@ -277,8 +263,7 @@ class DatabaseService:
                     temp["subscription_name"] = subscription["displayName"]
 
                     audit_url = base_url + server['id'] + "/auditingSettings/default"
-                    token = get_auth_token(self.credentials)
-                    audit_response = rest_api_call(token, audit_url, '2017-03-01-preview')
+                    audit_response = rest_api_call(self.credentials, audit_url, '2017-03-01-preview')
                     retension_days = audit_response['properties']['retentionDays']
                     if retension_days <= 0:
                         temp["status"] = "Fail"
@@ -305,8 +290,7 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = sql_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2015-05-01-preview')
+                response = rest_api_call(self.credentials, url, '2015-05-01-preview')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
@@ -315,8 +299,7 @@ class DatabaseService:
                     temp["subscription_name"] = subscription["displayName"]
 
                     audit_url = base_url + server['id'] + "/auditingSettings/default"
-                    token = get_auth_token(self.credentials)
-                    audit_response = rest_api_call(token, audit_url, '2017-03-01-preview')
+                    audit_response = rest_api_call(self.credentials, audit_url, '2017-03-01-preview')
                     flag = 0
                     if not audit_response['properties']['auditActionsAndGroups']:
                         flag = 1
@@ -348,8 +331,7 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = sql_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-06-01-preview')
+                response = rest_api_call(self.credentials, url, '2019-06-01-preview')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
@@ -357,8 +339,7 @@ class DatabaseService:
                     temp["subscription_id"] = subscription['subscriptionId']
                     temp["subscription_name"] = subscription["displayName"]
                     audit_url = base_url + server['id'] + "/securityAlertPolicies/default"
-                    token = get_auth_token(self.credentials)
-                    audit_response = rest_api_call(token, audit_url, '2019-06-01-preview')
+                    audit_response = rest_api_call(self.credentials, audit_url, '2019-06-01-preview')
                     if len(
                             audit_response
                                     .get("properties", {})
@@ -385,8 +366,7 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = sql_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2015-05-01-preview')
+                response = rest_api_call(self.credentials, url, '2015-05-01-preview')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
@@ -394,8 +374,7 @@ class DatabaseService:
                     temp["subscription_id"] = subscription['subscriptionId']
                     temp["subscription_name"] = subscription["displayName"]
                     audit_url = base_url + server['id'] + "/auditingSettings/AuditState"
-                    token = get_auth_token(self.credentials)
-                    audit_response = rest_api_call(token, audit_url, '2017-03-01-preview')
+                    audit_response = rest_api_call(self.credentials, audit_url, '2017-03-01-preview')
                     if audit_response['properties']['state'] == "Disabled":
                         temp["status"] = "Fail"
                         temp["resource_name"] = server["name"]
@@ -416,8 +395,7 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = sql_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2015-05-01-preview')
+                response = rest_api_call(self.credentials, url, '2015-05-01-preview')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
@@ -425,8 +403,7 @@ class DatabaseService:
                     temp["subscription_id"] = subscription['subscriptionId']
                     temp["subscription_name"] = subscription["displayName"]
                     audit_url = base_url + server['id'] + "/securityAlertPolicies/default"
-                    token = get_auth_token(self.credentials)
-                    audit_response = rest_api_call(token, audit_url, '2019-06-01-preview')
+                    audit_response = rest_api_call(self.credentials, audit_url, '2019-06-01-preview')
                     if audit_response['properties']['emailAccountAdmins']:
                         temp["status"] = "Pass"
                         temp["resource_name"] = server["name"]
@@ -447,8 +424,7 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = sql_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2015-05-01-preview')
+                response = rest_api_call(self.credentials, url, '2015-05-01-preview')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
@@ -456,8 +432,7 @@ class DatabaseService:
                     temp["subscription_id"] = subscription['subscriptionId']
                     temp["subscription_name"] = subscription["displayName"]
                     audit_url = base_url + server['id'] + "/securityAlertPolicies/default"
-                    token = get_auth_token(self.credentials)
-                    audit_response = rest_api_call(token, audit_url, '2019-06-01-preview')['properties']
+                    audit_response = rest_api_call(self.credentials, audit_url, '2019-06-01-preview')['properties']
                     if len(audit_response.get('emailAddresses', [])) == 0 or \
                             (len(
                                 audit_response.get('emailAddresses', [])) == 1
@@ -482,16 +457,14 @@ class DatabaseService:
     #         subscription_list = self.subscription_list
     #         for subscription in subscription_list:
     #             url = sql_server_list_url.format(subscription['subscriptionId'])
-    #             token = get_auth_token(self.credentials)
-    #             response = rest_api_call(token, url, '2015-05-01-preview')
+    #             #             response = rest_api_call(self.credentials, url, '2015-05-01-preview')
     #             server_list = response['value']
     #             for server in server_list:
     #                 temp = dict()
     #                 temp["region"] = server['location']
     #                 db_url = base_url + server['id'] + "/databases"
-    #                 token = get_auth_token(self.credentials)
-    #                 db_response = \
-    #                     rest_api_call(token, db_url, '2019-06-01-preview')
+    #                 #                 db_response = \
+    #                     rest_api_call(self.credentials, db_url, '2019-06-01-preview')
     #                 db_list = db_response['value']
     #                 for db in db_list:
     #                     tde_url = \
@@ -499,9 +472,8 @@ class DatabaseService:
     #                             base_url,
     #                             db['id']
     #                         )
-    #                     token = get_auth_token(self.credentials)
-    #                     tde_response = \
-    #                         rest_api_call(token, tde_url, '2014-04-01')
+    #                     #                     tde_response = \
+    #                         rest_api_call(self.credentials, tde_url, '2014-04-01')
     #                     # Skipped as the response is xml
     #
     #     except Exception as e:
@@ -515,8 +487,7 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = mysql_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url,'2017-12-01')
+                response = rest_api_call(self.credentials, url,'2017-12-01')
                 server_list = response['value']
                 for server in server_list:
                     temp = dict()
@@ -543,10 +514,8 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = postgres_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2017-12-01')
+                response = rest_api_call(self.credentials, url, '2017-12-01')
                 postgresql_server_list = response['value']
-                print(postgresql_server_list)
                 for postgresql_server in postgresql_server_list:
                     temp = dict()
                     temp["region"] = postgresql_server["location"]
@@ -556,8 +525,7 @@ class DatabaseService:
                     temp["subscription_id"] = subscription['subscriptionId']
                     temp["subscription_name"] = subscription["displayName"]
                     url = base_url+postgresql_server["id"]+'/configurations'
-                    token = get_auth_token(self.credentials)
-                    response = rest_api_call(token, url, '2017-12-01')
+                    response = rest_api_call(self.credentials, url, '2017-12-01')
                     log_duration_prop = (response['value'][51])["properties"]
                     log_duration_value = log_duration_prop["value"]
                     if log_duration_value == "off":
@@ -574,8 +542,7 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = postgres_server_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2017-12-01')
+                response = rest_api_call(self.credentials, url, '2017-12-01')
                 postgresql_server_list = response['value']
                 print(postgresql_server_list)
                 for postgresql_server in postgresql_server_list:
@@ -587,8 +554,7 @@ class DatabaseService:
                     temp["subscription_id"] = subscription['subscriptionId']
                     temp["subscription_name"] = subscription["displayName"]
                     url = base_url + postgresql_server["id"] + '/configurations'
-                    token = get_auth_token(self.credentials)
-                    response = rest_api_call(token, url, '2017-12-01')
+                    response = rest_api_call(self.credentials, url, '2017-12-01')
                     log_duration_prop = (response['value'][48])["properties"]
                     log_duration_value = log_duration_prop["value"]
                     if log_duration_value == "off":
@@ -609,10 +575,8 @@ class DatabaseService:
 
                 servers_url = sql_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -627,7 +591,7 @@ class DatabaseService:
                             )
 
                         vulnerability_assessments = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=vulnerability_assessments_url,
                             api_version="2018-06-01-preview"
                         )
@@ -674,10 +638,8 @@ class DatabaseService:
 
                 servers_url = sql_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -692,7 +654,7 @@ class DatabaseService:
                             )
 
                         encryption_protector = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=encryption_protector_url,
                             api_version="2015-05-01-preview"
                         )
@@ -740,10 +702,8 @@ class DatabaseService:
                 instances_url = \
                     sql_server_managed_instances_list_url.format(
                         subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 instances = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=instances_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -759,7 +719,7 @@ class DatabaseService:
                             )
 
                         encryption_protector = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=encryption_protector_url,
                             api_version="2015-05-01-preview"
                         )
@@ -806,10 +766,8 @@ class DatabaseService:
 
                 servers_url = sql_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -824,7 +782,7 @@ class DatabaseService:
                             )
 
                         virtual_network_rules = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=virtual_network_rules_url,
                             api_version="2015-05-01-preview"
                         ).get("value", [])
@@ -871,10 +829,8 @@ class DatabaseService:
 
                 servers_url = mysql_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2017-12-01"
                 ).get("value", [])
@@ -890,7 +846,7 @@ class DatabaseService:
                             )
 
                         virtual_network_rules = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=virtual_network_rules_url,
                             api_version="2017-12-01"
                         ).get("value", [])
@@ -937,10 +893,8 @@ class DatabaseService:
 
                 servers_url = postgres_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2017-12-01"
                 ).get("value", [])
@@ -956,7 +910,7 @@ class DatabaseService:
                             )
 
                         virtual_network_rules = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=virtual_network_rules_url,
                             api_version="2017-12-01"
                         ).get("value", [])
@@ -1003,10 +957,8 @@ class DatabaseService:
 
                 instances_url = sql_server_managed_instances_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 instances = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=instances_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -1022,7 +974,7 @@ class DatabaseService:
                             )
 
                         security_alert_policies = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=security_alert_policies_url,
                             api_version="2017-03-01-preview"
                         )
@@ -1068,10 +1020,8 @@ class DatabaseService:
 
                 instances_url = sql_server_managed_instances_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 instances = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=instances_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -1087,7 +1037,7 @@ class DatabaseService:
                             )
 
                         security_alert_policies = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=security_alert_policies_url,
                             api_version="2017-03-01-preview"
                         )
@@ -1140,10 +1090,8 @@ class DatabaseService:
 
                 instances_url = sql_server_managed_instances_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 instances = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=instances_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -1159,7 +1107,7 @@ class DatabaseService:
                             )
 
                         security_alert_policies = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=security_alert_policies_url,
                             api_version="2017-03-01-preview"
                         )
@@ -1201,10 +1149,8 @@ class DatabaseService:
 
                 instances_url = sql_server_managed_instances_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 instances = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=instances_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -1220,7 +1166,7 @@ class DatabaseService:
                             )
 
                         security_alert_policies = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=security_alert_policies_url,
                             api_version="2017-03-01-preview"
                         )
@@ -1267,10 +1213,9 @@ class DatabaseService:
     #
     #             servers_url = sql_server_list_url.format(
     #                 subscription.get("subscriptionId", ""))
-    #             token = get_auth_token(self.credentials)
-    #
+    #             #
     #             servers = rest_api_call(
-    #                 token=token,
+    #                 credentials=self.credentials,
     #                 url=servers_url,
     #                 api_version="2019-06-01-preview"
     #             ).get("value", [])
@@ -1285,7 +1230,7 @@ class DatabaseService:
     #                         )
     #
     #                     sql_server_admin = rest_api_call(
-    #                         token=token,
+    #                         credentials=self.credentials,
     #                         url=sql_server_admin_url,
     #                         api_version="2014-04-01"
     #                     ).get("value", [])
@@ -1325,10 +1270,8 @@ class DatabaseService:
 
                 servers_url = sql_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -1343,7 +1286,7 @@ class DatabaseService:
                             )
 
                         sql_audit_settings = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=sql_audit_settings_url,
                             api_version="2017-03-01-preview"
                         )
@@ -1385,10 +1328,8 @@ class DatabaseService:
 
                 servers_url = sql_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -1403,7 +1344,7 @@ class DatabaseService:
                         )
 
                         databases = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=db_url,
                             api_version="2017-03-01-preview"
                         ).get("value", {})
@@ -1420,7 +1361,7 @@ class DatabaseService:
                                 )
 
                             sql_backup_policy = rest_api_call(
-                                token=token,
+                                credentials=self.credentials,
                                 url=sql_backup_policy_url,
                                 api_version="2017-03-01-preview"
                             ).get("properties", {})
@@ -1471,10 +1412,8 @@ class DatabaseService:
 
                 servers_url = mariadb_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2018-06-01"
                 ).get("value", [])
@@ -1522,10 +1461,8 @@ class DatabaseService:
 
                 servers_url = mysql_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2017-12-01"
                 ).get("value", [])
@@ -1573,10 +1510,8 @@ class DatabaseService:
 
                 servers_url = postgres_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2017-12-01"
                 ).get("value", [])
@@ -1624,10 +1559,8 @@ class DatabaseService:
 
                 servers_url = mariadb_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2018-06-01"
                 ).get("value", [])
@@ -1643,7 +1576,7 @@ class DatabaseService:
                             )
 
                         virtual_network_rules = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=virtual_network_rules_url,
                             api_version="2018-06-01-preview"
                         )
@@ -1690,10 +1623,8 @@ class DatabaseService:
 
                 servers_url = sql_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -1708,7 +1639,7 @@ class DatabaseService:
                             )
 
                         vulnerability_assessments = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=vulnerability_assessments_url,
                             api_version="2018-06-01-preview"
                         ).get("value", [])
@@ -1759,10 +1690,8 @@ class DatabaseService:
 
                 instances_url = sql_server_managed_instances_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 instances = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=instances_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -1778,7 +1707,7 @@ class DatabaseService:
                             )
 
                         vulnerability_assessments = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=vulnerability_assessments_url,
                             api_version="2018-06-01-preview"
                         ).get("value", [])
@@ -1829,10 +1758,8 @@ class DatabaseService:
 
                 servers_url = sql_server_list_url.format(
                     subscription.get("subscriptionId", ""))
-                token = get_auth_token(self.credentials)
-
                 servers = rest_api_call(
-                    token=token,
+                    credentials=self.credentials,
                     url=servers_url,
                     api_version="2019-06-01-preview"
                 ).get("value", [])
@@ -1847,7 +1774,7 @@ class DatabaseService:
                             )
 
                         security_alert_policies = rest_api_call(
-                            token=token,
+                            credentials=self.credentials,
                             url=security_alert_policies_url,
                             api_version="2017-03-01-preview"
                         )

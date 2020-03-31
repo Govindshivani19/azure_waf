@@ -1,4 +1,4 @@
-from helper_function import get_auth_token, rest_api_call
+from helper_function import rest_api_call
 from constants import base_url, app_list_url
 import re
 
@@ -13,8 +13,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("functionapp*", app["kind"])
                     if x :
@@ -27,8 +26,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             enabled_cors = response["properties"]["cors"]["allowedOrigins"]
                             for cors in enabled_cors:
@@ -49,8 +47,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("api", app["kind"])
                     if x :
@@ -63,8 +60,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             enabled_cors = response["properties"]["cors"]["allowedOrigins"]
                             for cors in enabled_cors:
@@ -85,8 +81,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("app*", app["kind"])
                     if x :
@@ -99,8 +94,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             enabled_cors = response["properties"]["cors"]["allowedOrigins"]
                             for cors in enabled_cors:
@@ -120,8 +114,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("functionapp*", app["kind"])
                     if x :
@@ -134,8 +127,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             tls_version = 0.0
                             if "properties" in response:
@@ -159,8 +151,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("app*", app["kind"])
                     if x :
@@ -173,8 +164,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             tls_version = 0.0
                             if "properties" in response:
@@ -198,8 +188,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("api", app["kind"])
                     if x :
@@ -212,8 +201,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             tls_version = 0.0
                             if "properties" in response:
@@ -237,8 +225,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("app*", app["kind"])
                     if x:
@@ -263,8 +250,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("functionapp*", app["kind"])
                     if x:
@@ -289,8 +275,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("api", app["kind"])
                     if x:
@@ -315,8 +300,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("app*", app["kind"])
                     if x :
@@ -329,8 +313,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if "managedServiceIdentityId" in response["properties"]:
@@ -353,8 +336,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("api", app["kind"])
                     if x :
@@ -367,8 +349,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if "managedServiceIdentityId" in response["properties"]:
@@ -391,8 +372,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("functionapp*", app["kind"])
                     if x:
@@ -405,8 +385,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url + app["id"] + "/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if "managedServiceIdentityId" in response["properties"]:
@@ -429,8 +408,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("api", app["kind"])
                     if x :
@@ -443,8 +421,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["remoteDebuggingEnabled"] is True:
@@ -467,8 +444,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("functionapp*", app["kind"])
                     if x :
@@ -481,8 +457,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["remoteDebuggingEnabled"] is True:
@@ -505,8 +480,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("app*", app["kind"])
                     if x :
@@ -519,8 +493,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["remoteDebuggingEnabled"] is True:
@@ -543,8 +516,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("app*", app["kind"])
                     if x :
@@ -557,8 +529,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             version = 0.0
                             if "properties" in response:
@@ -582,8 +553,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("functionapp*", app["kind"])
                     if x :
@@ -596,8 +566,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             version = 0.0
                             if "properties" in response:
@@ -621,8 +590,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("api", app["kind"])
                     if x :
@@ -635,8 +603,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             version = 0.0
                             if "properties" in response:
@@ -660,8 +627,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("api", app["kind"])
                     if x :
@@ -674,8 +640,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["ftpsState"] == "FtpsOnly":
@@ -698,8 +663,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("functionapp*", app["kind"])
                     if x :
@@ -712,8 +676,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["ftpsState"] == "FtpsOnly":
@@ -736,8 +699,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("app*", app["kind"])
                     if x :
@@ -750,8 +712,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["ftpsState"] == "FtpsOnly":
@@ -774,8 +735,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("app*", app["kind"])
                     if x :
@@ -788,8 +748,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["siteAuthEnabled"] is False:
@@ -812,8 +771,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("functionapp*", app["kind"])
                     if x :
@@ -826,8 +784,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["siteAuthEnabled"] is False:
@@ -850,8 +807,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("api", app["kind"])
                     if x :
@@ -864,8 +820,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["siteAuthEnabled"] is False:
@@ -888,8 +843,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("app*", app["kind"])
                     if x :
@@ -902,8 +856,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["http20Enabled"] is False:
@@ -926,8 +879,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("functionapp*", app["kind"])
                     if x :
@@ -940,8 +892,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["http20Enabled"] is False:
@@ -964,8 +915,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("api", app["kind"])
                     if x :
@@ -978,8 +928,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["http20Enabled"] is False:
@@ -1002,8 +951,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("functionapp*", app["kind"])
                     if x:
@@ -1028,8 +976,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("app*", app["kind"])
                     if x:
@@ -1054,8 +1001,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("api", app["kind"])
                     if x:
@@ -1080,8 +1026,7 @@ class AppService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("functionapp*", app["kind"])
                     if not x :
@@ -1094,8 +1039,7 @@ class AppService:
                         temp["subscription_name"] = subscription["displayName"]
 
                         config_url = base_url+app["id"]+"/config/web"
-                        token = get_auth_token(self.credentials)
-                        response = rest_api_call(token, config_url, '2019-08-01')
+                        response = rest_api_call(self.credentials, config_url, '2019-08-01')
                         try:
                             if "properties" in response:
                                 if response["properties"]["detailedErrorLoggingEnabled"] is False and \

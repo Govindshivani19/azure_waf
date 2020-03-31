@@ -1,7 +1,7 @@
 from constants import (base_url, service_bus_list_url, network_sg_list_url, app_list_url, network_list_url,
                       storage_accounts_list_url, network_interface_list_url, sql_server_list_url,
                       resource_group_list_url, container_registry_list_url)
-from helper_function import get_auth_token, rest_api_call
+from helper_function import rest_api_call
 import re
 
 
@@ -16,8 +16,7 @@ class NetworkService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = service_bus_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version="2017-04-01")
+                response = rest_api_call(self.credentials, url, api_version="2017-04-01")
                 for service_bus in response["value"]:
                     temp = dict()
                     temp["region"] = service_bus["location"]
@@ -27,8 +26,7 @@ class NetworkService:
                     temp["subscription_id"] = subscription['subscriptionId']
                     temp["subscription_name"] = subscription["displayName"]
                     network_url = base_url + service_bus["id"] + "/networkRuleSets"
-                    token = get_auth_token(self.credentials)
-                    network_response = rest_api_call(token, network_url, api_version="2017-04-01")
+                    network_response = rest_api_call(self.credentials, network_url, api_version="2017-04-01")
                     for network in network_response["value"]:
                         print(network)
                         if network["properties"]["virtualNetworkRules"]:
@@ -47,8 +45,7 @@ class NetworkService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = network_sg_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version="2019-11-01")
+                response = rest_api_call(self.credentials, url, api_version="2019-11-01")
                 for network in response["value"]:
                     temp = dict()
                     temp["status"] = "Pass"
@@ -58,8 +55,7 @@ class NetworkService:
                     temp["subscription_id"] = subscription['subscriptionId']
                     temp["subscription_name"] = subscription["displayName"]
                     sg_url = base_url + network["id"]
-                    token = get_auth_token(self.credentials)
-                    resp = rest_api_call(token, sg_url, api_version="2019-11-01")
+                    resp = rest_api_call(self.credentials, sg_url, api_version="2019-11-01")
                     for rule in resp["properties"]["securityRules"]:
                         if rule["properties"]["destinationPortRange"] == "22" \
                            and rule["properties"]["access"] == "Allow" \
@@ -79,8 +75,7 @@ class NetworkService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = app_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-08-01')
+                response = rest_api_call(self.credentials, url, '2019-08-01')
                 for app in response["value"]:
                     x = re.findall("app*", app["kind"])
                     if x:
@@ -92,8 +87,7 @@ class NetworkService:
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                         vnetworks_url = base_url + app["id"] + "/virtualNetworkConnections"
-                        token = get_auth_token(self.credentials)
-                        vnet_response = rest_api_call(token, vnetworks_url, '2019-08-01')
+                        vnet_response = rest_api_call(self.credentials, vnetworks_url, '2019-08-01')
                         for vnet in vnet_response:
                             if "vnetResourceId" in vnet["properties"]:
                                 temp["status"] = "Pass"
@@ -109,12 +103,10 @@ class NetworkService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = network_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-11-01')
+                response = rest_api_call(self.credentials, url, '2019-11-01')
                 for vnet in response["value"]:
                     subnet_url = base_url+vnet["id"]+"/subnets"
-                    token = get_auth_token(self.credentials)
-                    subnet_response = rest_api_call(token, subnet_url, '2019-11-01')
+                    subnet_response = rest_api_call(self.credentials, subnet_url, '2019-11-01')
                     for subnet in subnet_response["value"]:
                         temp = dict()
                         temp["region"] = ""
@@ -138,8 +130,7 @@ class NetworkService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = storage_accounts_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url)
+                response = rest_api_call(self.credentials, url)
                 storage_accounts = response['value']
                 for account in storage_accounts:
                     temp = dict()
@@ -166,8 +157,7 @@ class NetworkService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = network_interface_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version="2019-11-01")
+                response = rest_api_call(self.credentials, url, api_version="2019-11-01")
                 for ni in response["value"]:
                     temp = dict()
                     temp["region"] = ni["location"]
@@ -192,8 +182,7 @@ class NetworkService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = network_interface_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, '2019-11-01')
+                response = rest_api_call(self.credentials, url, '2019-11-01')
                 for vnet in response["value"]:
                     temp = dict()
                     temp["region"] = vnet["location"]
@@ -217,8 +206,7 @@ class NetworkService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = sql_server_list_url.format(subscription["subscriptionId"])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2015-05-01-preview')
+                response = rest_api_call(self.credentials, url, api_version='2015-05-01-preview')
                 for server in response["value"]:
                     temp = dict()
                     temp["region"] = server["location"]
@@ -228,8 +216,7 @@ class NetworkService:
                     temp["resource_id"] = ""
                     temp["status"] = "Fail"
                     virutal_network_url = base_url + server["id"] + "/virtualNetworkRules"
-                    token = get_auth_token(self.credentials)
-                    network_response = rest_api_call(token, virutal_network_url, api_version='2015-05-01-preview')
+                    network_response = rest_api_call(self.credentials, virutal_network_url, api_version='2015-05-01-preview')
                     print(network_response)
                     for network in network_response["value"]:
                         print(network["properties"])
@@ -247,8 +234,7 @@ class NetworkService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = network_sg_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version="2019-11-01")
+                response = rest_api_call(self.credentials, url, api_version="2019-11-01")
                 for network in response["value"]:
                     temp = dict()
                     temp["status"] = "Pass"
@@ -258,8 +244,7 @@ class NetworkService:
                     temp["subscription_id"] = subscription['subscriptionId']
                     temp["subscription_name"] = subscription["displayName"]
                     sg_url = base_url + network["id"]
-                    token = get_auth_token(self.credentials)
-                    resp = rest_api_call(token, sg_url, api_version="2019-11-01")
+                    resp = rest_api_call(self.credentials, sg_url, api_version="2019-11-01")
                     for rule in resp["properties"]["securityRules"]:
                         if rule["properties"]["destinationPortRange"] == "3389" \
                            and rule["properties"]["access"] == "Allow" \
@@ -279,12 +264,10 @@ class NetworkService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = resource_group_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url)
+                response = rest_api_call(self.credentials, url)
                 for resource_group in response["value"]:
                     network_gateway_url = base_url + resource_group["id"] + "/providers/Microsoft.Network/virtualNetworkGateways"
-                    token = get_auth_token(self.credentials)
-                    network_response = rest_api_call(token, network_gateway_url)
+                    network_response = rest_api_call(self.credentials, network_gateway_url)
                     for network in network_response["value"]:
                         print(network)
                         temp = dict()
@@ -308,8 +291,7 @@ class NetworkService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = container_registry_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url)
+                response = rest_api_call(self.credentials, url)
                 for container in response["value"]:
                     temp = dict()
                     temp["region"] = container["location"]
