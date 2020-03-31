@@ -330,6 +330,16 @@ def CEN_AZ_73(execution_hash, db_service):
         print(str(e))
 
 
+def CEN_AZ_76(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash,
+                             db_service.sql_server_tde_byok(),
+                             "CEN_AZ_76"
+                             )
+    except Exception as e:
+        print(str(e))
+
+
 def CEN_AZ_77(execution_hash, vm_service):
     try:
         insert_audit_records(execution_hash, vm_service.unused_virtual_machines(), 'CEN_AZ_77')

@@ -1,6 +1,6 @@
 from checks.common_services import CommonServices
-from helper_function import get_auth_token, rest_api_call, get_adal_token
-from contants import storage_accounts_list_url, role_definitions_list_url
+from helper_function import rest_api_call, get_adal_token
+from constants import storage_accounts_list_url, role_definitions_list_url
 import requests
 
 
@@ -15,14 +15,12 @@ class IamServices:
             subscription_list = self.credentials
             for subscription in subscription_list:
                 scope_reg_exp = '/subscriptions/{}'.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
                 resource_groups = CommonServices().get_resource_groups(token, subscription['subscriptionId'])
                 for resource_group in resource_groups:
                     scope = "/subscriptions/{}/resourceGroups/{}".format(subscription['subscriptionId'], resource_group["name"])
                     filter = "type eq 'CustomRole'"
                     url = role_definitions_list_url.format(scope) + "?$filter={$"+filter+"}"
-                    token = get_auth_token(self.credentials)
-                    response = rest_api_call(token, url, api_version='2015-07-01')
+                    response = rest_api_call(self.credentials, url, api_version='2015-07-01')
                     role_definitions_list = response['value']
                     for role_definition in role_definitions_list:
                         temp = dict()
@@ -90,8 +88,7 @@ class IamServices:
         issues = []
         try:
             token = get_adal_token()
-            mgt_api_token = get_auth_token(self.credentials)
-            headers = {'Authorization': 'Bearer ' + token['access_token'], 'Content-Type': 'application/json'}
+            mgt_api_headers = {'Authorization': 'Bearer ' + token['access_token'], 'Content-Type': 'application/json'}
             url = "https://graph.microsoft.com/v1.0/users"
             response = requests.get(url, headers=headers)
             response = response.json()

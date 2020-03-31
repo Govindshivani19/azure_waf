@@ -6,16 +6,52 @@ import boto3
 import json
 
 
-def rest_api_call(token, url, api_version=None):
-    response = ""
+def rest_api_call(credentials, url, api_version=None):
+
+    response = dict()
+
     try:
-        headers = {'Authorization': 'Bearer ' + token['accessToken'], 'Content-Type': 'application/json'}
+
+        headers = {
+            'Authorization': 'Bearer {}'.format(
+                get_auth_token(credentials)["accessToken"]),
+            'Content-Type': 'application/json'
+        }
+
         if api_version is None:
             params = {'api-version': '2019-06-01'}
         else:
             params = {'api-version': api_version}
-        response = requests.get(url, headers=headers, params=params)
-        response = response.json()
+
+        response = requests.get(url, headers=headers, params=params).json()
+
+        if "nextLink" in response:
+
+            next_response = response
+            response_data = response.get("value", [])
+            pagination = True
+
+            while pagination:
+
+                headers = {
+                    'Authorization': 'Bearer{}'.format(
+                        get_auth_token(credentials)["accessToken"]),
+                    'Content-Type': 'application/json'
+                }
+
+                next_response = requests.get(
+                    next_response["nextLink"],
+                    headers=headers,
+                    params=params
+                ).json()
+
+                response_data.extend(next_response.get("value", []))
+
+                if "nextLink" not in next_response:
+                    pagination = False
+
+            response = {"value": response_data}
+
     except Exception as e:
         print(str(e))
     finally:

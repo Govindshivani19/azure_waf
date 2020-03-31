@@ -8,11 +8,8 @@ from checks.vm_service import VmService
 from checks.automation_service import AutomationService
 from checks.security_service import SecurityService
 from db_helper import fetch_accounts, update_execution
-from helper_function import get_application_key, get_auth_token, rest_api_call
-from execute_checks import (
-    execute_log_monitor_checks, execute_storage_checks, execute_iam_checks,
-    execute_security_centre_checks, execute_database_checks, execute_vm_checks, execute_disk_checks, execute_az_services_checks
-)
+from helper_function import get_application_key, rest_api_call
+from execute_checks import *
 from checks.common_services import CommonServices
 from checks.kubernetes_service import KubernetesService
 from checks.app_service import AppService
@@ -42,14 +39,11 @@ def __start_audit__():
             credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
             credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
 
-            #token = get_auth_token(credentials)
-
             cs = CommonServices()
             subscription_list = cs.get_subscriptions_list(credentials)
 
             execution_hash = os.environ["execution_hash"]
 
-            print(execution_hash)
             storage_service = StorageService(credentials, subscription_list)
             iam_service = IamServices(credentials, subscription_list)
             monitor_service = MonitorLogService(credentials, subscription_list)
@@ -71,6 +65,7 @@ def __start_audit__():
             execute_az_services_checks(execution_hash, az_service)
             execute_storage_checks(execution_hash, storage_service)
             update_execution(execution_hash, 2)'''
+            CEN_AZ_76(execution_hash, db_service)
 
     except Exception as e:
         print(str(e))

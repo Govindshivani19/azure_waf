@@ -1,5 +1,5 @@
-from helper_function import get_auth_token, rest_api_call
-from contants import managed_clusters_url, base_url
+from helper_function import rest_api_call
+from constants import managed_clusters_url, base_url
 
 
 class KubernetesService:
@@ -13,13 +13,11 @@ class KubernetesService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 url = managed_clusters_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url)
+                response = rest_api_call(self.credentials, url)
                 managed_cluster_list = response['value']
                 for managed_cluster in managed_cluster_list:
                     url = base_url + managed_cluster["id"]
-                    token = get_auth_token(self.credentials)
-                    managed_cluster_response = rest_api_call(token, url)
+                    managed_cluster_response = rest_api_call(self.credentials, url)
                     temp = dict()
                     temp["status"] = "Fail"
                     temp["region"] = managed_cluster["location"]

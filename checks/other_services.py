@@ -1,6 +1,6 @@
 from checks.common_services import CommonServices
-from helper_function import get_auth_token, rest_api_call, get_auth_token_services
-from contants import redis_url, key_vault_list_url, vault_base_url, vault_policy_url, monitor_diagnostic_url, \
+from helper_function import rest_api_call, get_auth_token_services
+from constants import redis_url, key_vault_list_url, vault_base_url, vault_policy_url, monitor_diagnostic_url, \
     certificate_policy_url, issuer_url
 from datetime import datetime, timezone, timedelta
 
@@ -17,8 +17,7 @@ class AzureServices:
             for subscription in subscription_list:
                 redis_list = []
                 url = redis_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, url, api_version='2016-04-01')
+                response = rest_api_call(self.credentials, url, api_version='2016-04-01')
                 for r in response['value']:
                     redis_list.append(r)
 
@@ -52,8 +51,7 @@ class AzureServices:
             for subscription in subscription_list:
                 vault_list = []
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, vault_url)
+                response = rest_api_call(self.credentials, vault_url)
                 for r in response['value']:
                     vault_list.append(r)
 
@@ -103,8 +101,7 @@ class AzureServices:
             for subscription in subscription_list:
                 vault_list = []
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, vault_url)
+                response = rest_api_call(self.credentials, vault_url)
                 for r in response['value']:
                     vault_list.append(r)
 
@@ -154,8 +151,7 @@ class AzureServices:
             for subscription in subscription_list:
                 vault_list = []
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, vault_url)
+                response = rest_api_call(self.credentials, vault_url)
                 for r in response['value']:
                     vault_list.append(r)
 
@@ -165,7 +161,7 @@ class AzureServices:
 
                     vault_policy_url = "https://management.azure.com/{}".format(vault['id'])
                     try:
-                        vault_response = rest_api_call(token, vault_policy_url, api_version='2019-09-01')['properties']
+                        vault_response = rest_api_call(self.credentials, vault_policy_url, api_version='2019-09-01')['properties']
 
                     except Exception as e:
                         print(e)
@@ -200,14 +196,12 @@ class AzureServices:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, vault_url)
+                response = rest_api_call(self.credentials, vault_url)
                 vault_list = response['value']
                 for vault in vault_list:
 
                     url = monitor_diagnostic_url.format(vault['id'])
-                    token = get_auth_token(self.credentials)
-                    monitor_response = rest_api_call(token, url, '2017-05-01-preview')
+                    monitor_response = rest_api_call(self.credentials, url, '2017-05-01-preview')
                     diag_settings = monitor_response['value']
                     for diag in diag_settings:
                         logs = diag['properties']['logs']
@@ -247,8 +241,7 @@ class AzureServices:
             for subscription in subscription_list:
                 vault_list = []
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, vault_url)
+                response = rest_api_call(self.credentials, vault_url)
                 for r in response['value']:
                     vault_list.append(r)
 
@@ -307,8 +300,7 @@ class AzureServices:
             for subscription in subscription_list:
                 vault_list = []
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, vault_url)
+                response = rest_api_call(self.credentials, vault_url)
                 for r in response['value']:
                     vault_list.append(r)
 
@@ -367,8 +359,7 @@ class AzureServices:
             for subscription in subscription_list:
                 vault_list = []
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, vault_url)
+                response = rest_api_call(self.credentials, vault_url)
                 for r in response['value']:
                     vault_list.append(r)
 
@@ -428,8 +419,7 @@ class AzureServices:
             for subscription in subscription_list:
                 vault_list = []
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, vault_url)
+                response = rest_api_call(self.credentials, vault_url)
                 for r in response['value']:
                     vault_list.append(r)
 
@@ -500,8 +490,7 @@ class AzureServices:
             for subscription in subscription_list:
                 vault_list = []
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, vault_url)
+                response = rest_api_call(self.credentials, vault_url)
                 for r in response['value']:
                     vault_list.append(r)
 
@@ -562,8 +551,7 @@ class AzureServices:
             for subscription in subscription_list:
                 vault_list = []
                 vault_url = key_vault_list_url.format(subscription['subscriptionId'])
-                token = get_auth_token(self.credentials)
-                response = rest_api_call(token, vault_url)
+                response = rest_api_call(self.credentials, vault_url)
                 for r in response['value']:
                     vault_list.append(r)
 
