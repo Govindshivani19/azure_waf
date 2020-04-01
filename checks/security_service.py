@@ -1,6 +1,6 @@
 from checks.common_services import CommonServices
 from helper_function import rest_api_call
-from constants import policy_assignments_url, security_contacts_url, auto_provision_url, pricing_url, vm_list_url, compliance_result_url, manage_cluster_url, contact_url
+from constants import policy_assignments_url, security_contacts_url, auto_provision_url, pricing_url, vm_list_url, compliance_result_url, manage_cluster_url, contact_url, network_interface_list_url
 
 
 class SecurityService:
@@ -1211,3 +1211,96 @@ class SecurityService:
         finally:
             return issues
 
+    def is_emailing_security_alerts_enabled_to_the_security_contact(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                temp = dict()
+                temp["region"] = ""
+                url = security_contacts_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2017-08-01-preview')
+                print(response)
+                if not response['value']:
+                    temp["status"] = "Fail"
+                    temp["resource_name"] = subscription['displayName']
+                    temp["resource_id"] = subscription['subscriptionId']
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
+                else:
+                    for value in response['value']:
+                        if value['properties']['alertNotifications'] == "On":
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = subscription['displayName']
+                            temp["resource_id"] = subscription['subscriptionId']
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = subscription['displayName']
+                            temp["resource_id"] = subscription['subscriptionId']
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def enable_security_center_for_subscription(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = pricing_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2018-06-01')
+                print(response)
+                for each_response in response['value']:
+                    temp = dict()
+                    if each_response["properties"]["pricingTier"] == "Free":
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = each_response["properties"]["name"]
+                        temp["resource_id"] = each_response["id"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+                    elif each_response["properties"]["pricingTier"] == "Standard" and "freeTrialRemainingTime" not in \
+                            each_response["properties"]:
+                        temp["status"] = "Pass"
+                        temp["resource_name"] = each_response["properties"]["name"]
+                        temp["resource_id"] = each_response["id"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+                    issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def disable_ip_forwarding_from_vm(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = network_interface_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for each_response in response['value']:
+                    temp = dict()
+                    if "virtualMachine" in each_response["properties"]:  # Filtering Network Interfaces for VMs
+                        if each_response["properties"]["enableIPForwarding"] is True:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["properties"]["virtualMachine"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        elif each_response["properties"]["enableIPForwarding"] is False:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["properties"]["virtualMachine"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                print(issues)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
