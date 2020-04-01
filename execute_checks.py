@@ -621,6 +621,615 @@ def CEN_AZ_117(execution_hash, vm_service):
         print(str(e))
 
 
+def CEN_AZ_118(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.linux_vm_without_password(), 'CEN_AZ_118')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_119(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.linux_vm_specific_app_installation(), 'CEN_AZ_119')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_120(execution_hash, automation_service):
+    try:
+        insert_audit_records(execution_hash, automation_service.check_variable_encryption(), 'CEN_AZ_120')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_121(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.classic_vms(), 'CEN_AZ_121')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_122(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.automatic_os_patching(), 'CEN_AZ_122')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_123(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.vm_scale_set_diagnostic_logs(), 'CEN_AZ_123')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_124(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.windows_antimalware_software(), 'CEN_AZ_124')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_125(execution_hash, vm_service):
+    try:
+        insert_audit_records(execution_hash, vm_service.windows_antimalware_autoupdate(), 'CEN_AZ_125')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_126(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.cors_function_app(), 'CEN_AZ_126')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_127(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.cors_function_api_app(), 'CEN_AZ_127')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_128(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.cors_function_web_app(), 'CEN_AZ_128')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_129(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.min_tls_version_function_app(), 'CEN_AZ_129')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_130(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.min_tls_version_web_app(), 'CEN_AZ_130')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_131(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.min_tls_version_api_app(), 'CEN_AZ_131')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_132(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_client_certificates_apiapp(), 'CEN_AZ_132')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_133(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_client_certificates_webapp(), 'CEN_AZ_133')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_134(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_client_certificates_functionapp(), 'CEN_AZ_134')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_135(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.managed_identity_function_app(), 'CEN_AZ_135')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_136(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.managed_identity_web_app(), 'CEN_AZ_136')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_137(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.managed_identity_api_app(), 'CEN_AZ_137')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_138(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.remote_debugging_function_app(), 'CEN_AZ_138')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_139(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.remote_debugging_web_app(), 'CEN_AZ_139')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_140(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.remote_debugging_api_app(), 'CEN_AZ_140')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_141(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.check_dotnet_version_function_app(), 'CEN_AZ_141')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_142(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.check_dotnet_version_web_app(), 'CEN_AZ_142')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_143(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.check_dotnet_version_api_app(), 'CEN_AZ_143')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_144(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_ftp_function_app(), 'CEN_AZ_144')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_145(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_ftp_web_app(), 'CEN_AZ_145')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_146(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_ftp_api_app(), 'CEN_AZ_146')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_147(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_authentication_web_app(), 'CEN_AZ_147')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_148(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_authentication_api_app(), 'CEN_AZ_148')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_149(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_authentication_function_app(), 'CEN_AZ_149')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_150(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_latest_httpversion_api_app(), 'CEN_AZ_150')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_151(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_latest_httpversion_function_app(), 'CEN_AZ_151')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_152(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_latest_httpversion_web_app(), 'CEN_AZ_152')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_153(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.remote_debugging_api_app(), 'CEN_AZ_153')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_154(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.remote_debugging_function_app(), 'CEN_AZ_154')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_155(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.remote_debugging_web_app(), 'CEN_AZ_155')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_156(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_https_access_apiapp(), 'CEN_AZ_156')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_157(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_https_access_functionapp(), 'CEN_AZ_157')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_158(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_https_access_webapp(), 'CEN_AZ_158')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_159(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.enable_diagnostic_logs(), 'CEN_AZ_159')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_160(execution_hash, network_service):
+    try:
+        insert_audit_records(execution_hash, network_service.service_endpoint_servicebus(), 'CEN_AZ_160')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_161(execution_hash, network_service):
+    try:
+        insert_audit_records(execution_hash, network_service.deny_ssh_over_interent(), 'CEN_AZ_161')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_162(execution_hash, network_service):
+    try:
+        insert_audit_records(execution_hash, network_service.app_service_service_endpoint(), 'CEN_AZ_162')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_163(execution_hash, network_service):
+    try:
+        insert_audit_records(execution_hash, network_service.disable_gateway_nsg(), 'CEN_AZ_163')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_164(execution_hash, network_service):
+    try:
+        insert_audit_records(execution_hash, network_service.storage_account_service_network(), 'CEN_AZ_164')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_165(execution_hash, network_service):
+    try:
+        insert_audit_records(execution_hash, network_service.network_interface_deny_public_ips(), 'CEN_AZ_165')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_166(execution_hash, network_service):
+    try:
+        insert_audit_records(execution_hash, network_service.disable_ip_forwading(), 'CEN_AZ_166')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_167(execution_hash, network_service):
+    try:
+        insert_audit_records(execution_hash, network_service.service_endpoint_sql_server(), 'CEN_AZ_167')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_168(execution_hash, network_service):
+    try:
+        insert_audit_records(execution_hash, network_service.vpn_gateway_sku(), 'CEN_AZ_168')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_169(execution_hash, network_service):
+    try:
+        insert_audit_records(execution_hash, network_service.deny_rdp_over_interent(), 'CEN_AZ_169')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_170(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.sql_managed_instance_admin_email_available(),'CEN_AZ_170')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_172(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.data_security_managed_instance_status(),'CEN_AZ_172')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_173(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.data_security_sql_server_status(),'CEN_AZ_173')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_174(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.threat_protection_type_managed_instance(),'CEN_AZ_174')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_176(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.audit_sql_server(),'CEN_AZ_176')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_178(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.sql_managed_instance_admin_email_active(),'CEN_AZ_178')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_182(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.geo_redundant_backup_mariadb(),'CEN_AZ_182')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_183(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.geo_redundant_backup_mysql(),'CEN_AZ_183')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_184(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.geo_redundant_backup_postgresql(),'CEN_AZ_184')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_188(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.geo_redundant_backup_sql(),'CEN_AZ_188')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_189(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.mariadb_server_virtual_endpoint(),'CEN_AZ_189')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_190(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.sql_server_virtual_endpoint(),'CEN_AZ_190')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_191(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.postgresql_server_virtual_endpoint(),'CEN_AZ_191')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_192(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.sql_server_virtual_endpoint(),'CEN_AZ_192')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_193(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.mysql_private_endpoint(),'CEN_AZ_193')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_194(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.postgresql_private_endpoint(),'CEN_AZ_194')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_195(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.sql_managed_instance_tde_byok(),'CEN_AZ_195')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_199(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.sql_managed_instance_vulnerability_assessment(),'CEN_AZ_199')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_200(execution_hash, db_service):
+    try:
+        insert_audit_records(execution_hash, db_service.sql_server_vulnerability_assessment(),'CEN_AZ_200')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_201(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.network_hardening_recommendations(),'CEN_AZ_201')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_202(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.designate_subscription_owner(),'CEN_AZ_202')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_203(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.authorized_ip_ranges(),'CEN_AZ_203')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_204(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.open_managed_ports(),'CEN_AZ_204')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_205(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.endpoint_protection(),'CEN_AZ_205')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_206(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.pod_security_policy(),'CEN_AZ_206')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_207(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.os_vulnerabilities(),'CEN_AZ_207')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_208(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.adaptive_application_controls(),'CEN_AZ_208')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_209(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.no_of_owners(),'CEN_AZ_209')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_210(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.get_contact(),'CEN_AZ_210')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_211(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.is_emailing_security_alerts_enabled_to_the_security_contact(),'CEN_AZ_211')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_212(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.enable_system_updates_monitor(),'CEN_AZ_212')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_213(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.enable_standard_pricing(),'CEN_AZ_213')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_214(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.enable_security_center_for_subscription(),'CEN_AZ_214')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_215(execution_hash, kubernetes_service):
+    try:
+        insert_audit_records(execution_hash, kubernetes_service.rbac_on_kubernetes(),'CEN_AZ_215')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_216(execution_hash, security_service):
+    try:
+        insert_audit_records(execution_hash, security_service.disable_ip_forwarding_from_vm(),'CEN_AZ_216')
+    except Exception as e:
+        print(str(e))
+
+
 def execute_storage_checks(execution_hash, storage_service):
     CEN_AZ_4(execution_hash, storage_service)
     CEN_AZ_5(execution_hash, storage_service)
@@ -664,6 +1273,22 @@ def execute_security_centre_checks(execution_hash, security_service):
     CEN_AZ_56(execution_hash, security_service)
     CEN_AZ_57(execution_hash, security_service)
     CEN_AZ_58(execution_hash, security_service)
+    CEN_AZ_201(execution_hash, security_service)
+    CEN_AZ_202(execution_hash, security_service)
+    CEN_AZ_203(execution_hash, security_service)
+    CEN_AZ_204(execution_hash, security_service)
+    CEN_AZ_205(execution_hash, security_service)
+    CEN_AZ_206(execution_hash, security_service)
+    CEN_AZ_207(execution_hash, security_service)
+    CEN_AZ_208(execution_hash, security_service)
+    CEN_AZ_209(execution_hash, security_service)
+    CEN_AZ_210(execution_hash, security_service)
+    CEN_AZ_211(execution_hash, security_service)
+    CEN_AZ_212(execution_hash, security_service)
+    CEN_AZ_213(execution_hash, security_service)
+    CEN_AZ_214(execution_hash, security_service)
+    CEN_AZ_215(execution_hash, security_service)
+    CEN_AZ_216(execution_hash, security_service)
 
 
 def execute_database_checks(execution_hash, db_service):
@@ -681,6 +1306,25 @@ def execute_database_checks(execution_hash, db_service):
     CEN_AZ_71(execution_hash, db_service)
     CEN_AZ_72(execution_hash, db_service)
     CEN_AZ_73(execution_hash, db_service)
+    CEN_AZ_170(execution_hash, db_service)
+    CEN_AZ_172(execution_hash, db_service)
+    CEN_AZ_173(execution_hash, db_service)
+    CEN_AZ_174(execution_hash, db_service)
+    CEN_AZ_176(execution_hash, db_service)
+    CEN_AZ_178(execution_hash, db_service)
+    CEN_AZ_182(execution_hash, db_service)
+    CEN_AZ_183(execution_hash, db_service)
+    CEN_AZ_184(execution_hash, db_service)
+    CEN_AZ_188(execution_hash, db_service)
+    CEN_AZ_189(execution_hash, db_service)
+    CEN_AZ_190(execution_hash, db_service)
+    CEN_AZ_191(execution_hash, db_service)
+    CEN_AZ_192(execution_hash, db_service)
+    CEN_AZ_193(execution_hash, db_service)
+    CEN_AZ_194(execution_hash, db_service)
+    CEN_AZ_195(execution_hash, db_service)
+    CEN_AZ_199(execution_hash, db_service)
+    CEN_AZ_200(execution_hash, db_service)
 
 
 def execute_vm_checks(execution_hash, vm_service):
@@ -712,6 +1356,13 @@ def execute_vm_checks(execution_hash, vm_service):
     CEN_AZ_115(execution_hash, vm_service)
     CEN_AZ_116(execution_hash, vm_service)
     CEN_AZ_117(execution_hash, vm_service)
+    CEN_AZ_118(execution_hash, vm_service)
+    CEN_AZ_119(execution_hash, vm_service)
+    CEN_AZ_121(execution_hash, vm_service)
+    CEN_AZ_122(execution_hash, vm_service)
+    CEN_AZ_123(execution_hash, vm_service)
+    CEN_AZ_124(execution_hash, vm_service)
+    CEN_AZ_125(execution_hash, vm_service)
 
 
 def execute_disk_checks(execution_hash, vm_service):
@@ -730,3 +1381,61 @@ def execute_az_services_checks(execution_hash, az_service):
     CEN_AZ_96(execution_hash, az_service)
     CEN_AZ_97(execution_hash, az_service)
     CEN_AZ_98(execution_hash, az_service)
+
+
+def execute_automation_services_checks(execution_hash, automation_service):
+    CEN_AZ_120(execution_hash, automation_service)
+
+
+def execute_network_checks(execution_hash, network_service):
+    CEN_AZ_160(execution_hash, network_service)
+    CEN_AZ_161(execution_hash, network_service)
+    CEN_AZ_162(execution_hash, network_service)
+    CEN_AZ_163(execution_hash, network_service)
+    CEN_AZ_164(execution_hash, network_service)
+    CEN_AZ_165(execution_hash, network_service)
+    CEN_AZ_166(execution_hash, network_service)
+    CEN_AZ_167(execution_hash, network_service)
+    CEN_AZ_168(execution_hash, network_service)
+    CEN_AZ_169(execution_hash, network_service)
+
+
+def execute_app_service_checks(execution_hash, app_service):
+    CEN_AZ_126(execution_hash, app_service)
+    CEN_AZ_127(execution_hash, app_service)
+    CEN_AZ_128(execution_hash, app_service)
+    CEN_AZ_129(execution_hash, app_service)
+    CEN_AZ_130(execution_hash, app_service)
+    CEN_AZ_131(execution_hash, app_service)
+    CEN_AZ_132(execution_hash, app_service)
+    CEN_AZ_133(execution_hash, app_service)
+    CEN_AZ_134(execution_hash, app_service)
+    CEN_AZ_135(execution_hash, app_service)
+    CEN_AZ_136(execution_hash, app_service)
+    CEN_AZ_137(execution_hash, app_service)
+    CEN_AZ_138(execution_hash, app_service)
+    CEN_AZ_139(execution_hash, app_service)
+    CEN_AZ_140(execution_hash, app_service)
+    CEN_AZ_141(execution_hash, app_service)
+    CEN_AZ_142(execution_hash, app_service)
+    CEN_AZ_143(execution_hash, app_service)
+    CEN_AZ_144(execution_hash, app_service)
+    CEN_AZ_145(execution_hash, app_service)
+    CEN_AZ_146(execution_hash, app_service)
+    CEN_AZ_147(execution_hash, app_service)
+    CEN_AZ_148(execution_hash, app_service)
+    CEN_AZ_149(execution_hash, app_service)
+    CEN_AZ_150(execution_hash, app_service)
+    CEN_AZ_151(execution_hash, app_service)
+    CEN_AZ_152(execution_hash, app_service)
+    CEN_AZ_153(execution_hash, app_service)
+    CEN_AZ_154(execution_hash, app_service)
+    CEN_AZ_155(execution_hash, app_service)
+    CEN_AZ_156(execution_hash, app_service)
+    CEN_AZ_157(execution_hash, app_service)
+    CEN_AZ_158(execution_hash, app_service)
+    CEN_AZ_159(execution_hash, app_service)
+
+
+def execute_kubernetes_service_checks(execution_hash, kubernetes_service):
+    CEN_AZ_215(execution_hash,kubernetes_service)
