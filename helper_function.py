@@ -25,7 +25,7 @@ def rest_api_call(credentials, url, api_version=None):
 
         response = requests.get(url, headers=headers, params=params).json()
 
-        if "nextLink" in response:
+        if response.get("nextLink") not in ["", None]:
 
             next_response = response
             response_data = response.get("value", [])
