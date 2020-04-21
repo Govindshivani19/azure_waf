@@ -245,3 +245,29 @@ class StorageService:
             print(str(e))
         finally:
             return issues
+
+    def migrate_storage_to_new_rg(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = storage_accounts_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-06-01')
+                temp = dict()
+                for each_response in response['value']:
+                    if each_response['type'] == "Microsoft.ClassicStorage/storageAccounts":
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = each_response["name"]
+                        temp["resource_id"] = each_response["id"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+                    else:
+                        temp["status"] = "Pass"
+                        temp["resource_name"] = each_response["name"]
+                        temp["resource_id"] = each_response["id"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues

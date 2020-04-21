@@ -1230,12 +1230,83 @@ def CEN_AZ_216(execution_hash, security_service):
         print(str(e))
 
 
+def CEN_AZ_217(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.api_app_php_version(), 'CEN_AZ_217')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_218(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.function_app_php_version(), 'CEN_AZ_218')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_219(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.web_app_php_version(), 'CEN_AZ_219')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_220(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.api_app_python_version(), 'CEN_AZ_220')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_221(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.function_app_python_version(), 'CEN_AZ_221')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_222(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.web_app_python_version(), 'CEN_AZ_222')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_223(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.api_app_java_version(), 'CEN_AZ_223')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_224(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.function_app_java_version(), 'CEN_AZ_224')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_225(execution_hash, app_service):
+    try:
+        insert_audit_records(execution_hash, app_service.web_app_java_version(), 'CEN_AZ_225')
+    except Exception as e:
+        print(str(e))
+
+
+def CEN_AZ_226(execution_hash, storage_service):
+    try:
+        insert_audit_records(execution_hash, storage_service.migrate_storage_to_new_rg(), 'CEN_AZ_226')
+    except Exception as e:
+        print(str(e))
+
+
 def execute_storage_checks(execution_hash, storage_service):
     CEN_AZ_4(execution_hash, storage_service)
     CEN_AZ_5(execution_hash, storage_service)
     CEN_AZ_7(execution_hash, storage_service)
     CEN_AZ_8(execution_hash, storage_service)
     CEN_AZ_2(execution_hash, storage_service)
+    CEN_AZ_226(execution_hash, storage_service)
 
 
 def execute_log_monitor_checks(execution_hash, monitor_service):
@@ -1435,6 +1506,15 @@ def execute_app_service_checks(execution_hash, app_service):
     CEN_AZ_157(execution_hash, app_service)
     CEN_AZ_158(execution_hash, app_service)
     CEN_AZ_159(execution_hash, app_service)
+    CEN_AZ_217(execution_hash, app_service)
+    CEN_AZ_218(execution_hash, app_service)
+    CEN_AZ_219(execution_hash, app_service)
+    CEN_AZ_220(execution_hash, app_service)
+    CEN_AZ_221(execution_hash, app_service)
+    CEN_AZ_222(execution_hash, app_service)
+    CEN_AZ_223(execution_hash, app_service)
+    CEN_AZ_224(execution_hash, app_service)
+    CEN_AZ_225(execution_hash, app_service)
 
 
 def execute_kubernetes_service_checks(execution_hash, kubernetes_service):

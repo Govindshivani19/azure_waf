@@ -1554,7 +1554,7 @@ class AppService:
         finally:
             return issues
 
-    def web_app_php_version(self):
+    def api_app_php_version(self):
 
         issues = []
 
@@ -1636,89 +1636,7 @@ class AppService:
         finally:
             return issues
 
-    def function_app_java_version(self):
-
-        issues = []
-
-        try:
-
-            for subscription in self.subscription_list:
-
-                apps_url = app_list_url.format(
-                    subscription.get("subscriptionId", ""))
-                apps = rest_api_call(
-                    credentials=self.credentials,
-                    url=apps_url,
-                    api_version="2019-08-01"
-                ).get("value", [])
-
-                for app in apps:
-
-                    if app.get("type", "") == "Microsoft.Web/sites" and \
-                            app.get("kind", "").startswith("api"):
-                        config_url = \
-                            "{}/{}/config".format(
-                                base_url,
-                                app.get("id", "")
-                            )
-
-                        configs = rest_api_call(
-                            credentials=self.credentials,
-                            url=config_url,
-                            api_version="2019-08-01"
-                        ).get("value", [])
-
-                        for config in configs:
-
-                            linux_version = \
-                                config.get("properties", {}).get(
-                                    "linuxFxVersion", " | ").lower()
-                            java_version = config.get(
-                                "properties", {}).get("javaVersion", "")
-
-                            issue = {}
-
-                            if "java" not in linux_version and \
-                                    java_version not in ["", None]:
-
-                                issue["status"] = "Info"
-                                issue["resource_name"] = \
-                                    config.get("name", "NA")
-                                issue["resource_id"] = config.get("id", "NA")
-                                issue["problem"] = \
-                                    "Ensure that Java version - {} is the " \
-                                    "latest in Function app {}".format(
-                                        java_version,
-                                        config.get("name", "NA"))
-
-                            elif java_version in ["", None] and \
-                                    "java" in linux_version:
-                                try:
-                                    java_version = \
-                                        linux_version.split("|")[-1]
-                                except:
-                                    java_version = "NA"
-
-                                issue["status"] = "Info"
-                                issue["resource_name"] = \
-                                    config.get("name", "NA")
-                                issue["resource_id"] = config.get("id", "NA")
-                                issue["problem"] = \
-                                    "Ensure that Java version - {} is the " \
-                                    "latest in Function app {}".format(
-                                        java_version,
-                                        config.get("name", "NA"))
-
-                            else:
-                                continue
-
-                            issues.append(issue)
-        except Exception as e:
-            print(str(e))
-        finally:
-            return issues
-
-    def web_app_php_version(self):
+    def function_app_php_version(self):
 
         issues = []
 
@@ -1755,8 +1673,90 @@ class AppService:
                             linux_version = \
                                 config.get("properties", {}).get(
                                     "linuxFxVersion", " | ").lower()
-                            php_version = config.get(
+                            java_version = config.get(
                                 "properties", {}).get("phpVersion", "")
+
+                            issue = {}
+
+                            if "java" not in linux_version and \
+                                    java_version not in ["", None]:
+
+                                issue["status"] = "Info"
+                                issue["resource_name"] = \
+                                    config.get("name", "NA")
+                                issue["resource_id"] = config.get("id", "NA")
+                                issue["problem"] = \
+                                    "Ensure that PHP version - {} is the " \
+                                    "latest in API app {}".format(
+                                        java_version,
+                                        config.get("name", "NA"))
+
+                            elif java_version in ["", None] and \
+                                    "java" in linux_version:
+                                try:
+                                    java_version = \
+                                        linux_version.split("|")[-1]
+                                except:
+                                    java_version = "NA"
+
+                                issue["status"] = "Info"
+                                issue["resource_name"] = \
+                                    config.get("name", "NA")
+                                issue["resource_id"] = config.get("id", "NA")
+                                issue["problem"] = \
+                                    "Ensure that PHP version - {} is the " \
+                                    "latest in API app {}".format(
+                                        java_version,
+                                        config.get("name", "NA"))
+
+                            else:
+                                continue
+
+                            issues.append(issue)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def api_app_java_version(self):
+
+        issues = []
+
+        try:
+
+            for subscription in self.subscription_list:
+
+                apps_url = app_list_url.format(
+                    subscription.get("subscriptionId", ""))
+                apps = rest_api_call(
+                    credentials=self.credentials,
+                    url=apps_url,
+                    api_version="2019-08-01"
+                ).get("value", [])
+
+                for app in apps:
+
+                    if app.get("type", "") == "Microsoft.Web/sites" and \
+                            app.get("kind", "").startswith("api"):
+                        config_url = \
+                            "{}/{}/config".format(
+                                base_url,
+                                app.get("id", "")
+                            )
+
+                        configs = rest_api_call(
+                            credentials=self.credentials,
+                            url=config_url,
+                            api_version="2019-08-01"
+                        ).get("value", [])
+
+                        for config in configs:
+
+                            linux_version = \
+                                config.get("properties", {}).get(
+                                    "linuxFxVersion", " | ").lower()
+                            php_version = config.get(
+                                "properties", {}).get("javaVersion", "")
 
                             issue = {}
 
@@ -1768,7 +1768,7 @@ class AppService:
                                     config.get("name", "NA")
                                 issue["resource_id"] = config.get("id", "NA")
                                 issue["problem"] = \
-                                    "Ensure that PHP version - {} is the " \
+                                    "Ensure that JAVA version - {} is the " \
                                     "latest in Function app {}".format(
                                         php_version,
                                         config.get("name", "NA"))
@@ -1786,7 +1786,7 @@ class AppService:
                                     config.get("name", "NA")
                                 issue["resource_id"] = config.get("id", "NA")
                                 issue["problem"] = \
-                                    "Ensure that PHP version - {} is the " \
+                                    "Ensure that JAVA version - {} is the " \
                                     "latest in Function app {}".format(
                                         php_version,
                                         config.get("name", "NA"))

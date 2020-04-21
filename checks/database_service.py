@@ -1703,7 +1703,7 @@ class DatabaseService:
                         vulnerability_assessments_url = \
                             "{}/{}/vulnerabilityAssessments".format(
                                 base_url,
-                                server.get("id", "")
+                                instance.get("id", "")
                             )
 
                         vulnerability_assessments = rest_api_call(
@@ -1801,6 +1801,32 @@ class DatabaseService:
                                     server.get("name", "NA"))
 
                         issues.append(issue)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def sql_servers_administration_provision(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = sql_server_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-06-01-preview')
+                for each_response in response['value']:
+                    temp = dict()
+                    if each_response["type"] == "Microsoft.Sql/servers":
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = each_response["name"]
+                        temp["resource_id"] = each_response["id"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+                    elif each_response["type"] == "Microsoft.Sql/servers/administrators":
+                        temp["status"] = "Pass"
+                        temp["resource_name"] = each_response["name"]
+                        temp["resource_id"] = each_response["id"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
         except Exception as e:
             print(str(e))
         finally:
