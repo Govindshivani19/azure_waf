@@ -33,14 +33,14 @@ class StorageService:
                                     temp["resource_id"] = ""
                                     temp["subscription_id"] = subscription['subscriptionId']
                                     temp["subscription_name"] = subscription["displayName"]
-                                    temp["value_one"] = account["name"]
+                                    temp["value_one"] = account["id"]
                                 else:
                                     temp["status"] = "Pass"
                                     temp["resource_name"] = container["name"]
                                     temp["resource_id"] = ""
                                     temp["subscription_id"] = subscription['subscriptionId']
                                     temp["subscription_name"] = subscription["displayName"]
-                                    temp["value_one"] = account["name"]
+                                    temp["value_one"] = account["id"]
                                 issues.append(temp)
                     except:
                         continue
@@ -63,13 +63,13 @@ class StorageService:
                     if not account['properties']['supportsHttpsTrafficOnly']:
                         temp["status"] = "Fail"
                         temp["resource_name"] = account["name"]
-                        temp["resource_id"] = ""
+                        temp["resource_id"] = account["id"]
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = account["name"]
-                        temp["resource_id"] = ""
+                        temp["resource_id"] = account["id"]
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
@@ -93,13 +93,13 @@ class StorageService:
                     if account['properties']['networkAcls']['bypass'] is None:
                         temp["status"] = "Fail"
                         temp["resource_name"] = account["name"]
-                        temp["resource_id"] = ""
+                        temp["resource_id"] = account["id"]
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = account["name"]
-                        temp["resource_id"] = ""
+                        temp["resource_id"] = account["id"]
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
