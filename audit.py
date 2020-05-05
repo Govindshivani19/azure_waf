@@ -22,6 +22,7 @@ def __start_audit__():
         credentials = dict()
         accounts = []
         az_account_hash = os.environ["az_account_hash"]
+
         if len(az_account_hash) > 1:
              accounts = fetch_accounts(az_account_hash)
         else:
