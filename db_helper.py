@@ -10,9 +10,9 @@ def insert_checks(check_id, check_name, rule):
     session = Session(expire_on_commit=False)
     try:
         checks = AZChecks()
-        checks.az_check_id = check_id
-        checks.az_check_name = check_name
-        checks.az_rule = rule
+        checks.check_id = check_id
+        checks.check_name = check_name
+        checks.rule = rule
         session.add(checks)
         session.commit()
     except Exception as e:
@@ -30,7 +30,7 @@ def insert_audit_records(execution_hash, issues, check_id):
             for issue in issues:
                 audit_record = AzAudit()
                 audit_record.__dict__["check_id"] = check_id
-                audit_record.__dict__["az_execution_hash"] = execution_hash
+                audit_record.__dict__["execution_hash"] = execution_hash
                 for key, value in issue.items():
                     audit_record.__dict__[key] = value
                 session.add(audit_record)

@@ -85,14 +85,13 @@ class UserAccountMap(Base):
 
 class AzAccount(Base):
     __tablename__ = 'az_account'
-
     id = Column(INTEGER(11), primary_key=True)
     application_id = Column(String(100), nullable=False)
     domain_id = Column(String(100), nullable=False)
     tenant_id = Column(String(100), nullable=False)
-    az_customer_hash = Column(ForeignKey('customer.customer_hash'), nullable=False, index=True)
+    customer_hash = Column(ForeignKey('customer.customer_hash'), nullable=False, index=True)
     is_active = Column(TINYINT(2), nullable=False)
-    az_account_hash = Column(String(100), nullable=False, unique=True)
+    account_hash = Column(String(100), nullable=False, unique=True)
     created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
     updated_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 
@@ -103,11 +102,11 @@ class AzAccountSubscriptions(Base):
     __tablename__ = 'az_account_subscriptions'
 
     id = Column(INTEGER(11), primary_key=True)
-    az_account_hash = Column(ForeignKey('az_account.az_account_hash'), nullable=False)
+    account_hash = Column(ForeignKey('az_account.account_hash'), nullable=False)
     subscription_id = Column(String(100), nullable=False)
     subscription_type = Column(String(100))
     offer_code = Column(String(200))
-    az_subscription_hash = Column(String(100), nullable=False, unique=True)
+    subscription_hash = Column(String(100), nullable=False, unique=True)
     created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
     updated_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 
@@ -118,18 +117,18 @@ class AZChecks(Base):
     __tablename__ = 'az_checks'
 
     id = Column(INTEGER(11), primary_key=True)
-    az_check_id = Column(String(100), nullable=False, unique=True)
-    az_check_name = Column(String(250))
-    az_rule = Column(String(5000))
+    check_id = Column(String(100), nullable=False, unique=True)
+    check_name = Column(String(250))
+    rule = Column(String(5000))
 
 
 class AzExecutionDetails(Base):
     __tablename__ = 'az_execution_details'
 
     id = Column(INTEGER(11), primary_key=True)
-    az_account_hash_exe = Column(ForeignKey('az_account.az_account_hash'), nullable=False)
-    az_subscription_hash_exe = Column(ForeignKey('az_account_subscriptions.az_subscription_hash'))
-    az_execution_hash = Column(String(100), nullable=False, unique=True)
+    account_hash_exe = Column(ForeignKey('az_account.account_hash'), nullable=False)
+    subscription_hash_exe = Column(ForeignKey('az_account_subscriptions.subscription_hash'))
+    execution_hash = Column(String(100), nullable=False, unique=True)
     status = Column(TINYINT(2), nullable=False)
     failed_checks = Column(INTEGER(11), nullable=False, server_default=text("'0'"))
     completed_checks = Column(INTEGER(11), nullable=False, server_default=text("'1'"))
@@ -144,7 +143,7 @@ class AzAudit(Base):
     __tablename__ = 'az_audit_report'
 
     id = Column(INTEGER(11), primary_key=True)
-    az_execution_hash = Column(String(100))
+    execution_hash = Column(String(100))
     check_id = Column(String(100))
     region = Column(String(100))
     resource_name = Column(String(100))
