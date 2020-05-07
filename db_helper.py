@@ -1,9 +1,15 @@
 import datetime
 import decimal
 import uuid
+import json
 from db_connect import Session
 from model.db_models import AzAccount, AZChecks, AzAudit, AzExecutionDetails
 from sqlalchemy import delete, update
+import os
+from base64 import b64decode
+import hashlib
+from Cryptodome.Cipher import AES
+
 
 
 def insert_checks(check_id, check_name, rule):
@@ -49,12 +55,12 @@ def fetch_accounts(account_hash=None):
         if account_hash is None:
             accounts_list = session.query(AzAccount).filter(AzAccount.is_active != '0').all();
             for account in accounts_list:
-                temp = dict()
                 tenant_id = account.tenant_id
                 application_id = account.application_id
-                account_hash = account.account_hash
+                encrypted_string = json.loads(account.encrypted_string)
+                client_secret = decryption(encrypted_string)
                 temp = {
-                    "account_hash": account_hash,
+                    "client_secret": client_secret,
                     "tenant_id": tenant_id,
                     "client_id": application_id
                 }
@@ -63,12 +69,12 @@ def fetch_accounts(account_hash=None):
             accounts_list = session.query(AzAccount).filter(AzAccount.is_active != '0')\
                             .filter(AzAccount.account_hash == account_hash).all();
             for account in accounts_list:
-                temp = dict()
                 tenant_id = account.tenant_id
                 application_id = account.application_id
-                account_hash = account.account_hash
+                encrypted_string = json.loads(account.encrypted_string)
+                client_secret = decryption(encrypted_string)
                 temp = {
-                    "account_hash": account_hash,
+                    "client_secret": client_secret,
                     "tenant_id": tenant_id,
                     "client_id": application_id
                 }
@@ -91,3 +97,16 @@ def update_execution(execution_hash, staus):
         print(str(e))
     finally:
         session.close()
+
+
+def decryption(encrypted_string):
+    encryption_key = os.environ["encryption_key"]
+    salt = b64decode(encrypted_string['salt'])
+    cipher_text = b64decode(encrypted_string['cipher_text'])
+    nonce = b64decode(encrypted_string['nonce'])
+    tag = b64decode(encrypted_string['tag'])
+    private_key = hashlib.scrypt(
+        encryption_key.encode(), salt=salt, n=2 ** 14, r=8, p=1, dklen=32)
+    cipher = AES.new(private_key, AES.MODE_GCM, nonce=nonce)
+    decrypted = cipher.decrypt_and_verify(cipher_text, tag)
+    return decrypted

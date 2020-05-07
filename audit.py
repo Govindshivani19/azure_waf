@@ -30,10 +30,9 @@ def __start_audit__():
 
         #if True:
         for account in accounts:
-            client_secret = get_application_key(account['account_hash'])
             credentials['AZURE_TENANT_ID'] = account["tenant_id"]
             credentials['AZURE_CLIENT_ID'] = account["client_id"]
-            credentials['AZURE_CLIENT_SECRET'] = client_secret
+            credentials['AZURE_CLIENT_SECRET'] = account["client_secret"]
 
             '''credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
             credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]

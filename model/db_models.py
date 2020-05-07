@@ -94,6 +94,7 @@ class AzAccount(Base):
     account_hash = Column(String(100), nullable=False, unique=True)
     created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
     updated_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+    encrypted_string = Column(String(1000), nullable=False)
 
     customer = relationship('Customer')
 
