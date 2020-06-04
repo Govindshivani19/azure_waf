@@ -35,13 +35,12 @@ def __start_audit__():
             credentials['AZURE_CLIENT_ID'] = account["client_id"]
             credentials['AZURE_CLIENT_SECRET'] = client_secret
 
-            '''credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
+            credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
             credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
-            credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]'''
+            credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
 
             cs = CommonServices()
             subscription_list = cs.get_subscriptions_list(credentials)
-
             execution_hash = os.environ["execution_hash"]
 
             storage_service = StorageService(credentials, subscription_list)
@@ -71,7 +70,9 @@ def __start_audit__():
             update_execution(execution_hash, 2)
 
     except Exception as e:
-        print(str(e))
+        print("error in waf",str(e))
+        import traceback
+        print(traceback.format_exc())
 
 
 __start_audit__()
