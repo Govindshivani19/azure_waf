@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import BigInteger, Boolean, Column, Date, DateTime, Integer, Numeric, SmallInteger, String, text
+from sqlalchemy import BigInteger, Boolean, Column, Date, DateTime, Integer, Numeric, SmallInteger, String, text, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.mysql import LONGTEXT
 
@@ -133,29 +133,12 @@ class AZChecks(Base):
     cli_remediation_steps = Column(String(5000))
 
 
-class AzExecutionDetails(Base):
-    __tablename__ = 'az_execution_details'
-    __table_args__ = {"schema": "chanak"}
-
-    id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_execution_details_id_seq'::regclass)"))
-    account_hash = Column(String(100), nullable=False)
-    group_hash = Column(String(100))
-    subscription_hash = Column(String(100))
-    execution_hash = Column(String(100))
-    status = Column(SmallInteger, nullable=False)
-    failed_checks = Column(Integer, nullable=False, server_default=text("0"))
-    completed_checks = Column(Integer, nullable=False, server_default=text("1"))
-    created_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    updated_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-
-
-
 class AzAudit(Base):
     __tablename__ = 'az_audit_report'
     __table_args__ = {"schema": "chanak"}
 
     id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_audit_report_id_seq'::regclass)"))
-    execution_hash = Column(String(100), nullable=False)
+    task_id = Column(Integer, nullable=False)
     check_id = Column(String(100))
     region = Column(String(100))
     resource_name = Column(String(100))
@@ -167,3 +150,21 @@ class AzAudit(Base):
     value_two = Column(String(100))
     status = Column(String(45), nullable=False)
     created_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+
+class TaskQueue(Base):
+    __tablename__ = 'task_queue'
+    __table_args__ = {"schema": "chanak"}
+
+    id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_checks_id_seq'::regclass)"))
+    account_hash = Column(String(100), nullable=False)
+    cloud_type = Column(Integer, nullable=False)
+    task_type = Column(String(250), nullable=False)
+    data= Column(JSON, nullable=False)
+    status= Column(String(50), nullable=False)
+    worker_id=Column(Integer, nullable=True)
+    task_id =Column(Integer, nullable=True)
+    created_at = Column(DateTime, nullable=True, server_default=text("CURRENT_TIMESTAMP"))
+    started_at = Column(DateTime, nullable=True)
+    completed_at = Column(DateTime, nullable=True)
+    output = Column(JSON, nullable=True)
+    comment = Column(String(100), nullable=True)
