@@ -1,8 +1,7 @@
 # coding: utf-8
-from sqlalchemy import Column, DECIMAL, Date, DateTime, ForeignKey, String, TIMESTAMP, Text, text
-from sqlalchemy.dialects.mysql import BIGINT, DATETIME, INTEGER, LONGTEXT, TINYINT
-from sqlalchemy.orm import relationship
+from sqlalchemy import BigInteger, Boolean, Column, Date, DateTime, Integer, Numeric, SmallInteger, String, text, JSON
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.dialects.mysql import LONGTEXT
 
 Base = declarative_base()
 metadata = Base.metadata
@@ -10,140 +9,136 @@ metadata = Base.metadata
 
 class Account(Base):
     __tablename__ = 'account'
+    __table_args__ = {"schema": "chanak"}
 
-    id = Column(INTEGER(11), primary_key=True)
+    id = Column(Integer, nullable=False, primary_key=True, server_default=text("nextval('account_id_seq'::regclass)"))
     aws_account_id = Column(String(50), nullable=False)
     account_name = Column(String(100), nullable=False)
-    account_hash = Column(String(100), nullable=False, unique=True)
-    is_active = Column(TINYINT(1), nullable=False)
-    account_type_id = Column(ForeignKey('account_type.id'), nullable=False, index=True)
-    master_account_hash = Column(String(100), index=True)
+    account_hash = Column(String(100), nullable=False)
+    is_active = Column(Boolean, nullable=False)
+    account_type_id = Column(Integer, nullable=False)
+    master_account_hash = Column(String(100))
     billing_bucket_name = Column(String(500))
-    customer_hash = Column(ForeignKey('customer.customer_hash'), nullable=False, index=True)
-    created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    updated_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
-    is_role_added = Column(TINYINT(1), nullable=False, server_default=text("'0'"))
-
-    account_type = relationship('AccountType')
-    customer = relationship('Customer')
+    customer_hash = Column(String(100), nullable=False)
+    created_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    is_role_added = Column(Boolean, nullable=False, server_default=text("false"))
+    is_deleted = Column(Boolean)
+    encrypted_string = Column(String(1000))
 
 
 class AccountType(Base):
     __tablename__ = 'account_type'
+    __table_args__ = {"schema": "chanak"}
 
-    id = Column(INTEGER(11), primary_key=True)
+    id = Column(Integer, nullable=False, primary_key=True, server_default=text("nextval('account_type_id_seq'::regclass)"))
     account_type = Column(String(100), nullable=False)
-
 
 class Customer(Base):
     __tablename__ = 'customer'
+    __table_args__ = {"schema": "chanak"}
 
-    id = Column(INTEGER(11), primary_key=True)
+    id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('customer_id_seq'::regclass)"))
     customer_name = Column(String(100), nullable=False)
-    default_timezone = Column(String(10), nullable=False, server_default=text("'+00:00'"))
-    customer_hash = Column(String(100), nullable=False, unique=True)
-    is_active = Column(TINYINT(1), nullable=False)
-    creator_user_hash = Column(ForeignKey('user.user_hash'), index=True)
-    created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    updated_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
-
-    user = relationship('User', primaryjoin='Customer.creator_user_hash == User.user_hash')
-
+    default_timezone = Column(String(10), nullable=False, server_default=text("'+00:00'::character varying"))
+    customer_hash = Column(String(100), nullable=False)
+    is_active = Column(Boolean, nullable=False)
+    creator_user_hash = Column(String(100))
+    created_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    is_deleted = Column(Boolean, server_default=text("false"))
 
 class User(Base):
     __tablename__ = 'user'
+    __table_args__ = {"schema": "chanak"}
 
-    id = Column(INTEGER(11), primary_key=True)
-    user_hash = Column(String(100), nullable=False, unique=True)
-    email = Column(String(100), nullable=False, unique=True)
+    id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('user_id_seq'::regclass)"))
+    user_hash = Column(String(100), nullable=False)
+    email = Column(String(100), nullable=False)
     name = Column(String(100), nullable=False)
     password = Column(String(200), nullable=False)
     phone = Column(String(20))
-    access_level = Column(INTEGER(11), nullable=False, server_default=text("'0'"))
-    is_email_verified = Column(TINYINT(1), nullable=False, server_default=text("'0'"))
-    is_active = Column(TINYINT(1), nullable=False, server_default=text("'0'"))
-    last_login = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    customer_hash = Column(ForeignKey('customer.customer_hash'), nullable=False, index=True)
-    created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    updated_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
-
-    customer = relationship('Customer', primaryjoin='User.customer_hash == Customer.customer_hash')
-
+    access_level = Column(Integer, nullable=False, server_default=text("0"))
+    is_email_verified = Column(Boolean, nullable=False, server_default=text("false"))
+    is_active = Column(Boolean, nullable=False, server_default=text("false"))
+    last_login = Column(DateTime, nullable=False)
+    customer_hash = Column(String(100), nullable=False)
+    created_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    is_deleted = Column(Boolean, server_default=text("false"))
 
 class UserAccountMap(Base):
     __tablename__ = 'user_account_map'
+    __table_args__ = {"schema": "chanak"}
 
-    id = Column(BIGINT(20), primary_key=True)
-    user_hash = Column(ForeignKey('user.user_hash'), nullable=False, index=True)
-    account_hash = Column(ForeignKey('account.account_hash'), nullable=False, index=True)
-    created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    updated_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
-
-    account = relationship('Account')
-    user = relationship('User')
+    id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('user_account_map_id_seq'::regclass)"))
+    user_hash = Column(String(100), nullable=False)
+    account_hash = Column(String(100), nullable=False)
+    created_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    is_deleted = Column(Boolean, server_default=text("false"))
 
 
 class AzAccount(Base):
     __tablename__ = 'az_account'
-    id = Column(INTEGER(11), primary_key=True)
+    __table_args__ = {"schema": "chanak"}
+
+    id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_account_id_seq'::regclass)"))
     application_id = Column(String(100), nullable=False)
+    application_name = Column(String(250), nullable=False)
     domain_id = Column(String(100), nullable=False)
     tenant_id = Column(String(100), nullable=False)
-    customer_hash = Column(ForeignKey('customer.customer_hash'), nullable=False, index=True)
-    is_active = Column(TINYINT(2), nullable=False)
-    account_hash = Column(String(100), nullable=False, unique=True)
-    created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    updated_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
-
-    customer = relationship('Customer')
-
+    customer_hash = Column(String(100), nullable=False)
+    is_active = Column(Boolean, nullable=False)
+    account_hash = Column(String(100))
+    created_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    is_deleted = Column(Boolean, server_default=text("false"))
+    encrypted_string = Column(String(1000))
 
 class AzAccountSubscriptions(Base):
     __tablename__ = 'az_account_subscriptions'
+    __table_args__ = {"schema": "chanak"}
 
-    id = Column(INTEGER(11), primary_key=True)
-    account_hash = Column(ForeignKey('az_account.account_hash'), nullable=False)
+    id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_account_subscriptions_id_seq'::regclass)"))
+    account_hash = Column(String(100), nullable=False)
     subscription_id = Column(String(100), nullable=False)
+    subscription_name = Column(String(200))
     subscription_type = Column(String(100))
     offer_code = Column(String(200))
-    subscription_hash = Column(String(100), nullable=False, unique=True)
-    created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    updated_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+    subscription_hash = Column(String(100))
+    created_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
 
-    az_account = relationship(AzAccount)
+
 
 
 class AZChecks(Base):
     __tablename__ = 'az_checks'
+    __table_args__ = {"schema": "chanak"}
 
-    id = Column(INTEGER(11), primary_key=True)
-    check_id = Column(String(100), nullable=False, unique=True)
+    id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_checks_id_seq'::regclass)"))
+    check_id = Column(String(100), nullable=False)
     check_name = Column(String(250))
     rule = Column(String(5000))
-
-
-class AzExecutionDetails(Base):
-    __tablename__ = 'az_execution_details'
-
-    id = Column(INTEGER(11), primary_key=True)
-    account_hash_exe = Column(ForeignKey('az_account.account_hash'), nullable=False)
-    subscription_hash_exe = Column(ForeignKey('az_account_subscriptions.subscription_hash'))
-    execution_hash = Column(String(100), nullable=False, unique=True)
-    status = Column(TINYINT(2), nullable=False)
-    failed_checks = Column(INTEGER(11), nullable=False, server_default=text("'0'"))
-    completed_checks = Column(INTEGER(11), nullable=False, server_default=text("'1'"))
-    created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    updated_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
-
-    az_account = relationship(AzAccount)
-    az_account_subscriptions = relationship(AzAccountSubscriptions)
+    service = Column(String(1000), nullable=False)
+    severity = Column(String(75), nullable=False)
+    is_global = Column(SmallInteger, nullable=False, server_default=text("0"))
+    is_active = Column(SmallInteger, nullable=False, server_default=text("1"))
+    problem_statement_fail = Column(String(1000))
+    problem_statement_pass = Column(String(1000))
+    problem_statement_info = Column(String(1000))
+    weight = Column(Integer)
+    console_remediation_steps = Column(String(5000))
+    cli_remediation_steps = Column(String(5000))
 
 
 class AzAudit(Base):
     __tablename__ = 'az_audit_report'
+    __table_args__ = {"schema": "chanak"}
 
-    id = Column(INTEGER(11), primary_key=True)
-    execution_hash = Column(String(100))
+    id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_audit_report_id_seq'::regclass)"))
+    task_id = Column(Integer, nullable=False)
     check_id = Column(String(100))
     region = Column(String(100))
     resource_name = Column(String(100))
@@ -154,4 +149,22 @@ class AzAudit(Base):
     value_one = Column(String(100))
     value_two = Column(String(100))
     status = Column(String(45), nullable=False)
-    created_at = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    created_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+
+class TaskQueue(Base):
+    __tablename__ = 'task_queue'
+    __table_args__ = {"schema": "chanak"}
+
+    id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_checks_id_seq'::regclass)"))
+    account_hash = Column(String(100), nullable=False)
+    cloud_type = Column(Integer, nullable=False)
+    task_type = Column(String(250), nullable=False)
+    data= Column(JSON, nullable=False)
+    status= Column(String(50), nullable=False)
+    worker_id=Column(Integer, nullable=True)
+    task_id =Column(Integer, nullable=True)
+    created_at = Column(DateTime, nullable=True, server_default=text("CURRENT_TIMESTAMP"))
+    started_at = Column(DateTime, nullable=True)
+    completed_at = Column(DateTime, nullable=True)
+    output = Column(JSON, nullable=True)
+    comment = Column(String(100), nullable=True)

@@ -2,7 +2,7 @@ import datetime
 import decimal
 import uuid
 from db_connect import Session
-from model.db_models import AzAccount, AZChecks, AzAudit, AzExecutionDetails
+from model.db_models import AzAccount, AZChecks, AzAudit,TaskQueue
 from sqlalchemy import delete, update
 
 
@@ -21,7 +21,7 @@ def insert_checks(check_id, check_name, rule):
         session.close()
 
 
-def insert_audit_records(execution_hash, issues, check_id):
+def insert_audit_records(task_id,issues, check_id):
     session = Session(expire_on_commit=False)
     try:
         if issues :
@@ -30,7 +30,7 @@ def insert_audit_records(execution_hash, issues, check_id):
             for issue in issues:
                 audit_record = AzAudit()
                 audit_record.__dict__["check_id"] = check_id
-                audit_record.__dict__["execution_hash"] = execution_hash
+                audit_record.__dict__["task_id"] = task_id
                 for key, value in issue.items():
                     audit_record.__dict__[key] = value
                 session.add(audit_record)
@@ -80,12 +80,14 @@ def fetch_accounts(account_hash=None):
         return accounts
 
 
-def update_execution(execution_hash, staus):
+def update_execution(task_id, status):
     session = Session(expire_on_commit=False)
     try:
-        account = session.query(AzExecutionDetails).filter(
-            AzExecutionDetails.execution_hash == execution_hash).first()
-        account.status = staus
+        print(task_id, status)
+        account = session.query(TaskQueue).filter(
+            TaskQueue.id == task_id).first()
+        print(account.status)
+        account.status = status
         session.commit()
     except Exception as e:
         print(str(e))
