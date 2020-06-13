@@ -14,10 +14,11 @@ from checks.kubernetes_service import KubernetesService
 from checks.app_service import AppService
 from checks.network_service import NetworkService
 import os
+import logging.config
+import logging as logger
 
 
 def __start_audit__():
-    print("start audit")
     try:
         credentials = dict()
         accounts = []
@@ -34,7 +35,12 @@ def __start_audit__():
             # credentials['AZURE_TENANT_ID'] = account["tenant_id"]
             # credentials['AZURE_CLIENT_ID'] = account["client_id"]
             # credentials['AZURE_CLIENT_SECRET'] = client_secret
-            print(account)
+
+            logger_msg = "azure_waa_2_" + az_account_hash
+            logging.basicConfig(level=logging.INFO,
+                                format='Execution {} : %(levelname)s  %(message)s'.format(logger_msg),
+                                datefmt='%Y-%m-%d %H:%M:%S')
+
             credentials['AZURE_TENANT_ID'] = os.environ["AZURE_TENANT_ID"]
             credentials['AZURE_CLIENT_ID'] = os.environ["AZURE_CLIENT_ID"]
             credentials['AZURE_CLIENT_SECRET'] = os.environ["AZURE_CLIENT_SECRET"]
@@ -71,9 +77,7 @@ def __start_audit__():
             update_execution(task_id, "completed")
 
     except Exception as e:
-        print("error in waf",str(e))
-        import traceback
-        print(traceback.format_exc())
+        logger.error("error", e);
 
 
 __start_audit__()

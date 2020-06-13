@@ -1,6 +1,7 @@
 from checks.common_services import CommonServices
 from helper_function import rest_api_call
 from constants import policy_assignments_url, security_contacts_url, auto_provision_url, pricing_url, vm_list_url, compliance_result_url, manage_cluster_url, contact_url, network_interface_list_url
+import logging as logger
 
 
 class SecurityService:
@@ -45,7 +46,7 @@ class SecurityService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
 
         finally:
             return issues
@@ -85,7 +86,7 @@ class SecurityService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
 
         finally:
             return issues
@@ -125,7 +126,7 @@ class SecurityService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
 
         finally:
             return issues
@@ -165,7 +166,7 @@ class SecurityService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
 
         finally:
             return issues
@@ -205,7 +206,7 @@ class SecurityService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
 
         finally:
             return issues
@@ -246,7 +247,7 @@ class SecurityService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
 
         finally:
             return issues
@@ -285,7 +286,7 @@ class SecurityService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
 
         finally:
             return issues
@@ -326,7 +327,7 @@ class SecurityService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
 
         finally:
             return issues
@@ -356,7 +357,7 @@ class SecurityService:
                             temp["subscription_name"] = subscription["displayName"]
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
 
         finally:
             return issues
@@ -383,7 +384,7 @@ class SecurityService:
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
 
         finally:
             return issues
@@ -415,7 +416,7 @@ class SecurityService:
                             temp["subscription_name"] = subscription["displayName"]
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
 
         finally:
             return issues
@@ -457,7 +458,7 @@ class SecurityService:
                     temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -498,7 +499,7 @@ class SecurityService:
                     temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -534,7 +535,7 @@ class SecurityService:
                             temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -569,7 +570,7 @@ class SecurityService:
                             temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -611,7 +612,7 @@ class SecurityService:
 
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -653,7 +654,7 @@ class SecurityService:
                     temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -688,7 +689,7 @@ class SecurityService:
                             temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -729,7 +730,7 @@ class SecurityService:
                     temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -774,7 +775,7 @@ class SecurityService:
 
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -819,7 +820,7 @@ class SecurityService:
 
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -860,7 +861,7 @@ class SecurityService:
                     temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -901,7 +902,7 @@ class SecurityService:
                     temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -942,7 +943,7 @@ class SecurityService:
                     temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -983,7 +984,7 @@ class SecurityService:
                     temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1024,7 +1025,7 @@ class SecurityService:
                     temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1065,7 +1066,7 @@ class SecurityService:
                     temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1106,7 +1107,7 @@ class SecurityService:
                     temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1142,7 +1143,7 @@ class SecurityService:
                             temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1177,7 +1178,7 @@ class SecurityService:
                             temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1207,7 +1208,7 @@ class SecurityService:
                             temp["subscription_name"] = subscription["displayName"]
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1243,7 +1244,7 @@ class SecurityService:
                             temp["subscription_name"] = subscription["displayName"]
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1272,7 +1273,7 @@ class SecurityService:
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1301,6 +1302,6 @@ class SecurityService:
                         issues.append(temp)
                 print(issues)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues

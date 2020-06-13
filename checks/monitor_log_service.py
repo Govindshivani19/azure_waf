@@ -1,5 +1,6 @@
 from constants import log_profile_list_url, base_url, key_vault_list_url, monitor_diagnostic_url
 from helper_function import rest_api_call
+import logging as logger
 
 
 class MonitorLogService:
@@ -35,7 +36,7 @@ class MonitorLogService:
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -74,7 +75,7 @@ class MonitorLogService:
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -107,7 +108,7 @@ class MonitorLogService:
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -140,7 +141,7 @@ class MonitorLogService:
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -177,7 +178,7 @@ class MonitorLogService:
                     except:
                         continue
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -214,7 +215,7 @@ class MonitorLogService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -255,6 +256,6 @@ class MonitorLogService:
                     except:
                         continue
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues

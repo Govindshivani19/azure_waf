@@ -1,6 +1,8 @@
 from helper_function import rest_api_call
 from constants import base_url, app_list_url
 import re
+import logging as logger
+
 
 class AppService:
     def __init__(self, credentials, subscription_list):
@@ -37,7 +39,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -71,7 +73,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -104,7 +106,7 @@ class AppService:
                             temp["status"] = "Fail"
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -141,7 +143,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -178,7 +180,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -215,7 +217,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -240,7 +242,7 @@ class AppService:
                             temp["status"] = "Pass"
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -265,7 +267,7 @@ class AppService:
                             temp["status"] = "Pass"
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -290,7 +292,7 @@ class AppService:
                             temp["status"] = "Pass"
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -326,7 +328,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -362,7 +364,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -398,7 +400,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -434,7 +436,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -470,7 +472,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -506,7 +508,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -543,7 +545,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -580,7 +582,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -617,7 +619,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -653,7 +655,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -689,7 +691,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -725,7 +727,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -761,7 +763,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -797,7 +799,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -833,7 +835,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -869,7 +871,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -905,7 +907,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -941,7 +943,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -966,7 +968,7 @@ class AppService:
                             temp["status"] = "Pass"
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -991,7 +993,7 @@ class AppService:
                             temp["status"] = "Pass"
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1016,7 +1018,7 @@ class AppService:
                             temp["status"] = "Pass"
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1056,7 +1058,7 @@ class AppService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1138,7 +1140,7 @@ class AppService:
 
                             issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1220,7 +1222,7 @@ class AppService:
 
                             issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1302,7 +1304,7 @@ class AppService:
 
                             issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1384,7 +1386,7 @@ class AppService:
 
                             issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1466,7 +1468,7 @@ class AppService:
 
                             issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1550,7 +1552,7 @@ class AppService:
 
                             issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1632,7 +1634,7 @@ class AppService:
 
                             issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1714,7 +1716,7 @@ class AppService:
 
                             issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1796,6 +1798,6 @@ class AppService:
 
                             issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues

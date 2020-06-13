@@ -4,6 +4,7 @@ import uuid
 from db_connect import Session
 from model.db_models import AzAccount, AZChecks, AzAudit,TaskQueue
 from sqlalchemy import delete, update
+import logging as logger
 
 
 def insert_checks(check_id, check_name, rule):
@@ -16,7 +17,7 @@ def insert_checks(check_id, check_name, rule):
         session.add(checks)
         session.commit()
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         session.close()
 
@@ -25,8 +26,7 @@ def insert_audit_records(task_id,issues, check_id):
     session = Session(expire_on_commit=False)
     try:
         if issues :
-            print("issue")
-            print(check_id)
+            logger.info(check_id)
             for issue in issues:
                 audit_record = AzAudit()
                 audit_record.__dict__["check_id"] = check_id
@@ -35,9 +35,9 @@ def insert_audit_records(task_id,issues, check_id):
                     audit_record.__dict__[key] = value
                 session.add(audit_record)
                 session.commit()
-            print("inserted to db")
+            logger.info("inserted to db")
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         session.close()
 
@@ -74,7 +74,7 @@ def fetch_accounts(account_hash=None):
                 }
                 accounts.append(temp)
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         session.close()
         return accounts
@@ -83,13 +83,13 @@ def fetch_accounts(account_hash=None):
 def update_execution(task_id, status):
     session = Session(expire_on_commit=False)
     try:
-        print(task_id, status)
+        logger.info(task_id, status)
         account = session.query(TaskQueue).filter(
             TaskQueue.id == task_id).first()
-        print(account.status)
+        logger.info(account.status)
         account.status = status
         session.commit()
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         session.close()

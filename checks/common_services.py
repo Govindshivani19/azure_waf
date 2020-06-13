@@ -1,5 +1,6 @@
 from helper_function import rest_api_call
 from constants import subscriptions_list_url, resource_group_list_url
+import logging as logger
 
 
 class CommonServices:
@@ -15,11 +16,11 @@ class CommonServices:
             subscriptions = response.get("value", [])
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return subscriptions
 
-    def get_resource_groups(self, credentials):
+    def get_resource_groups(credentials, subscription_id ):
 
         resource_groups = list()
 
@@ -32,6 +33,6 @@ class CommonServices:
             resource_groups = response.get("value", [])
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return resource_groups

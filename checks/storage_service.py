@@ -3,6 +3,7 @@ from helper_function import rest_api_call, get_adal_token
 from constants import storage_accounts_list_url, container_list_url, monitor_activity_log_url, base_url, resource_group_list_url
 import datetime
 import requests
+import logging as logger
 
 
 class StorageService:
@@ -45,7 +46,7 @@ class StorageService:
                     except:
                         continue
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -75,7 +76,7 @@ class StorageService:
                     issues.append(temp)
 
         except Exception as e:
-            print(str(e));
+            logger.error(e);
         finally:
             return issues
 
@@ -105,7 +106,7 @@ class StorageService:
                     issues.append(temp)
 
         except Exception as e:
-            print(str(e));
+            logger.error(e);
         finally:
             return issues
 
@@ -135,7 +136,7 @@ class StorageService:
                     issues.append(temp)
 
         except Exception as e:
-            print(str(e));
+            logger.error(e);
         finally:
             return issues
 
@@ -217,7 +218,7 @@ class StorageService:
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e));
+            logger.error(e);
         finally:
             return issues
 
@@ -242,7 +243,7 @@ class StorageService:
                     #response = rest_api_call(self.credentials, queue_log_url, api_version='2012-02-12')
                     print(response.text)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -268,6 +269,6 @@ class StorageService:
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues

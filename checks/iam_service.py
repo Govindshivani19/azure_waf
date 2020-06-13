@@ -2,6 +2,7 @@ from checks.common_services import CommonServices
 from helper_function import rest_api_call, get_adal_token
 from constants import storage_accounts_list_url, role_definitions_list_url
 import requests
+import logging as logger
 
 
 class IamServices:
@@ -12,10 +13,10 @@ class IamServices:
     def get_custom_roles(self):
         issues = []
         try:
-            subscription_list = self.credentials
+            subscription_list = self.subscription_list
             for subscription in subscription_list:
                 scope_reg_exp = '/subscriptions/{}'.format(subscription['subscriptionId'])
-                resource_groups = CommonServices().get_resource_groups(token, subscription['subscriptionId'])
+                resource_groups = CommonServices().get_resource_groups(self.credentials, subscription['subscriptionId'])
                 for resource_group in resource_groups:
                     scope = "/subscriptions/{}/resourceGroups/{}".format(subscription['subscriptionId'], resource_group["name"])
                     filter = "type eq 'CustomRole'"
@@ -51,7 +52,7 @@ class IamServices:
                             temp["subscription_name"] = subscription["displayName"]
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -80,7 +81,7 @@ class IamServices:
             if temp:
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -99,6 +100,6 @@ class IamServices:
                 response = rest_api_call(mgt_api_token, assignment_url)
                 print(response)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues

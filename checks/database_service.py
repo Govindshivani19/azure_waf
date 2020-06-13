@@ -1,6 +1,7 @@
 from checks.common_services import CommonServices
 from helper_function import rest_api_call
 from constants import *
+import logging as logger
 
 
 class DatabaseService:
@@ -40,7 +41,7 @@ class DatabaseService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -75,7 +76,7 @@ class DatabaseService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -110,7 +111,7 @@ class DatabaseService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -145,7 +146,7 @@ class DatabaseService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -180,7 +181,7 @@ class DatabaseService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -215,7 +216,7 @@ class DatabaseService:
                                 temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -244,7 +245,7 @@ class DatabaseService:
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -280,7 +281,7 @@ class DatabaseService:
 
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -321,7 +322,7 @@ class DatabaseService:
 
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -356,7 +357,7 @@ class DatabaseService:
                         temp["resource_id"] = server["id"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -385,7 +386,7 @@ class DatabaseService:
                         temp["resource_id"] = server["id"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -414,7 +415,7 @@ class DatabaseService:
                         temp["resource_id"] = server["id"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -447,7 +448,7 @@ class DatabaseService:
                         temp["resource_id"] = server["id"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -477,7 +478,7 @@ class DatabaseService:
     #                     # Skipped as the response is xml
     #
     #     except Exception as e:
-    #         print(str(e))
+    #         logger.error(e);
     #     finally:
     #         return issue
 
@@ -504,7 +505,7 @@ class DatabaseService:
                         temp["resource_id"] = server['id']
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -532,7 +533,7 @@ class DatabaseService:
                         temp["status"] = "Fail"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -561,7 +562,7 @@ class DatabaseService:
                         temp["status"] = "Fail"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -624,7 +625,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -687,7 +688,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -752,7 +753,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -815,7 +816,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -879,7 +880,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -943,7 +944,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1006,7 +1007,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1076,7 +1077,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1135,7 +1136,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1199,7 +1200,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1256,7 +1257,7 @@ class DatabaseService:
     #
     #                     issues.append(issue)
     #     except Exception as e:
-    #         print(str(e))
+    #         logger.error(e);
     #     finally:
     #         return issues
 
@@ -1314,7 +1315,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1398,7 +1399,7 @@ class DatabaseService:
 
                             issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1447,7 +1448,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1496,7 +1497,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1545,7 +1546,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1609,7 +1610,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1676,7 +1677,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1744,7 +1745,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1802,7 +1803,7 @@ class DatabaseService:
 
                         issues.append(issue)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1828,6 +1829,6 @@ class DatabaseService:
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues

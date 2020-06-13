@@ -3,6 +3,7 @@ from constants import (base_url, service_bus_list_url, network_sg_list_url, app_
                       resource_group_list_url, container_registry_list_url)
 from helper_function import rest_api_call
 import re
+import logging as logger
 
 
 class NetworkService:
@@ -35,7 +36,7 @@ class NetworkService:
                                     temp["status"] = "Pass"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -65,7 +66,7 @@ class NetworkService:
                                 temp["status"] = "Fail"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -93,7 +94,7 @@ class NetworkService:
                                 temp["status"] = "Pass"
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -120,7 +121,7 @@ class NetworkService:
                                 temp["status"] = "Fail"
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -147,7 +148,7 @@ class NetworkService:
                             temp["status"] = "Pass"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -172,7 +173,7 @@ class NetworkService:
                                 temp["status"] = "Fail"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -196,7 +197,7 @@ class NetworkService:
 
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -224,7 +225,7 @@ class NetworkService:
                             temp["status"] = "Pass"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -254,7 +255,7 @@ class NetworkService:
                                 temp["status"] = "Fail"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -281,7 +282,7 @@ class NetworkService:
                             temp["status"] = "Fail"
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -305,7 +306,7 @@ class NetworkService:
                             temp["status"] = "Pass"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
