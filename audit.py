@@ -23,6 +23,7 @@ def __start_audit__():
         credentials = dict()
         accounts = []
         az_account_hash = os.environ["account_hash"]
+        task_id = int(os.environ["task_id"])
 
         if len(az_account_hash) > 1:
              accounts = fetch_accounts(az_account_hash)
@@ -36,7 +37,7 @@ def __start_audit__():
             # credentials['AZURE_CLIENT_ID'] = account["client_id"]
             # credentials['AZURE_CLIENT_SECRET'] = client_secret
 
-            logger_msg = "azure_waa_2_" + az_account_hash
+            logger_msg = "azure_waa_2_" + az_account_hash +"_task_id_" +task_id
             logging.basicConfig(level=logging.INFO,
                                 format='Execution {} : %(levelname)s  %(message)s'.format(logger_msg),
                                 datefmt='%Y-%m-%d %H:%M:%S')
@@ -47,7 +48,7 @@ def __start_audit__():
 
             cs = CommonServices()
             subscription_list = cs.get_subscriptions_list(credentials)
-            task_id = int(os.environ["task_id"])
+
 
             storage_service = StorageService(credentials, subscription_list)
             iam_service = IamServices(credentials, subscription_list)
