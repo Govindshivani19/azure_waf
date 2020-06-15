@@ -16,6 +16,10 @@ from checks.network_service import NetworkService
 import os
 import logging.config
 import logging as logger
+import datetime
+now = str(datetime.datetime.now())
+logger.basicConfig(filename=os.environ['log_dir']+now+'azure_waa.log',level=logger.INFO)
+
 
 
 def __start_audit__():
@@ -23,7 +27,7 @@ def __start_audit__():
         credentials = dict()
         accounts = []
         az_account_hash = os.environ["account_hash"]
-        task_id = int(os.environ["task_id"])
+        task_id = 0#int(os.environ["task_id"])
 
         if len(az_account_hash) > 1:
              accounts = fetch_accounts(az_account_hash)
@@ -37,7 +41,7 @@ def __start_audit__():
             # credentials['AZURE_CLIENT_ID'] = account["client_id"]
             # credentials['AZURE_CLIENT_SECRET'] = client_secret
 
-            logger_msg = "azure_waa_2_" + az_account_hash +"_task_id_" +task_id
+            logger_msg = "azure_waa_2_" + az_account_hash +"_task_id_" +str(task_id)
             logging.basicConfig(level=logging.INFO,
                                 format='Execution {} : %(levelname)s  %(message)s'.format(logger_msg),
                                 datefmt='%Y-%m-%d %H:%M:%S')
