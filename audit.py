@@ -35,7 +35,7 @@ def __start_audit__():
              accounts = fetch_accounts(az_account_hash)
         else:
              accounts = fetch_accounts()
-
+        logger.info('start execution task_id {}. '.format( task_id))
         #if True:
         for account in accounts:
             # client_secret = get_application_key(account['account_hash'])
