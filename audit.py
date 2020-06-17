@@ -23,11 +23,13 @@ logger.basicConfig(filename=os.environ['log_dir']+now+'azure_waa.log',level=logg
 
 
 def __start_audit__():
+    status = 'failed'
+    task_id = None
     try:
         credentials = dict()
-        accounts = []
+
         az_account_hash = os.environ["account_hash"]
-        task_id = 0#int(os.environ["task_id"])
+        task_id = int(os.environ["task_id"])
 
         if len(az_account_hash) > 1:
              accounts = fetch_accounts(az_account_hash)
@@ -78,11 +80,16 @@ def __start_audit__():
             execute_network_checks(task_id, network_service)
             execute_app_service_checks(task_id, app_service)
             execute_kubernetes_service_checks(task_id, kubernetes_service)
-
+            status = 'completed'
             update_execution(task_id, "completed")
 
     except Exception as e:
-        logger.error("error", e);
+        logger.error("error {}".format(e));
+
+        if task_id :
+            update_execution(task_id, "failed")
+
+    return status
 
 
 __start_audit__()
