@@ -80,7 +80,7 @@ def fetch_accounts(account_hash=None):
         return accounts
 
 
-def update_execution(task_id, status):
+def update_execution(task_id, status, comment = ""):
     session = Session(expire_on_commit=False)
     try:
         logger.info(task_id, status)
@@ -88,6 +88,7 @@ def update_execution(task_id, status):
             TaskQueue.id == task_id).first()
         logger.info(account.status)
         account.status = status
+        account.comment = comment
         session.commit()
     except Exception as e:
         logger.error(e);
