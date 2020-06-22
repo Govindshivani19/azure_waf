@@ -21,7 +21,6 @@ now = str(datetime.datetime.now())
 logger.basicConfig(filename=os.environ['log_dir']+now+'azure_waa.log',level=logger.INFO)
 
 
-
 def __start_audit__():
     status = 'failed'
     task_id = None
@@ -30,18 +29,6 @@ def __start_audit__():
 
         az_account_hash = os.environ["account_hash"]
         task_id = int(os.environ["task_id"])
-
-        # if len(az_account_hash) > 1:
-        #      accounts = fetch_accounts(az_account_hash)
-        # else:
-        #      accounts = fetch_accounts()
-        # logger.info('start execution task_id {}. '.format( task_id))
-        # #if True:
-        # for account in accounts:
-        #     # client_secret = get_application_key(account['account_hash'])
-        #     # credentials['AZURE_TENANT_ID'] = account["tenant_id"]
-        #     # credentials['AZURE_CLIENT_ID'] = account["client_id"]
-        #     # credentials['AZURE_CLIENT_SECRET'] = client_secret
 
         logger_msg = "azure_waa_2_" + az_account_hash +"_task_id_" +str(task_id)
         logger.info(logger_msg)
@@ -55,34 +42,33 @@ def __start_audit__():
 
         cs = CommonServices()
         subscription_list = cs.get_subscriptions_list(credentials)
+        if subscription_list:
+            storage_service = StorageService(credentials, subscription_list)
+            iam_service = IamServices(credentials, subscription_list)
+            monitor_service = MonitorLogService(credentials, subscription_list)
+            security_service = SecurityService(credentials, subscription_list)
+            db_service = DatabaseService(credentials, subscription_list)
+            vm_service = VmService(credentials, subscription_list)
+            az_service = AzureServices(credentials, subscription_list)
+            automation_service = AutomationService(credentials, subscription_list)
+            kubernetes_service = KubernetesService(credentials, subscription_list)
+            app_service = AppService(credentials, subscription_list)
+            network_service = NetworkService(credentials, subscription_list)
 
-
-        storage_service = StorageService(credentials, subscription_list)
-        iam_service = IamServices(credentials, subscription_list)
-        monitor_service = MonitorLogService(credentials, subscription_list)
-        security_service = SecurityService(credentials, subscription_list)
-        db_service = DatabaseService(credentials, subscription_list)
-        vm_service = VmService(credentials, subscription_list)
-        az_service = AzureServices(credentials, subscription_list)
-        automation_service = AutomationService(credentials, subscription_list)
-        kubernetes_service = KubernetesService(credentials, subscription_list)
-        app_service = AppService(credentials, subscription_list)
-        network_service = NetworkService(credentials, subscription_list)
-
-        execute_log_monitor_checks(task_id, monitor_service)
-        execute_iam_checks(task_id, iam_service)
-        execute_security_centre_checks(task_id, security_service)
-        execute_database_checks(task_id, db_service)
-        execute_vm_checks(task_id, vm_service)
-        execute_disk_checks(task_id, vm_service)
-        execute_az_services_checks(task_id, az_service)
-        execute_storage_checks(task_id, storage_service)
-        execute_automation_services_checks(task_id, automation_service)
-        execute_network_checks(task_id, network_service)
-        execute_app_service_checks(task_id, app_service)
-        execute_kubernetes_service_checks(task_id, kubernetes_service)
-        status = 'completed'
-        update_execution(task_id, "completed")
+            execute_log_monitor_checks(task_id, monitor_service)
+            execute_iam_checks(task_id, iam_service)
+            execute_security_centre_checks(task_id, security_service)
+            execute_database_checks(task_id, db_service)
+            execute_vm_checks(task_id, vm_service)
+            execute_disk_checks(task_id, vm_service)
+            execute_az_services_checks(task_id, az_service)
+            execute_storage_checks(task_id, storage_service)
+            execute_automation_services_checks(task_id, automation_service)
+            execute_network_checks(task_id, network_service)
+            execute_app_service_checks(task_id, app_service)
+            execute_kubernetes_service_checks(task_id, kubernetes_service)
+            status = 'completed'
+            update_execution(task_id, "completed")
 
     except Exception as e:
         logger.error("error {}".format(e));
