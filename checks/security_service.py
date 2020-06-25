@@ -9,6 +9,9 @@ class SecurityService:
         self.credentials = credentials
         self.subscription_list = subscription_list
 
+    def test(self):
+        print("hello")
+
     def network_hardening_recommendations(self):
         issues = []
         try:
@@ -383,38 +386,6 @@ class SecurityService:
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
-        except Exception as e:
-            logger.error(e);
-
-        finally:
-            return issues
-
-    def pod_security_policies(self):
-        issues = []
-        try:
-            subscription_list = self.subscription_list
-            for subscription in subscription_list:
-                url = manage_cluster_url.format(subscription['subscriptionId'])
-                response = rest_api_call(self.credentials, url, api_version='2017-08-31')['value']
-                for each_response in response:
-
-
-                    if each_response['properties'].get("pod_security_policies") is not None:
-                        temp = dict()
-
-                        if each_response['properties']["pod_security_policies"] is False:
-                            temp["status"] = "Fail"
-                            temp["resource_name"] = each_response["name"]
-                            temp["resource_id"] = each_response["id"]
-                            temp["subscription_id"] = subscription['subscriptionId']
-                            temp["subscription_name"] = subscription["displayName"]
-                        else:
-                            temp["status"] = "Pass"
-                            temp["resource_name"] = each_response["name"]
-                            temp["resource_id"] = each_response["id"]
-                            temp["subscription_id"] = subscription['subscriptionId']
-                            temp["subscription_name"] = subscription["displayName"]
-                        issues.append(temp)
         except Exception as e:
             logger.error(e);
 
@@ -1303,5 +1274,37 @@ class SecurityService:
                 print(issues)
         except Exception as e:
             logger.error(e);
+        finally:
+            return issues
+
+    def pod_security_policy(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = manage_cluster_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2017-08-31')['value']
+                for each_response in response:
+
+
+                    if each_response['properties'].get("pod_security_policies") is not None:
+                        temp = dict()
+
+                        if each_response['properties']["pod_security_policies"] is False:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+        except Exception as e:
+            logger.error(e);
+
         finally:
             return issues

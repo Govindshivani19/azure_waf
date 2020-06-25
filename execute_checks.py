@@ -1141,7 +1141,7 @@ def CEN_AZ_203(task_id, security_service):
 
 def CEN_AZ_204(task_id, security_service):
     try:
-        insert_audit_records(task_id, security_service.open_managed_ports(),'CEN_AZ_204')
+        insert_audit_records(task_id, security_service.open_management_ports(),'CEN_AZ_204')
     except Exception as e:
         logger.error(e);
 
@@ -1183,7 +1183,7 @@ def CEN_AZ_209(task_id, security_service):
 
 def CEN_AZ_210(task_id, security_service):
     try:
-        insert_audit_records(task_id, security_service.get_contact(),'CEN_AZ_210')
+        insert_audit_records(task_id, security_service.get_contacts(),'CEN_AZ_210')
     except Exception as e:
         logger.error(e);
 
@@ -1390,8 +1390,8 @@ def execute_database_checks(execution_hash, db_service):
     CEN_AZ_190(execution_hash, db_service)
     CEN_AZ_191(execution_hash, db_service)
     CEN_AZ_192(execution_hash, db_service)
-    CEN_AZ_193(execution_hash, db_service)
-    CEN_AZ_194(execution_hash, db_service)
+    #CEN_AZ_193(execution_hash, db_service)
+    #CEN_AZ_194(execution_hash, db_service)
     CEN_AZ_195(execution_hash, db_service)
     CEN_AZ_199(execution_hash, db_service)
     CEN_AZ_200(execution_hash, db_service)

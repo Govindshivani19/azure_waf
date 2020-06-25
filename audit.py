@@ -57,7 +57,6 @@ def __start_audit__():
 
             execute_log_monitor_checks(task_id, monitor_service)
             execute_iam_checks(task_id, iam_service)
-            execute_security_centre_checks(task_id, security_service)
             execute_database_checks(task_id, db_service)
             execute_vm_checks(task_id, vm_service)
             execute_disk_checks(task_id, vm_service)
@@ -67,6 +66,8 @@ def __start_audit__():
             execute_network_checks(task_id, network_service)
             execute_app_service_checks(task_id, app_service)
             execute_kubernetes_service_checks(task_id, kubernetes_service)
+            execute_security_centre_checks(task_id, security_service)
+            
             status = 'completed'
             update_execution(task_id, "completed")
 
