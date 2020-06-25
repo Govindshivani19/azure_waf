@@ -20,7 +20,7 @@ class CommonServices:
         finally:
             return subscriptions
 
-    def get_resource_groups(credentials, subscription_id ):
+    def get_resource_groups(self, credentials, subscription_id ):
 
         resource_groups = list()
 
