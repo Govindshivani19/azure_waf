@@ -1549,7 +1549,7 @@ def execute_security_centre_checks(task_id, security_service):
     CEN_AZ_212(task_id, security_service)
     CEN_AZ_213(task_id, security_service)
     CEN_AZ_214(task_id, security_service)
-    CEN_AZ_215(task_id, security_service)
+    #CEN_AZ_215(task_id, security_service)
     CEN_AZ_216(task_id, security_service)
 
 
