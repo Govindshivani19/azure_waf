@@ -1361,3 +1361,776 @@ class VmService:
             print(str(e))
         finally:
             return issues
+
+#Show audit results from Windows VMs that do not have a minimum password age of 1 day
+
+    def check_windows_vm_min_password_age(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "MinimumPasswordAge" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        #print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+
+#Show audit results from Windows VMs that do not have a maximum password age of 70 day
+
+    def check_windows_vm_max_password_age(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "MaximumPasswordAge" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        #print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs that do not restrict the minimum password length to 14 characters
+
+    def check_windows_vm_min_password_len(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "MinimumPasswordLength" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        #print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs that do not store passwords using reversible encryption
+    def check_windows_vm_store_password_rev_encryption(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "StorePasswordsUsingReversibleEncryption" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        #print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Linux VMs that do not have the passwd file permissions set to 0644
+
+    def check_vm_linux_password_permission_0644(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Linux", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "PasswordPolicy_msid121" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        #print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Linux VMs that allow remote connections from accounts without passwords
+
+    def check_vm_linux_remote_connection_without_password(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Linux", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "PasswordPolicy_msid110" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        #print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Audit Log Analytics Agent Deployment in Virtual Machine Scale Sets - VM Image (OS) unlisted
+
+    def check_vm_scale_set_audit_logs_vmImage_unlisted(self):
+        issues = []
+        try:
+            next_link_flag = 0
+            next_link = ""
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                scale_sets = []
+                url = vm_scale_set_url.format(subscription["subscriptionId"])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                if 'nextLink' in response:
+                    next_link_flag = 1
+                    next_link = response['nextLink'].split('skipToken=')[1]
+                for i in response["value"]:
+                    scale_sets.append(i)
+                while next_link_flag == 1:
+                    filters = "$skipToken={}".format(next_link)
+                    url = vm_scale_set_url.format(subscription["subscriptionId"]) + "?$filter=" + filters + ""
+                    response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                    if 'nextLink' in response:
+                        next_link_flag = 1
+                        next_link = response['nextLink'].split('skipToken=')[1]
+                    else:
+                        next_link_flag = 0
+                        next_link = ""
+                    for i in response["value"]:
+                        scale_sets.append(i)
+
+                for i in scale_sets:
+                    temp = dict()
+                    temp["resource_name"] = i["name"]
+                    temp["resource_id"] = ""
+                    temp["region"] = i["location"]
+                    temp["status"] = "Fail"
+                    temp["subscription_id"] = subscription['subscriptionId']
+                    temp["subscription_name"] = subscription["displayName"]
+                    extensions = i["properties"]["virtualMachineProfile"]["extensionProfile"]["extensions"]
+                    for extension in extensions:
+                        if extension["properties"]["publisher"] == "Microsoft.EnterpriseCloud.Monitoring":
+                            temp["status"] = "Pass"
+
+                    #print(temp)
+                    issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs in which the Administrators group does not contain all of the specified members
+
+    def check_windows_vm_admin_not_contain_specified_member(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "AdministratorsGroupMembersToInclude" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        #print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows web servers that are not using secure communication protocols
+
+    def check_windows_web_server_not_secure(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance[
+                            "id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url,api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                            temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "AuditSecureProtocol" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        #print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs configurations in 'Security Options - Network Access'
+
+    def check_windows_vm_config_security_network_access(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "AzureBaseline_SecurityOptionsNetworkAccess" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs configurations in 'Security Options - System settings'
+
+    def check_windows_vm_config_security_system_settings(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "AzureBaseline_SecurityOptionsSystemsettings" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs configurations in 'Windows Firewall Properties'
+
+    def check_windows_vm_config_windows_firewall_properties(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "AzureBaseline_WindowsFirewallProperties" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs that contain certificates expiring within the specified number of days
+
+    def check_windows_vm_contain_certificates_expiration(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "CertificateExpiration" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs configurations in 'Security Options - Accounts'
+
+    def check_windows_vm_config_security_accounts(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "AzureBaseline_SecurityOptionsAccounts" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs configurations in 'Security Options - Recovery console'
+
+    def check_windows_vm_config_security_recovery_console(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "AzureBaseline_SecurityOptionsRecoveryconsole" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs configurations in 'User Rights Assignment'
+
+    def check_windows_vm_config_user_rights_assignment(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "AzureBaseline_UserRightsAssignment" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs that do not contain the specified certificates in Trusted Root
+
+    def check_windows_vm_certificate_in_trusted_root(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "WindowsCertificateInTrustedRoot" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs configurations in 'Security Options - Microsoft Network Client'
+
+    def check_windows_vm_config_security_network_client(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "AzureBaseline_SecurityOptionsMicrosoftNetworkClient" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Linux VMs that do not have the specified applications installed
+
+    def check_linux_vm_installed_application(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Linux", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url, api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                           temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "installed_application_linux" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+
+

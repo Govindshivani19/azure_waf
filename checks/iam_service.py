@@ -102,3 +102,92 @@ class IamServices:
             print(str(e))
         finally:
             return issues
+
+#Allowed locations
+
+    def Allowed_locations(self):
+        issues=[]
+        allowed_locations = ['eastus','westus','southindia', 'centralindia', 'centralus']
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                #scope_reg_exp = '/subscriptions/{}'.format(subscription['subscriptionId'])
+                url = resource_group_list_url.format(subscription['subscriptionId'])
+                resp = rest_api_call(self.credentials, url, api_version='2016-06-01')
+                resource_groups = resp['value']
+                for resource_group in resource_groups:
+                    location = resource_group['location']
+                    temp = dict()
+                    for allowed_location in allowed_locations:
+                        if location == allowed_location or location == "global":
+                            temp['status'] = "Allowed location"
+                            temp['location'] = location
+                            break
+                        else:
+                            temp['status'] = "Denied location"
+                            temp['location'] = location
+                    issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Allowed locations for resource groups
+
+    def Allowed_location_for_resourse_group(self):
+        issues=[]
+        allowed_locations = ['eastus', 'westus', 'southindia', 'centralindia', 'centralus']
+        resourse_group_location = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                #scope_reg_exp = '/subscriptions/{}'.format(subscription['subscriptionId'])
+                url = resource_group_list_url.format(subscription['subscriptionId'])
+                # print(url)
+                resp = rest_api_call(self.credentials, url, api_version='2016-06-01')
+                res = resp['value']
+                for r in res:
+                    res_url = base_url + r['id']
+                    response = rest_api_call(self.credentials, res_url, api_version='2016-06-01')
+                    location = response['location']
+                    temp = dict()
+                    for allowed_location in allowed_locations:
+                        if location == allowed_location:
+                            temp['status'] = "Allowed location"
+                            temp['location'] = location
+                            break
+                        else:
+                            temp['status'] = "Denied location"
+                            temp['location'] = allowed_locations
+                    issues.append(temp)
+
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Geo-redundant storage should be enabled for Storage Accounts
+
+    def enable_Georedundant_storage(self):
+        issues= []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = storage_accounts_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-06-01')
+                temp = dict()
+                for each_response in response['value']:
+                    sku_data= each_response['sku']
+                    sku_name= sku_data['name']
+                    if sku_name == "Standard_GRS" or sku_name == "Standard_RAGRS":
+                        temp['Geo_redundant storage'] = "Enabled"
+                        temp['sku_name'] = sku_name
+                    else:
+                        temp['Geo_redundant storage'] = "Disabled"
+                        temp['sku_name'] = sku_name
+                    issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+

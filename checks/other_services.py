@@ -604,4 +604,69 @@ class AzureServices:
         finally:
             return issues
 
+#All authorization rules except RootManageSharedAccessKey should be removed from Event Hub namespace
 
+    def root_managed_shared_access_key_in_eventhub(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = Event_hub_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, '2017-04-01')
+                event_hub = response['value']
+                for hub in event_hub:
+                    temp = dict()
+                    hub_id = hub['id']
+                    url = base_url + hub_id + '/authorizationRules'
+                    resp = rest_api_call(self.credentials, url, '2017-04-01')
+                    data = resp['value']
+                    for info in data:
+                        if info['name'] != 'RootManageSharedAccessKey':
+                            temp['status'] = "Disabled"
+                            temp['event_hub name'] = hub['name']
+                            temp['subscriptionId'] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp['status'] = 'Enabled'
+                            temp['event_hub name'] = hub['name']
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#All authorization rules except RootManageSharedAccessKey should be removed from Service Bus namespace
+
+    def root_managed_shared_access_key_in_servicebus(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = service_bus_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, '2017-04-01')
+                service_bus = response['value']
+                for service in service_bus:
+                    temp = dict()
+                    service_id = service['id']
+                    url = base_url + service_id + '/authorizationRules'
+                    resp = rest_api_call(self.credentials, url, '2017-04-01')
+                    data = resp['value']
+                    for info in data:
+                        if info['name'] != 'RootManageSharedAccessKey':
+                            temp['status'] = "Disabled"
+                            temp['service_bus name'] = service['name']
+                            temp['subscriptionId'] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp['status'] = 'Enabled'
+                            temp['service_bus name'] = service['name']
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
