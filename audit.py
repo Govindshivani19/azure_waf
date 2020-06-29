@@ -7,7 +7,6 @@ from checks.vm_service import VmService
 from checks.automation_service import AutomationService
 from checks.security_service import SecurityService
 from db_helper import fetch_accounts, update_execution
-from helper_function import get_application_key, rest_api_call
 from execute_checks import *
 from checks.common_services import CommonServices
 from checks.kubernetes_service import KubernetesService
@@ -67,7 +66,7 @@ def __start_audit__():
             execute_app_service_checks(task_id, app_service)
             execute_kubernetes_service_checks(task_id, kubernetes_service)
             execute_security_centre_checks(task_id, security_service)
-            
+
             status = 'completed'
             update_execution(task_id, "completed")
 

@@ -1,9 +1,6 @@
 import requests
 import adal
-import os
 import ast
-import boto3
-import json
 import logging as logger
 
 
@@ -111,18 +108,3 @@ def get_adal_token(credentials):
     finally:
         return token
 
-
-def get_application_key(account_hash):
-    account_key = ""
-    try:
-        client_secret = boto3.client('secretsmanager', region_name='us-east-1',
-                                     aws_access_key_id=os.environ['access_key'],
-                                     aws_secret_access_key=os.environ['secret_key'])
-        secret_response = client_secret.get_secret_value(SecretId=account_hash)
-        if secret_response:
-            response = json.loads(secret_response['SecretString'])
-            account_key = response['secret_key']
-    except Exception as e:
-        logger.error("Error occurred when getting application key. ")
-        logger.error(e);
-    return account_key
