@@ -4,6 +4,7 @@ import os
 import ast
 import boto3
 import json
+import logging as logger
 
 
 def rest_api_call(credentials, url, api_version=None):
@@ -53,7 +54,7 @@ def rest_api_call(credentials, url, api_version=None):
             response = {"value": response_data}
 
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         return response
 
@@ -69,7 +70,7 @@ def get_auth_token(credentials):
         context = adal.AuthenticationContext(authority_url)
         token = context.acquire_token_with_client_credentials(resource, client_id, client_secret)
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         return token
 
@@ -85,7 +86,7 @@ def get_auth_token_services(credentials, az_resource):
         context = adal.AuthenticationContext(authority_url)
         token = context.acquire_token_with_client_credentials(resource, client_id, client_secret)
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         return token
 
@@ -106,7 +107,7 @@ def get_adal_token(credentials):
         if response.status_code == 200:
             token = ast.literal_eval(response.text)
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         return token
 
@@ -122,5 +123,6 @@ def get_application_key(account_hash):
             response = json.loads(secret_response['SecretString'])
             account_key = response['secret_key']
     except Exception as e:
-        print("Error occurred when getting application key. ", str(e))
+        logger.error("Error occurred when getting application key. ")
+        logger.error(e);
     return account_key

@@ -3,6 +3,7 @@ from helper_function import rest_api_call, get_adal_token
 from constants import storage_accounts_list_url, container_list_url, monitor_activity_log_url, base_url, resource_group_list_url
 import datetime
 import requests
+import logging as logger
 
 
 class StorageService:
@@ -33,19 +34,19 @@ class StorageService:
                                     temp["resource_id"] = ""
                                     temp["subscription_id"] = subscription['subscriptionId']
                                     temp["subscription_name"] = subscription["displayName"]
-                                    temp["value_one"] = account["name"]
+                                    temp["value_one"] = account["id"]
                                 else:
                                     temp["status"] = "Pass"
                                     temp["resource_name"] = container["name"]
                                     temp["resource_id"] = ""
                                     temp["subscription_id"] = subscription['subscriptionId']
                                     temp["subscription_name"] = subscription["displayName"]
-                                    temp["value_one"] = account["name"]
+                                    temp["value_one"] = account["id"]
                                 issues.append(temp)
                     except:
                         continue
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -63,13 +64,13 @@ class StorageService:
                     if not account['properties']['supportsHttpsTrafficOnly']:
                         temp["status"] = "Fail"
                         temp["resource_name"] = account["name"]
-                        temp["resource_id"] = ""
+                        temp["resource_id"] = account["id"]
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = account["name"]
-                        temp["resource_id"] = ""
+                        temp["resource_id"] = account["id"]
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
@@ -93,13 +94,13 @@ class StorageService:
                     if account['properties']['networkAcls']['bypass'] is None:
                         temp["status"] = "Fail"
                         temp["resource_name"] = account["name"]
-                        temp["resource_id"] = ""
+                        temp["resource_id"] = account["id"]
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                     else:
                         temp["status"] = "Pass"
                         temp["resource_name"] = account["name"]
-                        temp["resource_id"] = ""
+                        temp["resource_id"] = account["id"]
                         temp["subscription_id"] = subscription['subscriptionId']
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
@@ -242,6 +243,32 @@ class StorageService:
                     #response = rest_api_call(self.credentials, queue_log_url, api_version='2012-02-12')
                     print(response.text)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
+        finally:
+            return issues
+
+    def migrate_storage_to_new_rg(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                url = storage_accounts_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-06-01')
+                temp = dict()
+                for each_response in response['value']:
+                    if each_response['type'] == "Microsoft.ClassicStorage/storageAccounts":
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = each_response["name"]
+                        temp["resource_id"] = each_response["id"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+                    else:
+                        temp["status"] = "Pass"
+                        temp["resource_name"] = each_response["name"]
+                        temp["resource_id"] = each_response["id"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+        except Exception as e:
+            logger.error(e);
         finally:
             return issues

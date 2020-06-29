@@ -2,42 +2,42 @@ import datetime
 import decimal
 import uuid
 from db_connect import Session
-from model.db_models import AzAccount, AZChecks, AzAudit, AzExecutionDetails
+from model.db_models import AzAccount, AZChecks, AzAudit,TaskQueue
 from sqlalchemy import delete, update
+import logging as logger
 
 
 def insert_checks(check_id, check_name, rule):
     session = Session(expire_on_commit=False)
     try:
         checks = AZChecks()
-        checks.az_check_id = check_id
-        checks.az_check_name = check_name
-        checks.az_rule = rule
+        checks.check_id = check_id
+        checks.check_name = check_name
+        checks.rule = rule
         session.add(checks)
         session.commit()
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         session.close()
 
 
-def insert_audit_records(execution_hash, issues, check_id):
+def insert_audit_records(task_id,issues, check_id):
     session = Session(expire_on_commit=False)
     try:
         if issues :
-            print("issue")
-            print(check_id)
+            logger.info(check_id)
             for issue in issues:
                 audit_record = AzAudit()
                 audit_record.__dict__["check_id"] = check_id
-                audit_record.__dict__["az_execution_hash"] = execution_hash
+                audit_record.__dict__["task_id"] = task_id
                 for key, value in issue.items():
                     audit_record.__dict__[key] = value
                 session.add(audit_record)
                 session.commit()
-            print("inserted to db")
+            logger.info("inserted to db")
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         session.close()
 
@@ -52,7 +52,7 @@ def fetch_accounts(account_hash=None):
                 temp = dict()
                 tenant_id = account.tenant_id
                 application_id = account.application_id
-                account_hash = account.az_account_hash
+                account_hash = account.account_hash
                 temp = {
                     "account_hash": account_hash,
                     "tenant_id": tenant_id,
@@ -61,12 +61,12 @@ def fetch_accounts(account_hash=None):
                 accounts.append(temp)
         else:
             accounts_list = session.query(AzAccount).filter(AzAccount.is_active != '0')\
-                            .filter(AzAccount.az_account_hash == account_hash).all();
+                            .filter(AzAccount.account_hash == account_hash).all();
             for account in accounts_list:
                 temp = dict()
                 tenant_id = account.tenant_id
                 application_id = account.application_id
-                account_hash = account.az_account_hash
+                account_hash = account.account_hash
                 temp = {
                     "account_hash": account_hash,
                     "tenant_id": tenant_id,
@@ -74,20 +74,23 @@ def fetch_accounts(account_hash=None):
                 }
                 accounts.append(temp)
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         session.close()
         return accounts
 
 
-def update_execution(execution_hash, staus):
+def update_execution(task_id, status, comment = ""):
     session = Session(expire_on_commit=False)
     try:
-        account = session.query(AzExecutionDetails).filter(
-            AzExecutionDetails.az_execution_hash == execution_hash).first()
-        account.status = staus
+        logger.info(task_id, status)
+        account = session.query(TaskQueue).filter(
+            TaskQueue.id == task_id).first()
+        logger.info(account.status)
+        account.status = status
+        account.comment = comment
         session.commit()
     except Exception as e:
-        print(str(e))
+        logger.error(e);
     finally:
         session.close()

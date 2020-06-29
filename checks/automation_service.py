@@ -1,5 +1,6 @@
 from helper_function import rest_api_call, get_adal_token
 from constants import automation_accounts_url, base_url
+import logging as logger
 
 
 class AutomationService:
@@ -29,6 +30,6 @@ class AutomationService:
                             temp["status"] = "Pass"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues

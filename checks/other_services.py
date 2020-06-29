@@ -3,6 +3,7 @@ from helper_function import rest_api_call, get_auth_token_services
 from constants import redis_url, key_vault_list_url, vault_base_url, vault_policy_url, monitor_diagnostic_url, \
     certificate_policy_url, issuer_url
 from datetime import datetime, timezone, timedelta
+import logging as logger
 
 
 class AzureServices:
@@ -40,7 +41,7 @@ class AzureServices:
 
                 issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -90,7 +91,7 @@ class AzureServices:
                         issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -140,7 +141,7 @@ class AzureServices:
                         issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -186,7 +187,7 @@ class AzureServices:
                     issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -228,7 +229,7 @@ class AzureServices:
                                         temp["subscription_name"] = subscription["displayName"]
                                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
             import traceback
             print(traceback.format_exc())
         finally:
@@ -289,7 +290,7 @@ class AzureServices:
                         issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -348,7 +349,7 @@ class AzureServices:
                         issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -408,7 +409,7 @@ class AzureServices:
                             issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -479,7 +480,7 @@ class AzureServices:
                         issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -540,7 +541,7 @@ class AzureServices:
                             issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -600,7 +601,7 @@ class AzureServices:
                         issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 

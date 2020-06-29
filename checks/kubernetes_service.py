@@ -1,5 +1,6 @@
 from helper_function import rest_api_call
 from constants import managed_clusters_url, base_url
+import logging as logger
 
 
 class KubernetesService:
@@ -31,6 +32,6 @@ class KubernetesService:
                     issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues

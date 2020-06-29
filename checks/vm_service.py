@@ -3,6 +3,7 @@ from constants import vm_list_url, base_url, disk_list_url, public_ips_url, vm_s
 import requests
 import json
 import re
+import logging as logger
 
 
 class VmService:
@@ -40,7 +41,7 @@ class VmService:
                             temp["subscription_name"] = subscription["displayName"]
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -72,7 +73,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -106,7 +107,7 @@ class VmService:
                     if temp:
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         return issues
 
     def linux_vm_security_groups(self):
@@ -151,7 +152,7 @@ class VmService:
                             issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -189,7 +190,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -228,7 +229,7 @@ class VmService:
                             temp["subscription_name"] = subscription["displayName"]
                             issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -270,7 +271,7 @@ class VmService:
                     issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -296,7 +297,7 @@ class VmService:
                         temp["status"] = "Fail"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -342,7 +343,7 @@ class VmService:
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -375,7 +376,7 @@ class VmService:
                             temp["status"] = "Pass"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -412,7 +413,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -449,7 +450,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -486,7 +487,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -523,7 +524,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -560,7 +561,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -597,7 +598,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -634,7 +635,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -671,7 +672,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -708,7 +709,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -745,7 +746,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -782,7 +783,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -819,7 +820,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -856,7 +857,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -893,7 +894,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -930,7 +931,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -967,7 +968,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1004,7 +1005,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1041,7 +1042,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1087,7 +1088,7 @@ class VmService:
                             issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1125,7 +1126,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1163,7 +1164,7 @@ class VmService:
 
                         issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1208,7 +1209,7 @@ class VmService:
                             temp["status"] = "Pass"
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1259,7 +1260,7 @@ class VmService:
 
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1294,7 +1295,7 @@ class VmService:
                         issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1330,7 +1331,7 @@ class VmService:
                         issues.append(temp)
 
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
@@ -1358,7 +1359,7 @@ class VmService:
 
                     issues.append(temp)
         except Exception as e:
-            print(str(e))
+            logger.error(e);
         finally:
             return issues
 
