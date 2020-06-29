@@ -9,7 +9,7 @@ metadata = Base.metadata
 
 class Account(Base):
     __tablename__ = 'account'
-    __table_args__ = {"schema": "chanak"}
+    __table_args__ = {"schema": "cen"}
 
     id = Column(Integer, nullable=False, primary_key=True, server_default=text("nextval('account_id_seq'::regclass)"))
     aws_account_id = Column(String(50), nullable=False)
@@ -29,14 +29,14 @@ class Account(Base):
 
 class AccountType(Base):
     __tablename__ = 'account_type'
-    __table_args__ = {"schema": "chanak"}
+    __table_args__ = {"schema": "cen"}
 
     id = Column(Integer, nullable=False, primary_key=True, server_default=text("nextval('account_type_id_seq'::regclass)"))
     account_type = Column(String(100), nullable=False)
 
 class Customer(Base):
     __tablename__ = 'customer'
-    __table_args__ = {"schema": "chanak"}
+    __table_args__ = {"schema": "cen"}
 
     id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('customer_id_seq'::regclass)"))
     customer_name = Column(String(100), nullable=False)
@@ -50,7 +50,7 @@ class Customer(Base):
 
 class User(Base):
     __tablename__ = 'user'
-    __table_args__ = {"schema": "chanak"}
+    __table_args__ = {"schema": "cen"}
 
     id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('user_id_seq'::regclass)"))
     user_hash = Column(String(100), nullable=False)
@@ -69,7 +69,7 @@ class User(Base):
 
 class UserAccountMap(Base):
     __tablename__ = 'user_account_map'
-    __table_args__ = {"schema": "chanak"}
+    __table_args__ = {"schema": "cen"}
 
     id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('user_account_map_id_seq'::regclass)"))
     user_hash = Column(String(100), nullable=False)
@@ -81,7 +81,7 @@ class UserAccountMap(Base):
 
 class AzAccount(Base):
     __tablename__ = 'az_account'
-    __table_args__ = {"schema": "chanak"}
+    __table_args__ = {"schema": "cen"}
 
     id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_account_id_seq'::regclass)"))
     application_id = Column(String(100), nullable=False)
@@ -98,7 +98,7 @@ class AzAccount(Base):
 
 class AzAccountSubscriptions(Base):
     __tablename__ = 'az_account_subscriptions'
-    __table_args__ = {"schema": "chanak"}
+    __table_args__ = {"schema": "cen"}
 
     id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_account_subscriptions_id_seq'::regclass)"))
     account_hash = Column(String(100), nullable=False)
@@ -115,7 +115,7 @@ class AzAccountSubscriptions(Base):
 
 class AZChecks(Base):
     __tablename__ = 'az_checks'
-    __table_args__ = {"schema": "chanak"}
+    __table_args__ = {"schema": "cen"}
 
     id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_checks_id_seq'::regclass)"))
     check_id = Column(String(100), nullable=False)
@@ -135,7 +135,7 @@ class AZChecks(Base):
 
 class AzAudit(Base):
     __tablename__ = 'az_audit_report'
-    __table_args__ = {"schema": "chanak"}
+    __table_args__ = {"schema": "cen"}
 
     id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_audit_report_id_seq'::regclass)"))
     task_id = Column(Integer, nullable=False)
@@ -153,7 +153,7 @@ class AzAudit(Base):
 
 class TaskQueue(Base):
     __tablename__ = 'task_queue'
-    __table_args__ = {"schema": "chanak"}
+    __table_args__ = {"schema": "cen"}
 
     id = Column(Integer, primary_key=True, nullable=False, server_default=text("nextval('az_checks_id_seq'::regclass)"))
     account_hash = Column(String(100), nullable=False)
