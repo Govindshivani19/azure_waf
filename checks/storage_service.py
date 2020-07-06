@@ -76,7 +76,7 @@ class StorageService:
                     issues.append(temp)
 
         except Exception as e:
-            logger.error(e);
+            print(str(e))
         finally:
             return issues
 
@@ -106,7 +106,7 @@ class StorageService:
                     issues.append(temp)
 
         except Exception as e:
-            logger.error(e);
+            print(str(e))
         finally:
             return issues
 
@@ -136,7 +136,7 @@ class StorageService:
                     issues.append(temp)
 
         except Exception as e:
-            logger.error(e);
+            print(str(e))
         finally:
             return issues
 
@@ -218,7 +218,7 @@ class StorageService:
                         temp["subscription_name"] = subscription["displayName"]
                     issues.append(temp)
         except Exception as e:
-            logger.error(e);
+            print(str(e))
         finally:
             return issues
 

@@ -1308,3 +1308,409 @@ class SecurityService:
 
         finally:
             return issues
+
+#MFA should be enabled on accounts with owner permissions on your subscription
+
+    def enable_mfa_owner_permissions(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
+                try:
+                    compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    #print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "EnableMFAForOwnerPermissions" :
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        #print(temp)
+        except Exception as e:
+            print(str(e))
+
+        finally:
+            return issues
+
+
+#MFA should be enabled on accounts with read permissions on your subscription
+
+    def enable_mfa_read_permissions(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
+                try:
+                    compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    #print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "EnableMFAForReadPermissions" :
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        #print(temp)
+        except Exception as e:
+            print(str(e))
+
+        finally:
+            return issues
+
+
+#MFA should be enabled accounts with write permissions on your subscription
+
+    def enable_mfa_write_permissions(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
+                try:
+                    compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    #print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "EnableMFAForWritePermissions" :
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        #print(temp)
+        except Exception as e:
+            print(str(e))
+
+        finally:
+            return issues
+
+
+#Deprecated accounts should be removed from your subscription
+
+    def remove_deprecated_account(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
+                try:
+                    compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    #print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "RemoveDeprecatedAccounts" :
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        #print(temp)
+        except Exception as e:
+            print(str(e))
+
+        finally:
+            return issues
+
+#Deprecated accounts with owner permissions should be removed from your subscription
+
+    def remove_deprecated_account_owner_permission(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
+                try:
+                    compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    #print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "RemoveDeprecatedAccountsWithOwnerPermissions" :
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        #print(temp)
+        except Exception as e:
+            print(str(e))
+
+        finally:
+            return issues
+
+#External accounts with owner permissions should be removed from your subscription
+
+    def remove_external_account_owner_permission(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
+                try:
+                    compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    #print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "RemoveExternalAccountsWithOwnerPermissions" :
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        #print(temp)
+        except Exception as e:
+            print(str(e))
+
+        finally:
+            return issues
+
+
+#External accounts with read permissions should be removed from your subscription
+
+    def remove_external_account_read_permission(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
+                try:
+                    compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    #print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "RemoveExternalAccountsWithReadPermissions" :
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        #print(temp)
+        except Exception as e:
+            print(str(e))
+
+        finally:
+            return issues
+
+
+#External accounts with write permissions should be removed from your subscription
+
+    def remove_external_account_write_permission(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
+                try:
+                    compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    #print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "RemoveExternalAccountsWithWritePermissions" :
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        #print(temp)
+        except Exception as e:
+            print(str(e))
+
+        finally:
+            return issues
+
+#Service Fabric clusters should have the ClusterProtectionLevel property set to EncryptAndSign
+    def service_fabric_cluster_with_ClusterProtectionLevel_set_to_EncrytionAndSign(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                scope_reg_exp = '/subscriptions/{}'.format(subscription['subscriptionId'])
+                url = resource_group_list_url.format(subscription['subscriptionId'])
+                resp = rest_api_call(self.credentials, url, api_version='2016-06-01')
+                resource_groups = resp['value']
+                for resource_group in resource_groups:
+                    scope = "{}/resourceGroups/{}".format(subscription['subscriptionId'],
+                                                          resource_group["name"])
+
+                    clusters_url = Service_Fabric_url.format(scope)
+                    response = rest_api_call(self.credentials, clusters_url, api_version='2019-11-01-preview')
+                    cluster_name_list = response['value']
+                    for cluster_name in cluster_name_list:
+                        name = cluster_name['name']
+                        url = Service_Fabric_url.format(scope) + '/' + name + '?'
+                        result = rest_api_call(self.credentials, clusters_url, api_version='2019-11-01-preview')
+                        cluster_info = result['value']
+                        for cluster in cluster_info:
+                            temp = dict()
+                            fabric_settings = cluster['properties']['fabricSettings']
+                            fabric_data = fabric_settings
+                            for data in fabric_data:
+                                if data['name'] == "Security":
+                                    parameters = data['parameters']
+                                    for parameter in parameters:
+                                        if parameter['name'] == 'ClusterProtectionLevel':
+                                            if parameter['value'] == 'EncryptAndSign':
+                                                temp['status'] = 'Enabled'
+                                                temp['Cluster_name'] = name
+                                                temp['Resource_Group_name'] = resource_group['name']
+                                                temp['subscription'] = subscription['subscriptionId']
+                                            else:
+                                                temp['status'] = 'Disabled'
+                                                temp['Cluster_name'] = name
+                                                temp['Resource_Group_name'] = resource_group['name']
+                                                temp['subscription'] = subscription['subscriptionId']
+                                        else:
+                                            temp['status'] = 'Disabled'
+                                            temp['Cluster_name'] = name
+                                            temp['Resource_Group_name'] = resource_group['name']
+                                            temp['subscription'] = subscription['subscriptionId']
+                                else:
+                                    temp['status'] = 'Disabled'
+                                    temp['Cluster_name'] = name
+                                    temp['Resource_Group_name'] = resource_group['name']
+                                    temp['subscription'] = subscription['subscriptionId']
+                            issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Service Fabric clusters should only use Azure Active Directory for client authentication
+
+
+    def service_fabric_cluster_ADD_clientAuthentication(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                #scope_reg_exp = '/subscriptions/{}'.format(subscription['subscriptionId'])
+                url = resource_group_list_url.format(subscription['subscriptionId'])
+                resp = rest_api_call(self.credentials, url, api_version='2016-06-01')
+                resource_groups = resp['value']
+                for resource_group in resource_groups:
+                    scope = "{}/resourceGroups/{}".format(subscription['subscriptionId'],
+                                                             resource_group["name"])
+
+                    clusters_url = Service_Fabric_url.format(scope)
+                    response = rest_api_call(self.credentials, clusters_url, api_version='2019-11-01-preview')
+                    cluster_name_list = response['value']
+                    for cluster_name in cluster_name_list:
+                        name = cluster_name['name']
+                        #url = Service_Fabric_url.format(scope) + '/' +name+ '?'
+                        result = rest_api_call(self.credentials, clusters_url, api_version='2019-11-01-preview')
+                        cluster_info = result['value']
+                        for cluster in cluster_info:
+                            temp = dict()
+                            if cluster['properties'] !=  "azureActiveDirectory":
+                                temp['status'] = 'Deny'
+                            else:
+                                AAD = cluster['properties']['azureActiveDirectory']
+                                AAD_tenantID = AAD['tenantID']
+                                if AAD_tenantID == "":
+                                    temp['tenantId'] = AAD_tenantID
+                                    temp['status'] = "Audit"
+                                    temp['Cluster_name'] = name
+                                    temp['resource_Group_name'] = resource_group["name"]
+                                    temp['subscription_Id'] = subscription['subscription_list']
+                                else:
+                                    temp['status'] = "Disabled"
+                                    temp['Cluster_name'] = name
+                                    temp['Resource_Group_name'] = resource_group["name"]
+                                    temp['subscription_Id'] = subscription['subscription_list']
+                                issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
