@@ -11,19 +11,22 @@ from helper_function import get_application_key, rest_api_call
 from execute_checks import *
 from checks.common_services import CommonServices
 from checks.kubernetes_service import KubernetesService
+from checks.datalake_service import DatalakeService
 from checks.app_service import AppService
 from checks.network_service import NetworkService
+from checks.app_configuration_service import AppConfigurationService
 import os
 import logging.config
 import logging as logger
 import datetime
 now = str(datetime.datetime.now())
-logger.basicConfig(filename=os.environ['log_dir']+now+'azure_waa.log',level=logger.INFO)
-
+# logger.basicConfig(filename=os.environ['log_dir']+now+'azure_waa.log',level=logger.INFO)
+logger.basicConfig(level=logger.INFO)
 
 def __start_audit__():
     status = 'failed'
     task_id = None
+
     try:
         credentials = dict()
 
@@ -54,6 +57,19 @@ def __start_audit__():
             kubernetes_service = KubernetesService(credentials, subscription_list)
             app_service = AppService(credentials, subscription_list)
             network_service = NetworkService(credentials, subscription_list)
+            app_configuration_service= AppConfigurationService(credentials, subscription_list)
+            datalake_service = DatalakeService(credentials, subscription_list)
+            #CEN_AZ_227
+            #CEN_AZ_228
+            #CEN_AZ_229
+            #CEN_AZ_230
+            #231
+            #232
+
+
+
+            #233
+            
 
             execute_log_monitor_checks(task_id, monitor_service)
             execute_iam_checks(task_id, iam_service)
@@ -67,6 +83,9 @@ def __start_audit__():
             execute_network_checks(task_id, network_service)
             execute_app_service_checks(task_id, app_service)
             execute_kubernetes_service_checks(task_id, kubernetes_service)
+            execute_app_configuration_checks(task_id,app_configuration_service)
+            execute_datalake_checks(task_id, datalake_service)
+
             status = 'completed'
             update_execution(task_id, "completed")
 

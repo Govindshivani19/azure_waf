@@ -1,6 +1,6 @@
 from checks.common_services import CommonServices
 from helper_function import rest_api_call
-from constants import policy_assignments_url, security_contacts_url, auto_provision_url, pricing_url, vm_list_url, compliance_result_url, manage_cluster_url, contact_url, network_interface_list_url
+from constants import policy_assignments_url, security_contacts_url, auto_provision_url, pricing_url, vm_list_url, compliance_result_url, manage_cluster_url, contact_url, network_interface_list_url,sql_server_list_url,base_url
 import logging as logger
 
 
@@ -31,7 +31,7 @@ class SecurityService:
                         if each_response['name'] == "adaptiveNetworkHardenings" :
                             temp = dict()
 
-                            if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            if each_response['properties']['resourceStatus'] not in ["OffByPolicyOffByPolicy", "Healthy"]:
 
                                 temp["status"] = "Fail"
                                 temp["resource_name"] = each_response["name"]
@@ -1301,6 +1301,53 @@ class SecurityService:
                             temp["subscription_name"] = subscription["displayName"]
                         issues.append(temp)
                 print(issues)
+        except Exception as e:
+            logger.error(e);
+        finally:
+            return issues
+
+        # Sensitive data in your SQL databases should be classified category:Database [policy category : security center]
+
+    def sensitive_data_in_sql_db(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = sql_server_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, '2015-05-01-preview')
+                server_list = response['value']
+                for server in server_list:
+                    server_id = server['id']
+                    server_url = base_url + server_id + '/databases'
+                    resp = rest_api_call(self.credentials, server_url, '2019-06-01-preview')
+                    for instance in resp['value']:
+                        instance_list.append(instance)
+                    if len(instance_list) > 0:
+                        compliance_result = compliance_result_url.format(subscription['subscriptionId'])
+                        try:
+                            compliance_result_response = \
+                            rest_api_call(self.credentials, compliance_result, '2017-08-01')['value']
+                        except Exception as e:
+                            print(e)
+                            continue
+                        for each_response in compliance_result_response:
+                            if each_response['name'] == "sqlDataClassification":
+                                temp = dict()
+                                if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                                    temp["status"] = "Fail"
+                                    temp["resource_name"] = each_response["name"]
+                                    temp["resource_id"] = each_response["id"]
+                                    temp["subscription_id"] = subscription['subscriptionId']
+                                    temp["subscription_name"] = subscription["displayName"]
+                                else:
+                                    temp["status"] = "Pass"
+                                    temp["resource_name"] = each_response["name"]
+                                    temp["resource_id"] = each_response["id"]
+                                    temp["subscription_id"] = subscription['subscriptionId']
+                                    temp["subscription_name"] = subscription["displayName"]
+                                issues.append(temp)
+                                print(temp)
         except Exception as e:
             logger.error(e);
         finally:

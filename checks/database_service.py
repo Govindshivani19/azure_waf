@@ -1832,3 +1832,38 @@ class DatabaseService:
             logger.error(e);
         finally:
             return issues
+
+    def private_endpoint_should_be_enabled_Mariadb(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                temp = dict()
+                resource_groups = CommonServices.get_resource_group(self.credentials, subscription['subscriptionId'])
+                for resource in resource_groups:
+                    url = maria_db_list_url.format(subscription['subscriptionId'] + '/resourceGroups/' + resource['name'])
+                    response = rest_api_call(self.credentials, url, '2018-06-01-preview')['value']
+                    for resp in response:
+                        db_url = base_url + resp['id'] + '/privateEndpointConnections'
+                        private_endpoint = rest_api_call(self.credentials, db_url, '2018-06-01-preview')['value']
+                        for endpoint in private_endpoint:
+                            if endpoint['properties']['privateLinkServiceConnectionState']['status'] == "Approved":
+                                temp['status'] = 'Pass'
+                                temp['DB_name'] = resp['name']
+                                temp['resource_group'] = resource['name']
+                                temp['subscription_id'] = subscription['subscriptionId']
+                            else:
+                                temp['status'] = 'Fail'
+                                temp['DB_name'] = resp['name']
+                                temp['resource_group'] = resource['name']
+                                temp['subscription_id'] = subscription['subscriptionId']
+                            issues.append(temp)
+                            print(temp)
+
+
+
+        except Exception as e:
+            logger.error(e);
+        finally:
+            return issues
+

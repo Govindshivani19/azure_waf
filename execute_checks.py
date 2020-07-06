@@ -1298,6 +1298,57 @@ def CEN_AZ_226(execution_hash, storage_service):
     except Exception as e:
         logger.error(e);
 
+def CEN_AZ_227(task_id, monitor_service):
+    try:
+        insert_audit_records(task_id, monitor_service.audit_diagnostic_settings(),'CEN_AZ_227')
+    except Exception as e:
+        logger.error(e);
+
+def CEN_AZ_228(task_id, monitor_service):
+    try:
+        insert_audit_records(task_id, monitor_service.audit_log_analytics_workspace_for_vm(),'CEN_AZ_228')
+    except Exception as e:
+        logger.error(e);
+
+
+def CEN_AZ_229(task_id, app_configuration_service):
+    try:
+        insert_audit_records(task_id, app_configuration_service.app_config_customer_managed_key(), 'CEN_AZ_229')
+    except Exception as e:
+        logger.error(e);
+
+
+def CEN_AZ_230(task_id, datalake_service):
+    try:
+        insert_audit_records(task_id, datalake_service.encryption_on_datalake_store, 'CEN_AZ_230')
+    except Exception as e:
+        logger.error(e);
+
+def CEN_AZ_231(task_id, security_service):
+    try:
+        insert_audit_records(task_id, security_service.sensitive_data_in_sql_db(),'CEN_AZ_231')
+    except Exception as e:
+        logger.error(e);
+
+def CEN_AZ_232(task_id, db_service):
+    try:
+        insert_audit_records(task_id, db_service.private_endpoint_should_be_enabled_Mariadb(),'CEN_AZ_232')
+    except Exception as e:
+
+        logger.error(e);
+def CEN_AZ_233(task_id, monitor_service):
+    try:
+        insert_audit_records(task_id, monitor_service.create_alert_sql_server_firewall(),'CEN_AZ_233')
+    except Exception as e:
+        logger.error(e);
+
+
+def execute_app_configuration_checks(task_id, app_configuration_service):
+    CEN_AZ_229(task_id,app_configuration_service)
+
+def execute_datalake_checks(task_id, datalake_service):
+    CEN_AZ_230(task_id, datalake_service)
+
 
 def execute_storage_checks(execution_hash, storage_service):
     CEN_AZ_4(execution_hash, storage_service)
@@ -1316,6 +1367,9 @@ def execute_log_monitor_checks(task_id, monitor_service):
     CEN_AZ_13(task_id, monitor_service)
     CEN_AZ_14(task_id, monitor_service)
     CEN_AZ_15(task_id, monitor_service)
+    CEN_AZ_227(task_id, monitor_service)
+    CEN_AZ_228(task_id, monitor_service)
+    CEN_AZ_233(task_id, monitor_service)
 
 
 def execute_iam_checks(task_id, iam_service):
@@ -1359,6 +1413,7 @@ def execute_security_centre_checks(execution_hash, security_service):
     CEN_AZ_214(execution_hash, security_service)
     CEN_AZ_215(execution_hash, security_service)
     CEN_AZ_216(execution_hash, security_service)
+    CEN_AZ_231(execution_hash, security_service)
 
 
 def execute_database_checks(execution_hash, db_service):
@@ -1395,6 +1450,7 @@ def execute_database_checks(execution_hash, db_service):
     CEN_AZ_195(execution_hash, db_service)
     CEN_AZ_199(execution_hash, db_service)
     CEN_AZ_200(execution_hash, db_service)
+    CEN_AZ_232(execution_hash, db_service)
 
 
 def execute_vm_checks(execution_hash, vm_service):

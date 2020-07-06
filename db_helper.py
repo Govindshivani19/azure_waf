@@ -83,7 +83,7 @@ def fetch_accounts(account_hash=None):
 def update_execution(task_id, status, comment = ""):
     session = Session(expire_on_commit=False)
     try:
-        logger.info(task_id, status)
+        logger.info(task_id+status)
         account = session.query(TaskQueue).filter(
             TaskQueue.id == task_id).first()
         logger.info(account.status)
