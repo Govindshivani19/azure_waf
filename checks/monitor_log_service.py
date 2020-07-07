@@ -310,12 +310,12 @@ class MonitorLogService:
         finally:
             return issues
 
-    def audit_log_analytics_workspace_for_vm(self,log_analytics_workspace_id):
+    def audit_log_analytics_workspace_for_vm(self,log_analytics_workspace_id=None):
         issues = []
         try:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
-                resource_list = CommonServices().get_resource_group(self.credentials, subscription['subscriptionId'])
+                resource_list = CommonServices().get_resource_groups(self.credentials, subscription['subscriptionId'])
                 for resource in resource_list:
                     url = vm_list_url.format(subscription['subscriptionId']+'/resourceGroups/'+resource['name'])
                     response = rest_api_call(self.credentials, url, '2019-12-01')['value']
@@ -327,6 +327,7 @@ class MonitorLogService:
                             link = base_url + info['id']
                             data = rest_api_call(self.credentials, link, '2019-12-01')
                             if data['properties']['publisher'] == "Microsoft.EnterpriseCloud.Monitoring":
+                                print(data['properties']['settings']['workspaceId'])
                                 if data['properties']['settings']['workspaceId'] != log_analytics_workspace_id:#unable to get logAnalytics workspace id
                                     temp['status'] = 'Fail'
                                     temp['extension_name'] = info['name']
@@ -360,9 +361,11 @@ class MonitorLogService:
                     logs_url = activity_log_alert_url.format(
                         subscription['subscriptionId'], resource_group)
                     log_response = rest_api_call(self.credentials, logs_url, '2017-04-01')
-                    for each_response in log_response:
+                    print(log_response)
+                    for each_response in log_response['value']:
                         temp = dict()
                         temp["region"] = ""
+                        print(each_response)
                         if each_response['properties']['enabled'] == "true":
                             if each_response['properties']['condition']['allOf']['field'] == "operationName" & \
                                     each_response['properties']['condition']['allOf'][
@@ -381,6 +384,8 @@ class MonitorLogService:
                         issues.append(temp)
 
         except Exception as e:
-            logger.error(e);
+            logger.error(e)
+            import traceback
+            print(traceback.format_exc())
         finally:
             return issues

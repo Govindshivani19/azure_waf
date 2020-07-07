@@ -16,7 +16,7 @@ class AppConfigurationService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
-                resource_groups = CommonServices().get_resource_group(self.credentials, subscription['subscriptionId'])
+                resource_groups = CommonServices().get_resource_groups(self.credentials, subscription['subscriptionId'])
                 for resource in resource_groups:
                     url = appconfiguration_list_url.format(resource['id'])
                     response = rest_api_call(self.credentials, url, '2020-06-01')['value']

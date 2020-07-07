@@ -1349,6 +1349,309 @@ class SecurityService:
                                 issues.append(temp)
                                 print(temp)
         except Exception as e:
+            logger.error(e)
+            import traceback
+            print(traceback.format_exc())
+        finally:
+            return issues
+
+    def remove_external_account_owner_permission(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'])
+                try:
+                    compliance_result_response = \
+                    rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "RemoveExternalAccountsWithOwnerPermissions":
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        print(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def enable_mfa_owner_permissions(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'])
+                try:
+                    compliance_result_response = \
+                    rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "EnableMFAForOwnerPermissions":
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        print(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    # MFA should be enabled on accounts with read permissions on your subscription
+    def enable_mfa_read_permissions(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'])
+                try:
+                    compliance_result_response = \
+                    rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "EnableMFAForReadPermissions":
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        print(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    # MFA should be enabled accounts with write permissions on your subscription
+    def enable_mfa_write_permissions(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                compliance_result = compliance_result_url.format(subscription['subscriptionId'])
+                try:
+                    compliance_result_response = \
+                    rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    print(compliance_result_response)
+                except Exception as e:
+                    print(e)
+                    continue
+                for each_response in compliance_result_response:
+                    if each_response['name'] == "EnableMFAForWritePermissions":
+                        temp = dict()
+                        if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = each_response["name"]
+                            temp["resource_id"] = each_response["id"]
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        print(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Vulnerabilities in container security configurations should be remediated
+
+    def container_security_vulnerabilities(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                if len(instance_list) > 0:
+                    compliance_result = compliance_result_url.format(subscription['subscriptionId'])
+                    try:
+                        compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                        print(compliance_result_response)
+                    except Exception as e:
+                        print(e)
+                        continue
+                    for each_response in compliance_result_response:
+                        if each_response['name'] == "ContainerBenchmark":
+                            temp = dict()
+                            if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                                temp["status"] = "Fail"
+                                temp["resource_name"] = each_response["name"]
+                                temp["resource_id"] = each_response["id"]
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+                            else:
+                                temp["status"] = "Pass"
+                                temp["resource_name"] = each_response["name"]
+                                temp["resource_id"] = each_response["id"]
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+                            issues.append(temp)
+        except Exception as e:
+            logger.error(e);
+
+        finally:
+            return issues
+
+#Vulnerabilities should be remediated by a Vulnerability Assessment solution
+
+    def vulnerability_assessment_solution(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                if len(instance_list) > 0:
+                    compliance_result = compliance_result_url.format(subscription['subscriptionId'])
+                    try:
+                        compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                        print(compliance_result_response)
+                    except Exception as e:
+                        print(e)
+                        continue
+                    for each_response in compliance_result_response:
+                        if each_response['name'] == "vulnerabilityAssessment":
+                            temp = dict()
+                            if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                                temp["status"] = "Fail"
+                                temp["resource_name"] = each_response["name"]
+                                temp["resource_id"] = each_response["id"]
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+                            else:
+                                temp["status"] = "Pass"
+                                temp["resource_name"] = each_response["name"]
+                                temp["resource_id"] = each_response["id"]
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+                            issues.append(temp)
+        except Exception as e:
+            logger.error(e);
+
+        finally:
+            return issues
+
+#Management ports of virtual machines should be protected with just-in-time network access control
+
+    def mgmt_ports_for_vms(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                if len(instance_list) > 0:
+                    compliance_result = compliance_result_url.format(subscription['subscriptionId'] )
+                    try:
+                        compliance_result_response = rest_api_call(self.credentials, compliance_result, api_version='2017-08-01')['value']
+                    except Exception as e:
+                        print(e)
+                        continue
+                    for each_response in compliance_result_response:
+                        if each_response['name'] == "jitNetworkAccess" :
+                            temp = dict()
+                            if each_response['properties']['resourceStatus'] not in ["OffByPolicy", "Healthy"]:
+                                temp["status"] = "Fail"
+                                temp["resource_name"] = each_response["name"]
+                                temp["resource_id"] = each_response["id"]
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+                            else:
+                                temp["status"] = "Pass"
+                                temp["resource_name"] = each_response["name"]
+                                temp["resource_id"] = each_response["id"]
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+                            issues.append(temp)
+                            print(temp)
+        except Exception as e:
+            logger.error(e);
+        return issues
+
+
+
+#Advanced threat protection should be enabled on Virtual Machines
+
+    def enable_threat_protection(self):
+        issues= []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                temp = dict()
+                temp["region"] = ""
+                url = pricing_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2017-08-01-preview')
+                pricing_values = response['value']
+                for price in pricing_values:
+                    if price['name'] == "VirtualMachines":
+                        if price['properties']['pricingTier'] == "Standard":
+                            temp["status"] = "Pass"
+                            temp["resource_name"] = subscription['displayName']
+                            temp["resource_id"] = subscription['subscriptionId']
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        else:
+                            temp["status"] = "Fail"
+                            temp["resource_name"] = subscription['displayName']
+                            temp["resource_id"] = subscription['subscriptionId']
+                            temp["subscription_id"] = subscription['subscriptionId']
+                            temp["subscription_name"] = subscription["displayName"]
+                        issues.append(temp)
+                        print(temp)
+        except Exception as e:
             logger.error(e);
         finally:
             return issues

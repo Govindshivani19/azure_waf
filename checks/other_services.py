@@ -604,5 +604,95 @@ class AzureServices:
             logger.error(e);
         finally:
             return issues
+#Set Azure Secret Key Expiration
+    def set_secret_key_expiration(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                vault_list = []
+                vault_url = key_vault_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, vault_url)
+                for r in response['value']:
+                    vault_list.append(r)
+
+                for vault in vault_list:
+                    vault_id = vault["id"]
+                    # print("vault", vault)
+                    get_secrets = vault_base_url.format(vault_id) + "/secrets"
+                    secret_response = rest_api_call(self.credentials, get_secrets, '2014-12-19-preview')
+                    # print('secret', secret_response)
+
+                    for each_secret in secret_response:
+                        # print(each_secret, each_secret.keys())
+                        temp = dict()
+                        temp["region"] = ""
+                        if each_secret['properties']['attributes']['enabled']=="true":
+                            # if each_secret['properties']['attributes']['exp']=="null":
+                            if "exp" in each_secret['properties']['attributes'].keys():
+                                temp["status"] = "Fail"
+                                temp["resource_name"] = each_secret['name']
+                                temp["resource_id"] = each_secret['id']
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+                            else:
+                                temp["status"] = "Pass"
+                                temp["resource_name"] = each_secret['name']
+                                temp["resource_id"] = each_secret['id']
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+
+                        issues.append(temp)
+
+        except Exception as e:
+            logger.error(e);
+        finally:
+            return issues
+
+#Set Encryption Key Expiration
+
+    def set_encrypted_key_expiration(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                vault_list = []
+                vault_url = key_vault_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, vault_url)
+                for r in response['value']:
+                    vault_list.append(r)
+
+                for vault in vault_list:
+                    vault_id = vault["id"]
+                    # print("vault", vault)
+                    get_secrets = vault_base_url.format(vault_id) + "/keys"
+                    secret_response = rest_api_call(self.credentials, get_secrets, '2014-12-19-preview')
+                    # print('secret', secret_response)
+
+                    for each_secret in secret_response:
+                        # print(each_secret, each_secret.keys())
+                        temp = dict()
+                        temp["region"] = ""
+                        if each_secret['properties']['attributes']['enabled']=="true":
+                            # if each_secret['properties']['attributes']['exp']=="null":
+                            if "exp" in each_secret['properties']['attributes'].keys():
+                                temp["status"] = "Fail"
+                                temp["resource_name"] = each_secret['name']
+                                temp["resource_id"] = each_secret['id']
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+                            else:
+                                temp["status"] = "Pass"
+                                temp["resource_name"] = each_secret['name']
+                                temp["resource_id"] = each_secret['id']
+                                temp["subscription_id"] = subscription['subscriptionId']
+                                temp["subscription_name"] = subscription["displayName"]
+
+                        issues.append(temp)
+
+        except Exception as e:
+            logger.error(e);
+        finally:
+            return issues
 
 

@@ -1839,7 +1839,7 @@ class DatabaseService:
             subscription_list = self.subscription_list
             for subscription in subscription_list:
                 temp = dict()
-                resource_groups = CommonServices.get_resource_group(self.credentials, subscription['subscriptionId'])
+                resource_groups = CommonServices().get_resource_groups(self.credentials, subscription['subscriptionId'])
                 for resource in resource_groups:
                     url = maria_db_list_url.format(subscription['subscriptionId'] + '/resourceGroups/' + resource['name'])
                     response = rest_api_call(self.credentials, url, '2018-06-01-preview')['value']

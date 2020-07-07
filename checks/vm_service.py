@@ -11,6 +11,7 @@ class VmService:
         self.credentials = credentials
         self.subscription_list = subscription_list
 
+
     def unused_virtual_machines(self):
         issues = []
         try:
@@ -1358,6 +1359,257 @@ class VmService:
                         temp["status"] = "Fail"
 
                     issues.append(temp)
+        except Exception as e:
+            logger.error(e);
+        finally:
+            return issues
+
+
+#Show audit results from Windows VMs with a pending reboot
+
+    def check_windows_pending_reboot(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url,api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                            temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "WindowsPendingReboot" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows VMs that have not restarted within the specified number of days
+
+    def check_windows_not_restarted(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+
+                        guest_config_url = base_url + instance["id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url,api_version='2018-06-30-preview')
+
+                        if "Message" in guest_config_response.keys():
+                            temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "MachineLastBootUpTime" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+#Show audit results from Windows web servers that are not using secure communication protocols
+    def check_windows_web_server_not_secure(self):
+        issues = []
+        try:
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for instance in instance_list:
+                    x = re.findall("Windows", instance["properties"]["storageProfile"]["osDisk"]["osType"])
+                    if x:
+                        temp = dict()
+                        temp["region"] = instance["location"]
+                        temp["status"] = "Fail"
+                        temp["resource_name"] = instance["name"]
+                        temp["resource_id"] = instance["properties"]["vmId"]
+                        temp["subscription_id"] = subscription['subscriptionId']
+                        temp["subscription_name"] = subscription["displayName"]
+                        guest_config_url = base_url + instance[
+                            "id"] + "/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments"
+                        guest_config_response = rest_api_call(self.credentials, guest_config_url,api_version='2018-06-30-preview')
+                        if "Message" in guest_config_response.keys():
+                            temp["status"] = "Fail"  # No assignment
+                        else:
+                            for x in guest_config_response['value']:
+                                if x["name"] == "AuditSecureProtocol" and x["properties"]["complianceStatus"] == "Compliant":
+                                    temp["status"] = "Pass"
+                        print(temp)
+                        issues.append(temp)
+        except Exception as e:
+            print(str(e))
+        finally:
+            return issues
+
+    def audit_log_analytics_agent_deploy_vm_unlisted(self):
+        issues = []
+        windows_sku = [
+                            "2008-R2-SP1",
+                            "2008-R2-SP1-smalldisk",
+                            "2012-Datacenter",
+                            "2012-Datacenter-smalldisk",
+                            "2012-R2-Datacenter",
+                            "2012-R2-Datacenter-smalldisk",
+                            "2016-Datacenter",
+                            "2016-Datacenter-Server-Core",
+                            "2016-Datacenter-Server-Core-smalldisk",
+                            "2016-Datacenter-smalldisk",
+                            "2016-Datacenter-with-Containers",
+                            "2016-Datacenter-with-RDSH",
+                            "2019-Datacenter",
+                            "2019-Datacenter-Core",
+                            "2019-Datacenter-Core-smalldisk",
+                            "2019-Datacenter-Core-with-Containers",
+                            "2019-Datacenter-Core-with-Containers-smalldisk",
+                            "2019-Datacenter-smalldisk",
+                            "2019-Datacenter-with-Containers",
+                            "2019-Datacenter-with-Containers-smalldisk",
+                            "2019-Datacenter-zhcn"
+                          ]
+        window_1_sku = [
+                            "Datacenter-Core-1709-smalldisk",
+                            "Datacenter-Core-1709-with-Containers-smalldisk",
+                            "Datacenter-Core-1803-with-Containers-smalldisk"
+                          ]
+        image_offer = [
+                        "SLES",
+                        "SLES-HPC",
+                        "SLES-HPC-Priority",
+                        "SLES-SAP",
+                        "SLES-SAP-BYOS",
+                        "SLES-Priority",
+                        "SLES-BYOS",
+                        "SLES-SAPCAL",
+                        "SLES-Standard"
+                      ]
+        try:
+            temp = dict()
+            def temp_data(pub_value, offer_value, sku_value):
+                    temp['publisher'] = pub_value
+                    temp['offer'] = offer_value
+                    temp['sku'] = sku_value
+
+            subscription_list = self.subscription_list
+            for subscription in subscription_list:
+                instance_list = []
+                url = vm_list_url.format(subscription['subscriptionId'])
+                response = rest_api_call(self.credentials, url, api_version='2019-07-01')
+                for instance in response['value']:
+                    instance_list.append(instance)
+                for i in instance_list:
+                    image_data = i['properties']['storageProfile']['imageReference']
+                    if image_data['publisher'] == "MicrosoftWindowsServer":
+                        if image_data['offer'] == "WindowsServer":
+                            for image_sku in windows_sku:
+                                if image_data['sku'] == image_sku :
+                                    temp_data(image_data['publisher'], image_data['offer'], image_data['sku'])
+                                    break;
+                        elif image_data['offer'] == "WindowsServerSemiAnnual":
+                            for image_sku in window_1_sku:
+                                if image_data['sku'] == image_sku:
+                                    temp_data(image_data['publisher'], image_data['offer'], image_data['sku'])
+                                    break;
+                    if image_data['publisher'] == "MicrosoftWindowsServerHPCPack":
+                        if image_data['offer'] == "WindowsServerHPCPack":
+                            temp_data(image_data['publisher'], image_data['offer'], " ")
+                    if image_data['publisher'] == "MicrosoftSQLServer":
+                        if  "-WS2016" in image_data['offer'] or "-WS2016-BYOL" in image_data['offer'] or "-WS2012R2" in image_data['offer'] or "-WS2012R2-BYOL" in image_data['offer']:
+                            temp_data(image_data['publisher'], image_data['offer'], " ")
+                    if image_data['publisher'] == "MicrosoftRServer":
+                        if image_data['offer'] == "MLServer-WS2016":
+                            temp_data(image_data['publisher'], image_data['offer'], " ")
+                    if image_data['publisher'] == "MicrosoftVisualStudio":
+                        if image_data['offer'] == "VisualStudio" or image_data['offer'] == "Windows":
+                            temp_data(image_data['publisher'], image_data['offer'], " ")
+                    if image_data['publisher'] == "MicrosoftDynamicsAX":
+                        if image_data['offer'] == "Dynamics":
+                            if image_data['sku'] == "Pre-Req-AX7-Onebox-U8":
+                                temp_data(image_data['publisher'], image_data['offer'], image_data['sku'])
+                    if image_data['publisher'] == "microsoft-ads":
+                        if image_data['offer'] == "windows-data-science-vm":
+                            temp_data(image_data['publisher'], image_data['offer'], " ")
+                    if image_data['publisher'] == "MicrosoftWindowsDesktop":
+                        if image_data['offer'] == "Windows-10":
+                            temp_data(image_data['publisher'], image_data['offer'], " ")
+                    if image_data['publisher'] == "RedHat":
+                        if image_data['offer'] == "RHEL" or image_data['offer'] == "RHEL-SAP-HANA":
+                            if "6." in image_data["sku"] or "7" in image_data['sku']:
+                                temp_data(image_data['publisher'], image_data['offer'], image_data['sku'])
+                    if image_data['publisher'] == "SUSE":
+                        for offer in image_offer:
+                            if image_data['offer'] == offer:
+                                break;
+                                if "12" in image_data['sku']:
+                                    temp_data(image_data['publisher'], image_data['offer'], image_data['sku'])
+                    if image_data['publisher'] == "Canonical":
+                        if image_data['offer'] == "UbuntuServer":
+                            if "14.04" in image_data['sku'] or "16.04" in image_data['sku'] or "18.04" in image_data['sku']:
+                                temp_data(image_data['publisher'], image_data['offer'], image_data['sku'])
+                    if image_data['publisher'] == "Oracle":
+                        if image_data['offer'] == "Oracle-Linux":
+                            if "6." in image_data['sku'] or "7." in image_data['sku']:
+                                temp_data(image_data['publisher'], image_data['offer'], image_data['sku'])
+                    if image_data['publisher'] == "OpenLogic":
+                        if image_data['offer'] == "CentOS" or image_data['offer'] == "Centos-LVM" or image_data['offer'] == "CentOS-SRIOV":
+                            if "6." in image_data['sku'] or "7" in image_data['sku']:
+                                temp_data(image_data['publisher'], image_data['offer'], image_data['sku'])
+                    if image_data['publisher'] == "cloudera":
+                        if image_data['offer'] == "cloudera-centos-os":
+                            if "7" in image_data['sku']:
+                                temp_data(image_data['publisher'], image_data['offer'], image_data['sku'])
+
+                    for resource in i['resources'] :
+                        ext_url = base_url+ resource['id']
+                        result = rest_api_call(self.credentials, ext_url, '2019-12-01')
+                        if result['properties']['publisher'] == "Microsoft.EnterpriseCloud.Monitoring":
+                            temp['status'] = "true"
+                        else:
+                            temp['status'] = "false"
+                    issues.append(temp)
+                    print(temp)
+
+
         except Exception as e:
             logger.error(e);
         finally:

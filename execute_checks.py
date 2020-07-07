@@ -1320,7 +1320,7 @@ def CEN_AZ_229(task_id, app_configuration_service):
 
 def CEN_AZ_230(task_id, datalake_service):
     try:
-        insert_audit_records(task_id, datalake_service.encryption_on_datalake_store, 'CEN_AZ_230')
+        insert_audit_records(task_id, datalake_service.encryption_on_datalake_store(), 'CEN_AZ_230')
     except Exception as e:
         logger.error(e);
 
@@ -1341,6 +1341,97 @@ def CEN_AZ_233(task_id, monitor_service):
         insert_audit_records(task_id, monitor_service.create_alert_sql_server_firewall(),'CEN_AZ_233')
     except Exception as e:
         logger.error(e);
+
+
+def CEN_AZ_234(task_id, security_service):
+    try:
+        insert_audit_records(task_id, security_service.remove_external_account_owner_permission(),'CEN_AZ_234')
+    except Exception as e:
+        logger.error(e);
+
+def CEN_AZ_235(task_id, security_service):
+    try:
+        insert_audit_records(task_id, security_service.enable_mfa_owner_permissions(),'CEN_AZ_235')
+    except Exception as e:
+        logger.error(e);
+def CEN_AZ_236(task_id, security_service):
+    try:
+        insert_audit_records(task_id, security_service.enable_mfa_read_permissions(),'CEN_AZ_236')
+    except Exception as e:
+        logger.error(e);
+def CEN_AZ_237(task_id, security_service):
+    try:
+        insert_audit_records(task_id, security_service.enable_mfa_write_permissions(),'CEN_AZ_237')
+    except Exception as e:
+        logger.error(e);
+
+def CEN_AZ_238(task_id, security_service):
+    try:
+        insert_audit_records(task_id, security_service.container_security_vulnerabilities(),'CEN_AZ_238')
+    except Exception as e:
+        logger.error(e);
+
+def CEN_AZ_239(task_id, security_service):
+    try:
+        insert_audit_records(task_id, security_service.vulnerability_assessment_solution(),'CEN_AZ_239')
+    except Exception as e:
+        logger.error(e);
+
+def CEN_AZ_240(task_id, az_service):
+    try:
+        insert_audit_records(task_id, az_service.set_secret_key_expiration(), 'CEN_AZ_240')
+    except Exception as e:
+        logger.error(e);
+
+def CEN_AZ_241(task_id, az_service):
+    try:
+        insert_audit_records(task_id, az_service.set_encrypted_key_expiration(), 'CEN_AZ_241')
+    except Exception as e:
+        logger.error(e);
+
+def CEN_AZ_242(task_id,vm_service):
+    try:
+        insert_audit_records(task_id, vm_service.check_windows_pending_reboot(), 'CEN_AZ_242')
+    except Exception as e:
+        logger.error(e);
+
+def CEN_AZ_243(task_id,vm_service):
+    try:
+        insert_audit_records(task_id, vm_service.check_windows_not_restarted(), 'CEN_AZ_243')
+    except Exception as e:
+        logger.error(e);
+
+
+def CEN_AZ_244(task_id, vm_service):
+    try:
+
+        insert_audit_records(task_id, vm_service.check_windows_web_server_not_secure(), 'CEN_AZ_244')
+    except Exception as e:
+        logger.error(e);
+
+
+def CEN_AZ_245(task_id, security_service):
+    try:
+
+        insert_audit_records(task_id, security_service.mgmt_ports_for_vms(), 'CEN_AZ_245')
+    except Exception as e:
+        logger.error(e);
+
+
+
+def CEN_AZ_246(task_id, security_service):
+    try:
+        insert_audit_records(task_id, security_service.enable_threat_protection(), 'CEN_AZ_246')
+    except Exception as e:
+        logger.error(e);
+
+
+def CEN_AZ_247(task_id, vm_service):
+    try:
+        insert_audit_records(task_id,vm_service.audit_log_analytics_agent_deploy_vm_unlisted(), 'CEN_AZ_247')
+    except Exception as e:
+        logger.error(e);
+
 
 
 def execute_app_configuration_checks(task_id, app_configuration_service):
@@ -1414,6 +1505,16 @@ def execute_security_centre_checks(execution_hash, security_service):
     CEN_AZ_215(execution_hash, security_service)
     CEN_AZ_216(execution_hash, security_service)
     CEN_AZ_231(execution_hash, security_service)
+    CEN_AZ_234(execution_hash, security_service)
+    CEN_AZ_235(execution_hash, security_service)
+    CEN_AZ_236(execution_hash, security_service)
+    CEN_AZ_237(execution_hash, security_service)
+    CEN_AZ_238(execution_hash, security_service)
+    CEN_AZ_239(execution_hash, security_service)
+
+    CEN_AZ_245(execution_hash, security_service)
+    CEN_AZ_246(execution_hash, security_service)
+
 
 
 def execute_database_checks(execution_hash, db_service):
@@ -1489,6 +1590,11 @@ def execute_vm_checks(execution_hash, vm_service):
     CEN_AZ_123(execution_hash, vm_service)
     CEN_AZ_124(execution_hash, vm_service)
     CEN_AZ_125(execution_hash, vm_service)
+    CEN_AZ_243(execution_hash, vm_service)
+    CEN_AZ_244(execution_hash,  vm_service)
+    CEN_AZ_242(execution_hash, vm_service)
+    CEN_AZ_247(execution_hash, vm_service)
+
 
 
 def execute_disk_checks(execution_hash, vm_service):
@@ -1507,6 +1613,8 @@ def execute_az_services_checks(execution_hash, az_service):
     CEN_AZ_96(execution_hash, az_service)
     CEN_AZ_97(execution_hash, az_service)
     CEN_AZ_98(execution_hash, az_service)
+    CEN_AZ_240(execution_hash, az_service)
+    CEN_AZ_241(execution_hash, az_service)
 
 
 def execute_automation_services_checks(execution_hash, automation_service):
