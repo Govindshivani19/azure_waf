@@ -7,7 +7,6 @@ from checks.vm_service import VmService
 from checks.automation_service import AutomationService
 from checks.security_service import SecurityService
 from db_helper import fetch_accounts, update_execution
-from helper_function import get_application_key, rest_api_call
 from execute_checks import *
 from checks.common_services import CommonServices
 from checks.kubernetes_service import KubernetesService
@@ -59,45 +58,37 @@ def __start_audit__():
             network_service = NetworkService(credentials, subscription_list)
             app_configuration_service= AppConfigurationService(credentials, subscription_list)
             datalake_service = DatalakeService(credentials, subscription_list)
-            print('cf')
-            CEN_AZ_227(task_id, monitor_service)
-            CEN_AZ_228(task_id, monitor_service)
-            CEN_AZ_229(task_id,app_configuration_service)
-            CEN_AZ_230(task_id,datalake_service)
-            CEN_AZ_231(task_id,security_service)
-            CEN_AZ_232(task_id,db_service)
-            CEN_AZ_233(task_id, monitor_service)
-            CEN_AZ_234(task_id, security_service)
-            CEN_AZ_235(task_id, security_service)
-            CEN_AZ_236(task_id, security_service)
-            CEN_AZ_237(task_id, security_service)
-            CEN_AZ_238(task_id, security_service)
-            CEN_AZ_239(task_id, security_service)
-            CEN_AZ_240(task_id,az_service)
-            CEN_AZ_241(task_id,az_service)
-            CEN_AZ_242(task_id, vm_service)
-            CEN_AZ_243(task_id,  vm_service)
-            CEN_AZ_244(task_id,  vm_service)
-            CEN_AZ_245(task_id, security_service)
-            CEN_AZ_246(task_id, security_service)
-            CEN_AZ_247(task_id, vm_service)
+
 
             
 
-            # execute_log_monitor_checks(task_id, monitor_service)
-            # execute_iam_checks(task_id, iam_service)
-            # execute_security_centre_checks(task_id, security_service)
-            # execute_database_checks(task_id, db_service)
-            # execute_vm_checks(task_id, vm_service)
-            # execute_disk_checks(task_id, vm_service)
-            # execute_az_services_checks(task_id, az_service)
-            # execute_storage_checks(task_id, storage_service)
-            # execute_automation_services_checks(task_id, automation_service)
-            # execute_network_checks(task_id, network_service)
-            # execute_app_service_checks(task_id, app_service)
-            # execute_kubernetes_service_checks(task_id, kubernetes_service)
-            # execute_app_configuration_checks(task_id,app_configuration_service)
-            # execute_datalake_checks(task_id, datalake_service)
+            execute_log_monitor_checks(task_id, monitor_service)
+            execute_iam_checks(task_id, iam_service)
+            execute_security_centre_checks(task_id, security_service)
+            execute_database_checks(task_id, db_service)
+            execute_vm_checks(task_id, vm_service)
+            execute_disk_checks(task_id, vm_service)
+            execute_az_services_checks(task_id, az_service)
+            execute_storage_checks(task_id, storage_service)
+            execute_automation_services_checks(task_id, automation_service)
+            execute_network_checks(task_id, network_service)
+            execute_app_service_checks(task_id, app_service)
+            execute_kubernetes_service_checks(task_id, kubernetes_service)
+            execute_app_configuration_checks(task_id,app_configuration_service)
+            execute_datalake_checks(task_id, datalake_service)
+
+            execute_log_monitor_checks(task_id, monitor_service)
+            execute_iam_checks(task_id, iam_service)
+            execute_database_checks(task_id, db_service)
+            execute_vm_checks(task_id, vm_service)
+            execute_disk_checks(task_id, vm_service)
+            execute_az_services_checks(task_id, az_service)
+            execute_storage_checks(task_id, storage_service)
+            execute_automation_services_checks(task_id, automation_service)
+            execute_network_checks(task_id, network_service)
+            execute_app_service_checks(task_id, app_service)
+            execute_kubernetes_service_checks(task_id, kubernetes_service)
+            execute_security_centre_checks(task_id, security_service)
 
             status = 'completed'
 

@@ -1,6 +1,7 @@
-sqlacodegen==2.0.1
 SQLAlchemy==1.2.17
 azure==4.0.0
+pycryptodome==3.9.7
+pycryptodomex==3.9.7
+psycopg2-binary==2.8.5
 requests==2.22.0
-boto3==1.9.86
-mysqlclient==1.4.1
+adal==1.2.2
