@@ -1432,6 +1432,12 @@ def CEN_AZ_247(task_id, vm_service):
     except Exception as e:
         logger.error(e);
 
+def CEN_AZ_248(task_id, vm_service):
+    try:
+        insert_audit_records(task_id,vm_service.check_windows_vm_min_password_age(), 'CEN_AZ_248')
+    except Exception as e:
+        logger.error(e);
+
 
 def execute_app_configuration_checks(task_id, app_configuration_service):
     CEN_AZ_229(task_id,app_configuration_service)
@@ -1593,6 +1599,7 @@ def execute_vm_checks(execution_hash, vm_service):
     CEN_AZ_244(execution_hash,  vm_service)
     CEN_AZ_242(execution_hash, vm_service)
     CEN_AZ_247(execution_hash, vm_service)
+    CEN_AZ_248(execution_hash, vm_service)
 
 
 

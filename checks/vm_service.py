@@ -1366,7 +1366,6 @@ class VmService:
 
 
 #Show audit results from Windows VMs that do not have a minimum password age of 1 day
-
     def check_windows_vm_min_password_age(self):
         issues = []
         try:
