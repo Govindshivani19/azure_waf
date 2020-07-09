@@ -25,13 +25,15 @@ class AppConfigurationService:
                         if len(encryption_property['keyVaultProperties']['keyIdentifier']) > 1:
                             temp['status'] = 'Pass'
                             temp['keyId'] = encryption_property['keyVaultProperties']['keyIdentifier']
-                            temp['appConfiguration_name'] = resp['name']
-                            temp['resource_name'] = resource['name']
+                            temp['resource_name'] = resp['name']
+                            temp['resource_group_name'] = resource['name']
+                            temp['subscription_name'] = subscription['displayName']
                             temp['subscription'] = subscription['subscriptionId']
                         else:
                             temp['status'] = 'Fail'
-                            temp['appConfiguration_name'] = resp['name']
-                            temp['resource_name'] = resource['name']
+                            temp['resource_name'] = resp['name']
+                            temp['resource_group_name'] = resource['name']
+                            temp['subscription_name'] = subscription['displayName']
                             temp['subscription'] = subscription['subscriptionId']
                         issues.append(temp)
                         print(temp)

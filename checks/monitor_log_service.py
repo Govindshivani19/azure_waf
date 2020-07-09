@@ -1006,11 +1006,13 @@ class MonitorLogService:
                                     if log['enabled'] is True:
                                         temp['status'] = 'Pass'
                                         temp['category'] = log['category']
-                                        temp['resource_id'] = resource['id']
+                                        temp['resource_name'] = resource['name']
+                                        temp['subscription_name'] = subscription['displayName']
                                         temp['subscription'] = subscription['subscriptionId']
                                     else:
                                         temp['status'] = 'Fail'
-                                        temp['resource_id'] = resource['id']
+                                        temp['resource_name'] = resource['name']
+                                        temp['subscription_name'] = subscription['displayName']
                                         temp['subscription'] = subscription['subscriptionId']
                                     issues.append(temp)
                                     print(temp)
@@ -1020,11 +1022,13 @@ class MonitorLogService:
                                     if metric['enabled'] is True:
                                         temp2['status'] = 'Pass'
                                         temp2['category'] = metric['category']
-                                        temp2['resource_id'] = resource['id']
+                                        temp2['resource_name'] = resource['name']
+                                        temp2['subscription_name'] = subscription['displayName']
                                         temp2['subscription'] = subscription['subscriptionId']
                                     else:
                                         temp2['status'] = 'Fail'
-                                        temp2['resource_id'] = resource['id']
+                                        temp2['resource_name'] = resource['name']
+                                        temp2['subscription_name'] = subscription['displayName']
                                         temp2['subscription'] = subscription['subscriptionId']
                                     issues.append(temp2)
                                     print(temp2)
@@ -1056,14 +1060,16 @@ class MonitorLogService:
                                     'workspaceId'] != log_analytics_workspace_id:  # unable to get logAnalytics workspace id
                                     temp['status'] = 'Fail'
                                     temp['extension_name'] = info['name']
-                                    temp['Virtual_machine_name'] = vm['name']
-                                    temp['resource_group'] = resource['name']
+                                    temp['resource_name'] = vm['name']
+                                    temp['resource_group_name'] = resource['name']
+                                    temp['subscription_name'] = subscription['displayName']
                                     temp['subscriptionId'] = subscription['subscriptionId']
                                 else:
                                     temp['status'] = 'Pass'
                                     temp['extension_name'] = info['name']
-                                    temp['Virtual_machine_name'] = vm['name']
-                                    temp['resource_group'] = resource['name']
+                                    temp['resource_name'] = vm['name']
+                                    temp['resource_group_name'] = resource['name']
+                                    temp['subscription_name'] = subscription['displayName']
                                     temp['subscriptionId'] = subscription['subscriptionId']
                                 issues.append(temp)
                                 print(temp)

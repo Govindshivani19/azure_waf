@@ -23,7 +23,7 @@ class DatalakeService:
                     rid = resource['id']
                     list_datalake_store = datalake_store_accounts_list_url.format(rid)
                     accounts = rest_api_call(self.credentials, list_datalake_store, '2016-11-01')['value']
-                    for acc in accounts:
+                    for account in accounts:
                         #print(acc)
                         temp = dict()
                         aid = acc['id']
@@ -31,13 +31,15 @@ class DatalakeService:
                         data = rest_api_call(self.credentials, url, '2016-11-01')
                         if data['properties']['encryptionState'] == 'Enabled':
                             temp['status'] = "Enabled"
-                            temp['account name'] = acc['name']
-                            temp['resource_group'] = resource['name']
+                            temp['resource_name'] = account['name']
+                            temp['resource_group_name'] = resource['name']
+                            temp['subscription_name'] = subscription['displayName']
                             temp['subscription'] = subscription['subscriptionId']
                         else:
                             temp['status'] = "Disabled"
-                            temp['account name'] = acc['name']
-                            temp['resource_group'] = resource['name']
+                            temp['resource_name'] = account['name']
+                            temp['resource_group_name'] = resource['name']
+                            temp['subscription_name'] = subscription['displayName']
                             temp['subscription'] = subscription['subscriptionId']
                         issues.append(temp)
 

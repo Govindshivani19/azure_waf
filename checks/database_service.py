@@ -1849,13 +1849,15 @@ class DatabaseService:
                         for endpoint in private_endpoint:
                             if endpoint['properties']['privateLinkServiceConnectionState']['status'] == "Approved":
                                 temp['status'] = 'Pass'
-                                temp['DB_name'] = resp['name']
-                                temp['resource_group'] = resource['name']
+                                temp['resource_name'] = resp['name']
+                                temp['resource_group_name'] = resource['name']
+                                temp['subscription_name'] = subscription['displayName']
                                 temp['subscription_id'] = subscription['subscriptionId']
                             else:
                                 temp['status'] = 'Fail'
-                                temp['DB_name'] = resp['name']
-                                temp['resource_group'] = resource['name']
+                                temp['resource_name'] = resp['name']
+                                temp['resource_group_name'] = resource['name']
+                                temp['subscription_name'] = subscription['displayName']
                                 temp['subscription_id'] = subscription['subscriptionId']
                             issues.append(temp)
                             print(temp)
