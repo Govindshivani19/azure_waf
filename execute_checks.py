@@ -1438,13 +1438,13 @@ def CEN_AZ_248(task_id, vm_service):
     except Exception as e:
         logger.error(e);
 
-def CEN_AZ_250(task_id, vm_service):
+def CEN_AZ_249(task_id, vm_service):
     try:
         insert_audit_records(task_id,vm_service.check_windows_vm_store_password_rev_encryption(), 'CEN_AZ_250')
     except Exception as e:
         logger.error(e);
 
-def CEN_AZ_251(task_id, vm_service):
+def CEN_AZ_250(task_id, vm_service):
     try:
         insert_audit_records(task_id,vm_service.check_vm_scale_set_audit_logs_vmImage_unlisted(), 'CEN_AZ_248')
     except Exception as e:
@@ -1614,8 +1614,8 @@ def execute_vm_checks(execution_hash, vm_service):
     CEN_AZ_242(execution_hash, vm_service)
     CEN_AZ_247(execution_hash, vm_service)
     CEN_AZ_248(execution_hash, vm_service)
+    CEN_AZ_249(execution_hash, vm_service)
     CEN_AZ_250(execution_hash, vm_service)
-    CEN_AZ_251(execution_hash, vm_service)
 
 
 
